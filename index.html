@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: white;
+            color: black;
+            font-family: 'Times New Roman', Times, serif;
+            padding: 40px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #000;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            font-weight: normal;
+            margin-bottom: 20px;
+        }
+        
+        #datetime {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        
+        #current-time {
+            font-size: 1em;
+            color: #333;
+        }
+        
+        .entries {
+            margin-top: 40px;
+        }
+        
+        .entry {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #ccc;
+        }
+        
+        .entry:last-child {
+            border-bottom: none;
+        }
+        
+        .entry-date {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .entry-content {
+            font-size: 1.1em;
+            white-space: pre-wrap;
+        }
+        
+        .post-photo {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Blog</h1>
+        <div id="datetime"></div>
+        <div id="current-time"></div>
+    </header>
+    
+    <div class="entries" id="entries"></div>
+
+    <script>
+        // Update date and time
+        function updateDateTime() {
+            const now = new Date();
+            
+            const dateOptions = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            const dateString = now.toLocaleDateString('en-US', dateOptions);
+            
+            const timeString = now.toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            
+            document.getElementById('datetime').textContent = dateString;
+            document.getElementById('current-time').textContent = timeString;
+        }
+        
+        // Update time every second
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+        
+        // Your blog posts - add new posts here
+        // For photos, you can use:
+        // 1. Direct URL to an image online (e.g., 'https://example.com/photo.jpg')
+        // 2. Base64 encoded image data
+        // 3. Relative path if hosting the HTML file (e.g., 'photos/sunset.jpg')
+        const posts = [
+            {
+                timestamp: '2025-02-05T12:00:00',
+                content: 'This is your first blog post. You can write your thoughts here.',
+                photo: '' // Leave empty for text-only posts, or add image URL/path
+            },
+            {
+                timestamp: '2025-02-04T18:30:00',
+                content: 'Here\'s an example post with a photo. Replace the photo URL with your own image.',
+                photo: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800'
+            }
+        ];
+        
+        // Display posts
+        function displayPosts() {
+            const entriesContainer = document.getElementById('entries');
+            entriesContainer.innerHTML = '';
+            
+            posts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            
+            posts.forEach((post) => {
+                const postDiv = document.createElement('div');
+                postDiv.className = 'entry';
+                
+                const date = new Date(post.timestamp);
+                const dateString = date.toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                let photoHtml = '';
+                if (post.photo) {
+                    photoHtml = `<img src="${post.photo}" alt="Blog photo" class="post-photo">`;
+                }
+                
+                postDiv.innerHTML = `
+                    <div class="entry-date">${dateString}</div>
+                    ${photoHtml}
+                    <div class="entry-content">${escapeHtml(post.content)}</div>
+                `;
+                
+                entriesContainer.appendChild(postDiv);
+            });
+        }
+        
+        // Escape HTML to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Display posts on page load
+        displayPosts();
+    </script>
+</body>
+</html>
