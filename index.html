@@ -17,8 +17,8 @@
 
         #custom-cursor {
             position: fixed;
-            width: 40px;
-            height: 40px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             background: radial-gradient(circle, rgba(123, 179, 91, 0.3) 0%, rgba(123, 179, 91, 0.1) 50%, transparent 100%);
             pointer-events: none;
@@ -321,10 +321,10 @@
                     // Create trail element
                     const trailDot = document.createElement('div');
                     trailDot.style.position = 'fixed';
-                    trailDot.style.left = e.clientX - 15 + 'px';
-                    trailDot.style.top = e.clientY - 15 + 'px';
-                    trailDot.style.width = '30px';
-                    trailDot.style.height = '30px';
+                    trailDot.style.left = e.clientX - 25 + 'px';
+                    trailDot.style.top = e.clientY - 25 + 'px';
+                    trailDot.style.width = '50px';
+                    trailDot.style.height = '50px';
                     trailDot.style.borderRadius = '50%';
                     trailDot.style.background = 'radial-gradient(circle, rgba(123, 179, 91, 0.2) 0%, transparent 70%)';
                     trailDot.style.pointerEvents = 'none';
@@ -363,10 +363,10 @@
                 // Create trail element
                 const trailDot = document.createElement('div');
                 trailDot.style.position = 'fixed';
-                trailDot.style.left = touch.clientX - 15 + 'px';
-                trailDot.style.top = touch.clientY - 15 + 'px';
-                trailDot.style.width = '30px';
-                trailDot.style.height = '30px';
+                trailDot.style.left = touch.clientX - 25 + 'px';
+                trailDot.style.top = touch.clientY - 25 + 'px';
+                trailDot.style.width = '50px';
+                trailDot.style.height = '50px';
                 trailDot.style.borderRadius = '50%';
                 trailDot.style.background = 'radial-gradient(circle, rgba(123, 179, 91, 0.2) 0%, transparent 70%)';
                 trailDot.style.pointerEvents = 'none';
