@@ -238,15 +238,19 @@
                 }
                 
                 const content = escapeHtml(post.content);
-                const words = content.split(' ');
-                const wrappedWords = words.map((word, index) => 
-                    `<span class="word" style="animation-delay: ${index * 0.1}s">${word}</span>`
-                ).join(' ');
+                const lines = content.split('\n');
+                const wrappedContent = lines.map(line => {
+                    const words = line.split(' ');
+                    const wrappedWords = words.map((word, index) => 
+                        `<span class="word" style="animation-delay: ${index * 0.1}s">${word}</span>`
+                    ).join(' ');
+                    return wrappedWords;
+                }).join('\n');
                 
                 postDiv.innerHTML = `
                     <div class="entry-date">${dateString}</div>
                     ${photoHtml}
-                    <div class="entry-content">${wrappedWords}</div>
+                    <div class="entry-content">${wrappedContent}</div>
                 `;
                 
                 entriesContainer.appendChild(postDiv);
