@@ -12,7 +12,23 @@
         }
 
         * {
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="8" fill="rgba(0,0,0,0.3)" /><circle cx="16" cy="16" r="4" fill="rgba(0,0,0,0.6)" /><circle cx="16" cy="16" r="2" fill="black" /></svg>'), auto;
+            cursor: none;
+        }
+
+        #custom-cursor {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 50%, transparent 100%);
+            pointer-events: none;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+            opacity: 1;
+        }
+
+        #custom-cursor.hidden {
+            opacity: 0;
         }
         
         body {
@@ -130,6 +146,7 @@
     </style>
 </head>
 <body>
+    <div id="custom-cursor"></div>
     <header>
         <h1>screenshot scents</h1>
         <div id="datetime"></div>
@@ -270,6 +287,21 @@
         
         // Display posts on page load
         displayPosts();
+
+        // Custom cursor that fades
+                const cursor = document.getElementById('custom-cursor');
+                let cursorTimeout;
+
+                document.addEventListener('mousemove', (e) => {
+                    cursor.style.left = e.clientX - 20 + 'px';
+                    cursor.style.top = e.clientY - 20 + 'px';
+                    cursor.classList.remove('hidden');
+            
+                    clearTimeout(cursorTimeout);
+                    cursorTimeout = setTimeout(() => {
+                        cursor.classList.add('hidden');
+                    }, 1000);
+                });
     </script>
 </body>
 </html>
