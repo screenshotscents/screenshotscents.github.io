@@ -15,7 +15,7 @@
             background: white;
             color: black;
             font-family: 'Times New Roman', Times, serif;
-            padding: 180px 20px 40px 20px;
+            padding: 40px 20px;
             max-width: 800px;
             margin: 0 auto;
             line-height: 1.0;
@@ -85,11 +85,11 @@
 
         body::before {
             content: '';
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 365px;
+            height: 111px;
             background: linear-gradient(to bottom, white 0%, transparent 100%);
             pointer-events: none;
             z-index: 10;
@@ -97,11 +97,11 @@
 
         body::after {
             content: '';
-            position: fixed;
+            position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            height: 365px;
+            height: 111px;
             background: linear-gradient(to top, white 0%, transparent 100%);
             pointer-events: none;
             z-index: 10;
