@@ -306,20 +306,55 @@
         // Display posts on page load
         displayPosts();
 
-        // Custom cursor that fades
+        // Custom cursor with trail
                 const cursor = document.getElementById('custom-cursor');
                 let cursorTimeout;
-
+                const trail = [];
+                const maxTrail = 10;
+        
                 document.addEventListener('mousemove', (e) => {
                     cursor.style.left = e.clientX - 20 + 'px';
                     cursor.style.top = e.clientY - 20 + 'px';
                     cursor.classList.remove('hidden');
-            
+                    
+                    // Create trail element
+                    const trailDot = document.createElement('div');
+                    trailDot.style.position = 'fixed';
+                    trailDot.style.left = e.clientX - 15 + 'px';
+                    trailDot.style.top = e.clientY - 15 + 'px';
+                    trailDot.style.width = '30px';
+                    trailDot.style.height = '30px';
+                    trailDot.style.borderRadius = '50%';
+                    trailDot.style.background = 'radial-gradient(circle, rgba(0,0,0,0.15) 0%, transparent 70%)';
+                    trailDot.style.pointerEvents = 'none';
+                    trailDot.style.zIndex = '9998';
+                    trailDot.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                    document.body.appendChild(trailDot);
+                    
+                    trail.push(trailDot);
+                    
+                    // Fade out and remove
+                    setTimeout(() => {
+                        trailDot.style.opacity = '0';
+                        trailDot.style.transform = 'scale(1.5)';
+                    }, 10);
+                    
+                    setTimeout(() => {
+                        trailDot.remove();
+                    }, 800);
+                    
+                    // Limit trail length
+                    if (trail.length > maxTrail) {
+                        const old = trail.shift();
+                        old.remove();
+                    }
+                    
                     clearTimeout(cursorTimeout);
                     cursorTimeout = setTimeout(() => {
                         cursor.classList.add('hidden');
                     }, 1000);
                 });
+        
     </script>
 </body>
 </html>
