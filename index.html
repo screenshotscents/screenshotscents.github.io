@@ -232,19 +232,19 @@
 
             {
                 timestamp: '2026-02-06T02:06:00',
-                content: 'the midwest calls it acrosst\n2/6 2:06am\n\nthe gain of gaining sudden distance\nfrom the things leading up to it\nthe gut saying\nthings are never going to be the same\nthen\nmind feeling that things were never going to be the same\na faith youd understand\na hope youd relate\njust\ngiven the timing\n\nor is this all part of the quote\nthings leading up to it\nunquote',
+                content: 'the midwest calls it acrosst\n\nthe gain of gaining sudden distance\nfrom the things leading up to it\nthe gut saying\nthings are never going to be the same\nthen\nmind feeling that things were never going to be the same\na faith youd understand\na hope youd relate\njust\ngiven the timing\n\nor is this all part of the quote\nthings leading up to it\nunquote',
                 photo: ''
             },
 
             {
                 timestamp: '2026-02-06T01:52:00',
-                content: 'twisted tease\n2/6 1:52am\n\npeaking in the layover\nlooking up to an arnold palmer scatterplot\nfresh pair of heeled cowboy boots\nhooked to the bar stool leg rest\nlike a toggle clasp\ngenius invention btw\nclick drag snap to shelf alt l alt l alt l ctrl s\ndont mind me\njust busy\ncrafting an illusion of choice',
+                content: 'twisted tease\n\npeaking in the layover\nlooking up to an arnold palmer scatterplot\nfresh pair of heeled cowboy boots\nhooked to the bar stool leg rest\nlike a toggle clasp\ngenius invention btw\nclick drag snap to shelf alt l alt l alt l ctrl s\ndont mind me\njust busy\ncrafting an illusion of choice',
                 photo: ''
             },
 
             {
                 timestamp: '2026-02-06T01:31:00',
-                content: 'bimbo loaves\n2/6 1:31am\n\nlatest one week\nlatest thirteen weeks\nlatest twenty six weeks\nlatest fifty two weeks\n\nslice it down the middle\nmake it do a backbend\nleapfrog kinetics\n\nthen compare with the bad apples\nsliced to the tune of a fibonacci sequence\na sprinkle of salt\nlearned habits\n\nwhen time hits the shelves\npackaged and blessed\nwhat really\nis in the wrapping\nto the analysts on their\nweekly grocery run',
+                content: 'bimbo loaves\n\nlatest one week\nlatest thirteen weeks\nlatest twenty six weeks\nlatest fifty two weeks\n\nslice it down the middle\nmake it do a backbend\nleapfrog kinetics\n\nthen compare with the bad apples\nsliced to the tune of a fibonacci sequence\na sprinkle of salt\nlearned habits\n\nwhen time hits the shelves\npackaged and blessed\nwhat really\nis in the wrapping\nto the analysts on their\nweekly grocery run',
                 photo: ''
             }
                 
@@ -354,6 +354,35 @@
                         cursor.classList.add('hidden');
                     }, 1000);
                 });
+
+        // Touch trail for mobile
+            document.addEventListener('touchmove', (e) => {
+                const touch = e.touches[0];
+                
+                // Create trail element
+                const trailDot = document.createElement('div');
+                trailDot.style.position = 'fixed';
+                trailDot.style.left = touch.clientX - 15 + 'px';
+                trailDot.style.top = touch.clientY - 15 + 'px';
+                trailDot.style.width = '30px';
+                trailDot.style.height = '30px';
+                trailDot.style.borderRadius = '50%';
+                trailDot.style.background = 'radial-gradient(circle, rgba(0,0,0,0.15) 0%, transparent 70%)';
+                trailDot.style.pointerEvents = 'none';
+                trailDot.style.zIndex = '9998';
+                trailDot.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                document.body.appendChild(trailDot);
+                
+                // Fade out and remove
+                setTimeout(() => {
+                    trailDot.style.opacity = '0';
+                    trailDot.style.transform = 'scale(1.5)';
+                }, 10);
+                
+                setTimeout(() => {
+                    trailDot.remove();
+                }, 800);
+            });
         
     </script>
 </body>
