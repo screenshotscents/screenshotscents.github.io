@@ -232,15 +232,16 @@
                     minute: '2-digit'
                 });
                 
-                let photoHtml = '';
-                if (post.photo) {
-                    photoHtml = `<img src="${post.photo}" alt="Blog photo" class="post-photo">`;
-                }
+                const content = escapeHtml(post.content);
+                const words = content.split(' ');
+                const wrappedWords = words.map((word, index) => 
+                    `<span class="word" style="animation-delay: ${index * 0.1}s">${word}</span>`
+                ).join(' ');
                 
                 postDiv.innerHTML = `
                     <div class="entry-date">${dateString}</div>
                     ${photoHtml}
-                    <div class="entry-content">${escapeHtml(post.content)}</div>
+                    <div class="entry-content">${wrappedWords}</div>
                 `;
                 
                 entriesContainer.appendChild(postDiv);
