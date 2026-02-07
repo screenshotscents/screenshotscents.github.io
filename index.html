@@ -11,7 +11,7 @@
             box-sizing: border-box;
         }
 
-        * {
+        *:not(.about-link) {
             cursor: none;
         }
 
@@ -140,7 +140,7 @@
             }
         }
 
-.about-link {
+        .about-link {
             position: fixed;
             bottom: 20px;
             right: 20px;
@@ -150,6 +150,7 @@
             cursor: pointer;
             transition: color 0.3s ease;
             z-index: 1000;
+            pointer-events: auto;
         }
         
         .about-link:hover {
