@@ -668,12 +668,44 @@
         const input = document.getElementById('testerInput');
         const cardStack = document.getElementById('cardStack');
         
-        // Load submissions from localStorage or start empty
-        let submissions = JSON.parse(localStorage.getItem('testerSubmissions')) || [];
+        // REPLACE THIS URL WITH YOUR ACTUAL GOOGLE APPS SCRIPT URL
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxQ4l46fvEUFX_CcfhXJ6QRQomfJ1DcomWv73K9DwNUjyvpHVQqdsNCCuFQYLf0PKCRtg/exec';
         
-        // Save submissions to localStorage
-        function saveSubmissions() {
-            localStorage.setItem('testerSubmissions', JSON.stringify(submissions));
+        let submissions = [];
+        let isLoading = false;
+        
+        // Load submissions from Google Sheets
+        async function loadSubmissions() {
+            try {
+                const response = await fetch(SCRIPT_URL);
+                const data = await response.json();
+                submissions = data.submissions || [];
+                renderCards();
+            } catch (error) {
+                console.error('Error loading submissions:', error);
+            }
+        }
+        
+        // Save new submission to Google Sheets
+        async function saveSubmission(text) {
+            if (isLoading) return;
+            isLoading = true;
+            
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ submission: text })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    submissions = data.submissions || [];
+                    renderCards();
+                }
+            } catch (error) {
+                console.error('Error saving submission:', error);
+            } finally {
+                isLoading = false;
+            }
         }
         
         function stripPunctuation(text) {
@@ -704,7 +736,7 @@
             });
         }
         
-        // Click to cycle cards
+        // Click to cycle cards (just visual, doesn't change order in database)
         cardStack.addEventListener('click', (e) => {
             if (submissions.length > 1) {
                 const topCard = cardStack.querySelector('.strip-card:first-child');
@@ -714,7 +746,6 @@
                     setTimeout(() => {
                         const topSubmission = submissions.shift();
                         submissions.push(topSubmission);
-                        saveSubmissions();
                         renderCards();
                     }, 800);
                 }
@@ -723,22 +754,22 @@
         
         // Add new submission
         if (input) {
-            input.addEventListener('keypress', (e) => {
+            input.addEventListener('keypress', async (e) => {
                 if (e.key === 'Enter') {
                     const text = stripPunctuation(input.value.trim());
                     
-                    if (text) {
-                        submissions.unshift(text);
-                        saveSubmissions();
-                        renderCards();
+                    if (text && !isLoading) {
                         input.value = '';
+                        input.placeholder = 'saving...';
+                        await saveSubmission(text);
+                        input.placeholder = 'capture a moment';
                     }
                 }
             });
         }
         
-        // Initial render
-        renderCards();
+        // Load submissions on page load
+        loadSubmissions();
         
     </script>
 </body>
