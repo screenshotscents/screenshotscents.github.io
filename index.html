@@ -44,12 +44,12 @@
             min-height: 100vh;
         }
         
-        /* Tester Strip - Top Right Corner (Desktop only) */
+        /* Tester Strip - Bottom Left Corner (Desktop only) */
         .tester-strip {
             width: 280px;
             position: fixed;
-            right: 20px;
-            top: 40px;
+            left: 20px;
+            bottom: 20px;
             background: white;
             display: flex;
             flex-direction: column;
@@ -668,8 +668,13 @@
         const input = document.getElementById('testerInput');
         const cardStack = document.getElementById('cardStack');
         
-        // Start with empty submissions - ready for user input
-        let submissions = [];
+        // Load submissions from localStorage or start empty
+        let submissions = JSON.parse(localStorage.getItem('testerSubmissions')) || [];
+        
+        // Save submissions to localStorage
+        function saveSubmissions() {
+            localStorage.setItem('testerSubmissions', JSON.stringify(submissions));
+        }
         
         function stripPunctuation(text) {
             return text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()'"?]/g, '');
@@ -709,6 +714,7 @@
                     setTimeout(() => {
                         const topSubmission = submissions.shift();
                         submissions.push(topSubmission);
+                        saveSubmissions();
                         renderCards();
                     }, 800);
                 }
@@ -723,6 +729,7 @@
                     
                     if (text) {
                         submissions.unshift(text);
+                        saveSubmissions();
                         renderCards();
                         input.value = '';
                     }
