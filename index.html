@@ -144,7 +144,8 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            font-size: 0.9em;
+            font-size: 1.1em;
+            font-family: 'Times New Roman', Times, serif;
             color: #666;
             text-decoration: none;
             cursor: pointer;
@@ -178,7 +179,7 @@
             overflow: hidden;
             white-space: nowrap;
             border-right: 2px solid black;
-            animation: typing 3s steps(60, end);
+            animation: typing 5s steps(60, end);
         }
         
         @keyframes typing {
@@ -187,7 +188,7 @@
         }
         
         .misting {
-            animation: mistOut 2s ease-out forwards;
+            animation: mistOut 4s ease-out forwards;
         }
         
         @keyframes mistOut {
@@ -476,7 +477,7 @@
                     // Remove cursor after typing animation
                     setTimeout(() => {
                         aboutText.style.borderRight = 'none';
-                    }, 3000);
+                    }, 5000);  // Changed from 3000
                     
                     // Start misting out after 2 seconds pause
                     setTimeout(() => {
@@ -486,8 +487,8 @@
                         // Remove element after mist animation
                         setTimeout(() => {
                             aboutText.remove();
-                        }, 2000);
-                    }, 5000);
+                        }, 4000);  // Changed from 2000
+                    }, 7000);  // Changed from 5000
                 });
         
     </script>
