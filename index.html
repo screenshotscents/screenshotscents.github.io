@@ -53,7 +53,8 @@
             font-weight: normal;
             margin-bottom: 20px;
             animation: screenshotFlash 11s ease-in-out infinite;
-            position: relative;
+            padding: 5px 10px;
+            display: inline-block;
         }
         
         #datetime {
@@ -125,19 +126,19 @@
         @keyframes screenshotFlash {
             0%, 94% {
                 opacity: 1;
-                box-shadow: none;
+                background: transparent;
             }
             95% {
-                opacity: 1;
-                box-shadow: 0 0 0 2000px rgba(255, 255, 255, 0.9);
+                opacity: 0.3;
+                background: rgba(255, 255, 255, 0.9);
             }
             96% {
                 opacity: 1;
-                box-shadow: 0 0 0 2000px rgba(255, 255, 255, 0);
+                background: transparent;
             }
             100% {
                 opacity: 1;
-                box-shadow: none;
+                background: transparent;
             }
         }
         
