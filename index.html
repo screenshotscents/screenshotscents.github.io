@@ -31,6 +31,164 @@
         #custom-cursor.hidden {
             opacity: 0;
         }
+
+        @media (hover: hover) and (pointer: fine) {
+            #custom-cursor {
+                display: block;
+            }
+        }
+        
+        /* Container for layout */
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Tester Strip - Top Right Corner (Desktop only) */
+        .tester-strip {
+            width: 280px;
+            position: fixed;
+            right: 20px;
+            top: 40px;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+        
+        .tester-input {
+            width: 100%;
+            padding: 10px;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 0.9em;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            background: white;
+            margin-bottom: 30px;
+        }
+        
+        .tester-input::placeholder {
+            color: #999;
+            font-style: italic;
+        }
+        
+        .tester-input:focus {
+            outline: none;
+            border-color: rgba(0, 0, 0, 0.4);
+        }
+        
+        .card-stack {
+            position: relative;
+            width: 100%;
+            height: 70px;
+            flex-shrink: 0;
+        }
+        
+        .strip-card {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: pointer;
+            filter: drop-shadow(-2px 2px 4px rgba(0, 0, 0, 0.15));
+        }
+        
+        .strip-card:nth-child(1) {
+            z-index: 100;
+            transform: translateY(0) translateX(0) rotate(0deg);
+            filter: drop-shadow(-4px 4px 8px rgba(0, 0, 0, 0.2));
+        }
+        
+        .strip-card:nth-child(2) {
+            z-index: 99;
+            transform: translateY(3px) translateX(-2px) rotate(-0.5deg);
+            filter: drop-shadow(-3px 3px 6px rgba(0, 0, 0, 0.15));
+        }
+        
+        .strip-card:nth-child(3) {
+            z-index: 98;
+            transform: translateY(6px) translateX(1px) rotate(0.3deg);
+            filter: drop-shadow(-2px 2px 4px rgba(0, 0, 0, 0.12));
+        }
+        
+        .strip-card:nth-child(4) {
+            z-index: 97;
+            transform: translateY(9px) translateX(-1px) rotate(-0.2deg);
+            filter: drop-shadow(-2px 2px 4px rgba(0, 0, 0, 0.12));
+        }
+        
+        .strip-card:nth-child(5) {
+            z-index: 96;
+            transform: translateY(12px) translateX(2px) rotate(0.4deg);
+            filter: drop-shadow(-1px 1px 3px rgba(0, 0, 0, 0.1));
+        }
+        
+        .strip-card:nth-child(n+6) {
+            z-index: 95;
+            transform: translateY(15px) translateX(-1px) rotate(-0.1deg);
+            filter: drop-shadow(-1px 1px 3px rgba(0, 0, 0, 0.1));
+        }
+        
+        .strip-card.moving-back {
+            animation: slideToBack 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            filter: drop-shadow(-8px 8px 16px rgba(0, 0, 0, 0.25)) !important;
+        }
+        
+        @keyframes slideToBack {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                z-index: 200;
+            }
+            30% {
+                transform: translateY(-15px) translateX(25px) rotate(3deg);
+            }
+            60% {
+                transform: translateY(0) translateX(35px) rotate(5deg);
+            }
+            100% {
+                transform: translateY(15px) translateX(-1px) rotate(-0.1deg);
+                z-index: 1;
+            }
+        }
+        
+        .strip-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        
+        .submission-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85em;
+            line-height: 1.2;
+            padding: 5px 40px 5px 10px;
+            z-index: 1;
+            clip-path: polygon(0 10%, 85% 10%, 100% 50%, 85% 90%, 0 90%);
+            overflow: hidden;
+            transition: opacity 0.3s ease;
+        }
+        
+        .strip-card:nth-child(1) .submission-text { opacity: 1; }
+        .strip-card:nth-child(2) .submission-text { opacity: 0.7; }
+        .strip-card:nth-child(3) .submission-text { opacity: 0.5; }
+        .strip-card:nth-child(4) .submission-text { opacity: 0.3; }
+        .strip-card:nth-child(n+5) .submission-text { opacity: 0.15; }
+        
+        /* Main content area */
+        .main-content {
+            flex: 1;
+        }
         
         body {
             background: white;
@@ -90,14 +248,6 @@
             white-space: pre-wrap;
         }
         
-        .post-photo {
-            width: 100%;
-            max-width: 100%;
-            height: auto;
-            margin: 20px 0;
-            display: block;
-        }
-    
         .post-photo {
             width: 100%;
             max-width: 100%;
@@ -169,7 +319,7 @@
             font-family: 'Times New Roman', Times, serif;
             font-size: 1.1em;
             color: black;
-            z-index: 1000;
+            z-index: 10000;
             max-width: none;
             text-align: right;
             white-space: nowrap;
@@ -206,18 +356,42 @@
             }
         }
         
+        /* Hide tester strip on mobile */
+        @media (max-width: 768px) {
+            .tester-strip {
+                display: none;
+            }
+        }
+        
     </style>
 </head>
 <body>
     <div id="custom-cursor"></div>
     <a href="#" class="about-link" id="aboutLink">about</a>
-    <header>
-        <h1>screenshot scents</h1>
-        <div id="datetime"></div>
-        <div id="current-time"></div>
-    </header>
     
-    <div class="entries" id="entries"></div>
+    <!-- Tester Strip Column (Desktop only) -->
+    <aside class="tester-strip">
+        <input 
+            type="text" 
+            class="tester-input" 
+            id="testerInput"
+            placeholder="capture a moment"
+        >
+        <div class="card-stack" id="cardStack"></div>
+    </aside>
+    
+    <!-- Main Content -->
+    <div class="container">
+        <div class="main-content">
+            <header>
+                <h1>screenshot scents</h1>
+                <div id="datetime"></div>
+                <div id="current-time"></div>
+            </header>
+            
+            <div class="entries" id="entries"></div>
+        </div>
+    </div>
 
     <script>
         // Update date and time
@@ -242,83 +416,66 @@
             document.getElementById('current-time').textContent = timeString;
         }
         
-        // Update time every second
         updateDateTime();
         setInterval(updateDateTime, 1000);
         
-        // Your blog posts - add new posts here
-        // For photos, you can use:
-        // 1. Direct URL to an image online (e.g., 'https://example.com/photo.jpg')
-        // 2. Base64 encoded image data
-        // 3. Relative path isf hosting the HTML file (e.g., 'photos/sunset.jpg')
+        // Blog posts
         const posts = [
-            
             {
                 timestamp: '2026-02-06T16:43:00',
                 content: 'snotty tapes\n\nlatest low was pretty much a tapout wouldnt wish on my worst enemy and what if i already had admitted to therapist number two that staunchly holding onto the pharmaceutical livestock argument is avoidant and irresponsible an implacable part of it still seeking validation of thought fumbling through questions with quote fragile handle with care unquote in all caps written all over them notification center pushing the low battery mode lifeline medication manager number two asks if i had any questions i asked can you give me a second i need to charge my computer its dying',
                 photo: ''
             },
-        
             {
                 timestamp: '2026-02-04T23:06:00',
                 content: 'aura\n\nups worker said i was strong\nnearly sixty pounds she said\nfrankly\ni didnt know what to say\n\nsix hours later\nthe shame of not having replied\nthat she was\nundoubtedly\nloads and loads\nstronger\n\nthe shame of knowing\nwhat was in\nthose boxes',
                 photo: ''
             },
-
             {
                 timestamp: '2026-02-05T00:34:56',
                 content: 'tuscan kale\n\nself-care is for the weak\nprideful obsession\nspoiled into rotten belief\nself care\ngrass fed\nlinguistic ground beef',
                 photo: ''
             },
-
             {
                 timestamp: '2026-02-04T23:11:11',
                 content: 'karmic shuffle\n\nlarge change medium change small\nchange\nchange is change\nlast big one\ncircumstantially\ninduced\npraying for an inner\nmore\nwill-induced\none\nthis time\nmaybe the next',
                 photo: ''
             },
-
             {
                 timestamp: '2026-02-05T01:00:00',
                 content: 'emo blunt\n\nthe trifecta of\npsychiatric memes\nthree things therapy\nand all things nothing\nfuck\nwhat was the search for again',
                 photo: ''
             },
-
             {
                 timestamp: '2025-12-25T20:52:00',
                 content: 'frito lay gay\n\ngood tensions produce that\none cathartic aisle\nthough many a shopper\nbagging the same beeping self-checkout\nfor every shelf\ntwo sides',
                 photo: ''
             },
-
             {
                 timestamp: '2022-04-29T04:29:00',
                 content: 'qwerty prayer\n\nthe weather widget reports sixtysix degrees on average here in la lately i dont bother with the highs and lows when the insides of my nose start to burn i look up santa ana winds the results are there but elusive every time what do i expect what am i even hoping for searching for signs is such a corny habit if sand could only paper but also if winds could eraser flow like water is the not enough information given circle filled in santa monica blvd is route sixtysix benediction i should know better proclamations made oceanside get washed out hard and fast blessing or curse ive seen it happen this what having faith looks like question mark crossing my fingers sometimes i find myself weaving them together today i bought more neon green hair dye direct application rocks i love the way it glows in flash photo what is wicked and what is radical i ask together but to be treated as discrete',
                 photo: ''
             },
-
             {
                 timestamp: '2024-08-27T22:43:00',
                 content: 'missed connections\n\nwhere then\ndo\nthe recently deleted\nactually go\nin months time',
                 photo: ''
             },
-
             {
                 timestamp: '2026-02-06T02:06:00',
                 content: 'the midwest calls it acrosst\n\nthe sudden gain\nof gaining distance\nfrom what had been\nleading up to\nit the gut saying things\nare never going to be the same\nbecause the mind had already\nfelt things\nwere never going\nto be the same\n\na faith that youd understand\na hope youd relate\njust given\nthe timing\n\nor is this all part of the\nthings leading up\nto it',
                 photo: ''
             },
-
             {
                 timestamp: '2025-06-06T13:35:00',
                 content: 'twisted tease\n\npeaking in a layover\ntreading in a sea of arnold palmers\n\nfresh pair of heeled cowboy boots\nhooked to the bar stool leg rest\nlike a toggle clasp\ngenius invention btw\n\nclick drag snap to shelf\nalt l alt l alt l\nctrl s\nwait\nthis could also go over there\n\nhow choice is made\nhard to say\nwhen it was neither yours to make\nnor mine\ncharlotte comma\nnorth carolina',
                 photo: ''
             },
-
             {
                 timestamp: '2026-02-06T01:31:00',
                 content: 'bimbo loaves\n\nlatest one week\nlatest thirteen weeks\nlatest twenty six weeks\nlatest fifty two weeks\n\nslice it down the middle\nmake it do a backbend\nleapfrog kinetics\n\nthen compare against bad apples\nmake fibonacci cuts\nobligatory sprinkling of the salt\nto learn a habit\n\nwhen time hits the shelves\npackaged and tagged\nwhat is\nin the wrapping\nto analysts\non their weekly\ngrocery runs',
                 photo: ''
             }
-                
         ];
         
         // Display posts
@@ -367,124 +524,184 @@
             });
         }
         
-        // Escape HTML to prevent XSS
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
         }
         
-        // Display posts on page load
         displayPosts();
 
         // Custom cursor with trail
-                const cursor = document.getElementById('custom-cursor');
-                let cursorTimeout;
-                const trail = [];
-                const maxTrail = 10;
-        
-                document.addEventListener('mousemove', (e) => {
-                    cursor.style.left = e.clientX - 20 + 'px';
-                    cursor.style.top = e.clientY - 20 + 'px';
-                    cursor.classList.remove('hidden');
-                    
-                    // Create trail element
-                    const trailDot = document.createElement('div');
-                    trailDot.style.position = 'fixed';
-                    trailDot.style.left = e.clientX - 25 + 'px';
-                    trailDot.style.top = e.clientY - 25 + 'px';
-                    trailDot.style.width = '50px';
-                    trailDot.style.height = '50px';
-                    trailDot.style.borderRadius = '50%';
-                    trailDot.style.background = 'radial-gradient(circle, rgba(245, 192, 195, 0.2) 0%, transparent 70%)';
-                    trailDot.style.pointerEvents = 'none';
-                    trailDot.style.zIndex = '9998';
-                    trailDot.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-                    document.body.appendChild(trailDot);
-                    
-                    trail.push(trailDot);
-                    
-                    // Fade out and remove
-                    setTimeout(() => {
-                        trailDot.style.opacity = '0';
-                        trailDot.style.transform = 'scale(1.5)';
-                    }, 10);
-                    
-                    setTimeout(() => {
-                        trailDot.remove();
-                    }, 800);
-                    
-                    // Limit trail length
-                    if (trail.length > maxTrail) {
-                        const old = trail.shift();
-                        old.remove();
-                    }
-                    
-                    clearTimeout(cursorTimeout);
-                    cursorTimeout = setTimeout(() => {
-                        cursor.classList.add('hidden');
-                    }, 1000);
-                });
+        const cursor = document.getElementById('custom-cursor');
+        let cursorTimeout;
+        const trail = [];
+        const maxTrail = 10;
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX - 30 + 'px';
+            cursor.style.top = e.clientY - 30 + 'px';
+            cursor.classList.remove('hidden');
+            
+            const trailDot = document.createElement('div');
+            trailDot.style.position = 'fixed';
+            trailDot.style.left = e.clientX - 25 + 'px';
+            trailDot.style.top = e.clientY - 25 + 'px';
+            trailDot.style.width = '50px';
+            trailDot.style.height = '50px';
+            trailDot.style.borderRadius = '50%';
+            trailDot.style.background = 'radial-gradient(circle, rgba(245, 192, 195, 0.2) 0%, transparent 70%)';
+            trailDot.style.pointerEvents = 'none';
+            trailDot.style.zIndex = '9998';
+            trailDot.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            document.body.appendChild(trailDot);
+            
+            trail.push(trailDot);
+            
+            setTimeout(() => {
+                trailDot.style.opacity = '0';
+                trailDot.style.transform = 'scale(1.5)';
+            }, 10);
+            
+            setTimeout(() => {
+                trailDot.remove();
+            }, 800);
+            
+            if (trail.length > maxTrail) {
+                const old = trail.shift();
+                old.remove();
+            }
+            
+            clearTimeout(cursorTimeout);
+            cursorTimeout = setTimeout(() => {
+                cursor.classList.add('hidden');
+            }, 1000);
+        });
 
         // Touch trail for mobile
-            document.addEventListener('touchmove', (e) => {
-                const touch = e.touches[0];
-                
-                // Create trail element
-                const trailDot = document.createElement('div');
-                trailDot.style.position = 'fixed';
-                trailDot.style.left = touch.clientX - 25 + 'px';
-                trailDot.style.top = touch.clientY - 25 + 'px';
-                trailDot.style.width = '50px';
-                trailDot.style.height = '50px';
-                trailDot.style.borderRadius = '50%';
-                trailDot.style.background = 'radial-gradient(circle, rgba(245, 192, 195, 0.2) 0%, transparent 70%)';
-                trailDot.style.pointerEvents = 'none';
-                trailDot.style.zIndex = '9998';
-                trailDot.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-                document.body.appendChild(trailDot);
-                
-                // Fade out and remove
-                setTimeout(() => {
-                    trailDot.style.opacity = '0';
-                    trailDot.style.transform = 'scale(1.5)';
-                }, 10);
-                
-                setTimeout(() => {
-                    trailDot.remove();
-                }, 800);
-            });
+        document.addEventListener('touchmove', (e) => {
+            const touch = e.touches[0];
+            
+            const trailDot = document.createElement('div');
+            trailDot.style.position = 'fixed';
+            trailDot.style.left = touch.clientX - 25 + 'px';
+            trailDot.style.top = touch.clientY - 25 + 'px';
+            trailDot.style.width = '50px';
+            trailDot.style.height = '50px';
+            trailDot.style.borderRadius = '50%';
+            trailDot.style.background = 'radial-gradient(circle, rgba(245, 192, 195, 0.2) 0%, transparent 70%)';
+            trailDot.style.pointerEvents = 'none';
+            trailDot.style.zIndex = '9998';
+            trailDot.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            document.body.appendChild(trailDot);
+            
+            setTimeout(() => {
+                trailDot.style.opacity = '0';
+                trailDot.style.transform = 'scale(1.5)';
+            }, 10);
+            
+            setTimeout(() => {
+                trailDot.remove();
+            }, 800);
+        });
 
         // About button functionality
-                const aboutLink = document.getElementById('aboutLink');
-                let aboutClicked = false;
+        const aboutLink = document.getElementById('aboutLink');
+        let aboutClicked = false;
+        
+        aboutLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            if (aboutClicked) return;
+            aboutClicked = true;
+            
+            aboutLink.classList.add('hidden');
+            
+            const aboutText = document.createElement('div');
+            aboutText.className = 'about-text typing';
+            aboutText.textContent = 'sabrina is a blogger who stops and reads nail polish names';
+            document.body.appendChild(aboutText);
+            
+            setTimeout(() => {
+                aboutText.classList.remove('typing');
+                aboutText.classList.add('misting');
                 
-                aboutLink.addEventListener('click', (e) => {
-                    e.preventDefault();
+                setTimeout(() => {
+                    aboutText.remove();
+                }, 4000);
+            }, 4500);
+        });
+        
+        // TESTER STRIP FUNCTIONALITY
+        const input = document.getElementById('testerInput');
+        const cardStack = document.getElementById('cardStack');
+        
+        // Sample submissions (you can start with empty array)
+        let submissions = [
+            'the way rain sounds different on different surfaces',
+            'wanting to text someone whos not in my life anymore',
+            'grocery store lighting at 9pm hits different'
+        ];
+        
+        function stripPunctuation(text) {
+            return text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()'"?]/g, '');
+        }
+        
+        function createCard(text) {
+            const card = document.createElement('div');
+            card.className = 'strip-card';
+            card.innerHTML = `
+                <svg class="strip-svg" viewBox="0 0 240 70" preserveAspectRatio="none">
+                    <path d="M 0,7 L 200,7 L 240,35 L 200,63 L 0,63 Z" 
+                          fill="white" 
+                          stroke="black" 
+                          stroke-width="0.3"/>
+                </svg>
+                <div class="submission-text">${text}</div>
+            `;
+            return card;
+        }
+        
+        function renderCards() {
+            cardStack.innerHTML = '';
+            submissions.forEach(text => {
+                cardStack.appendChild(createCard(text));
+            });
+        }
+        
+        // Click to cycle cards
+        cardStack.addEventListener('click', (e) => {
+            if (submissions.length > 1) {
+                const topCard = cardStack.querySelector('.strip-card:first-child');
+                if (topCard && !topCard.classList.contains('moving-back')) {
+                    topCard.classList.add('moving-back');
                     
-                    if (aboutClicked) return;
-                    aboutClicked = true;
-                    
-                    // Hide the link
-                    aboutLink.classList.add('hidden');
-                    
-                    // Create the about text element
-                    const aboutText = document.createElement('div');
-                    aboutText.className = 'about-text typing';
-                    aboutText.textContent = 'sabrina is a blogger who stops and reads nail polish names';
-                    document.body.appendChild(aboutText);
-                    
-                    // Start misting out immediately (no pause)
                     setTimeout(() => {
-                        aboutText.classList.remove('typing');
-                        aboutText.classList.add('misting');
-                        
-                        // Remove element after mist animation
-                        setTimeout(() => {
-                            aboutText.remove();
-                        }, 4000);
-                    }, 4500);  // Changed from 5000 to 4500 - starts right after typing    
-                });
+                        const topSubmission = submissions.shift();
+                        submissions.push(topSubmission);
+                        renderCards();
+                    }, 800);
+                }
+            }
+        });
+        
+        // Add new submission
+        if (input) {
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const text = stripPunctuation(input.value.trim());
+                    
+                    if (text) {
+                        submissions.unshift(text);
+                        renderCards();
+                        input.value = '';
+                    }
+                }
+            });
+        }
+        
+        // Initial render
+        renderCards();
         
     </script>
 </body>
