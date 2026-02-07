@@ -479,7 +479,7 @@
                         aboutText.style.borderRight = 'none';
                     }, 5000);
                     
-                    // Start misting out after 1 second pause (changed from 2 seconds)
+                    // Start misting out immediately (no pause)
                     setTimeout(() => {
                         aboutText.classList.remove('typing');
                         aboutText.classList.add('misting');
@@ -488,7 +488,7 @@
                         setTimeout(() => {
                             aboutText.remove();
                         }, 4000);
-                    }, 6000);  // Changed from 7000 to 6000
+                    }, 5000);  // Changed from 6000 to 5000 - starts right after typing    
                 });
         
     </script>
