@@ -389,6 +389,25 @@
                 filter: blur(3px);
             }
         }
+
+        .astro-info {
+            font-size: 1.0em;
+            margin-top: 15px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .astro-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .astro-symbol {
+            font-size: 1.3em;
+            filter: grayscale(100%);
+        }
         
         /* Smooth hide on narrow windows */
         @media (max-width: 1300px) {
@@ -442,6 +461,16 @@
                 <h1>screenshot scents</h1>
                 <div id="datetime"></div>
                 <div id="current-time"></div>
+                <div class="astro-info">
+                    <div class="astro-item">
+                        <span class="astro-symbol" id="zodiac-symbol"></span>
+                        <span id="zodiac-name"></span>
+                    </div>
+                    <div class="astro-item">
+                        <span class="astro-symbol" id="moon-symbol"></span>
+                        <span id="moon-phase"></span>
+                    </div>
+                </div>
             </header>
             
             <div class="entries" id="entries"></div>
@@ -473,6 +502,58 @@
         
         updateDateTime();
         setInterval(updateDateTime, 1000);
+
+        // Zodiac and Moon Phase
+        function getZodiacSign(date) {
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
+            
+            if ((month == 3 && day >= 21) || (month == 4 && day <= 19)) return { name: 'Aries', symbol: '♈' };
+            if ((month == 4 && day >= 20) || (month == 5 && day <= 20)) return { name: 'Taurus', symbol: '♉' };
+            if ((month == 5 && day >= 21) || (month == 6 && day <= 20)) return { name: 'Gemini', symbol: '♊' };
+            if ((month == 6 && day >= 21) || (month == 7 && day <= 22)) return { name: 'Cancer', symbol: '♋' };
+            if ((month == 7 && day >= 23) || (month == 8 && day <= 22)) return { name: 'Leo', symbol: '♌' };
+            if ((month == 8 && day >= 23) || (month == 9 && day <= 22)) return { name: 'Virgo', symbol: '♍' };
+            if ((month == 9 && day >= 23) || (month == 10 && day <= 22)) return { name: 'Libra', symbol: '♎' };
+            if ((month == 10 && day >= 23) || (month == 11 && day <= 21)) return { name: 'Scorpio', symbol: '♏' };
+            if ((month == 11 && day >= 22) || (month == 12 && day <= 21)) return { name: 'Sagittarius', symbol: '♐' };
+            if ((month == 12 && day >= 22) || (month == 1 && day <= 19)) return { name: 'Capricorn', symbol: '♑' };
+            if ((month == 1 && day >= 20) || (month == 2 && day <= 18)) return { name: 'Aquarius', symbol: '♒' };
+            return { name: 'Pisces', symbol: '♓' };
+        }
+        
+        function getMoonPhase(date) {
+            // Known new moon: January 6, 2000
+            const knownNewMoon = new Date(2000, 0, 6, 18, 14);
+            const lunarCycle = 29.53058867; // days
+            
+            const diff = (date - knownNewMoon) / (1000 * 60 * 60 * 24);
+            const phase = ((diff % lunarCycle) + lunarCycle) % lunarCycle;
+            
+            if (phase < 1.84566) return { name: 'New Moon', symbol: '●' };
+            if (phase < 5.53699) return { name: 'Waxing Crescent', symbol: '☽' };
+            if (phase < 9.22831) return { name: 'First Quarter', symbol: '◐' };
+            if (phase < 12.91963) return { name: 'Waxing Gibbous', symbol: '◑' };
+            if (phase < 16.61096) return { name: 'Full Moon', symbol: '○' };
+            if (phase < 20.30228) return { name: 'Waning Gibbous', symbol: '◐' };
+            if (phase < 23.99361) return { name: 'Last Quarter', symbol: '◑' };
+            if (phase < 27.68493) return { name: 'Waning Crescent', symbol: '☾' };
+            return { name: 'New Moon', symbol: '●' };
+        }
+        
+        function updateAstroInfo() {
+            const now = new Date();
+            const zodiac = getZodiacSign(now);
+            const moon = getMoonPhase(now);
+            
+            document.getElementById('zodiac-symbol').textContent = zodiac.symbol;
+            document.getElementById('zodiac-name').textContent = zodiac.name;
+            document.getElementById('moon-symbol').textContent = moon.symbol;
+            document.getElementById('moon-phase').textContent = moon.name;
+        }
+        
+        updateAstroInfo();
+        setInterval(updateAstroInfo, 60000); // Update every minute
         
         // Blog posts
         const posts = [
