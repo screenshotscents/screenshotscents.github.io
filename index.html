@@ -132,48 +132,40 @@
             height: 70px;
             transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
             cursor: pointer;
-            filter: drop-shadow(-2px 2px 4px rgba(0, 0, 0, 0.15));
         }
         
         .strip-card:nth-child(1) {
             z-index: 100;
             transform: translateY(0) translateX(0) rotate(0deg);
-            filter: drop-shadow(-4px 4px 8px rgba(0, 0, 0, 0.2));
         }
         
         .strip-card:nth-child(2) {
             z-index: 99;
             transform: translateY(3px) translateX(-2px) rotate(-0.5deg);
-            filter: drop-shadow(-3px 3px 6px rgba(0, 0, 0, 0.15));
         }
         
         .strip-card:nth-child(3) {
             z-index: 98;
             transform: translateY(6px) translateX(1px) rotate(0.3deg);
-            filter: drop-shadow(-2px 2px 4px rgba(0, 0, 0, 0.12));
         }
         
         .strip-card:nth-child(4) {
             z-index: 97;
             transform: translateY(9px) translateX(-1px) rotate(-0.2deg);
-            filter: drop-shadow(-2px 2px 4px rgba(0, 0, 0, 0.12));
         }
         
         .strip-card:nth-child(5) {
             z-index: 96;
             transform: translateY(12px) translateX(2px) rotate(0.4deg);
-            filter: drop-shadow(-1px 1px 3px rgba(0, 0, 0, 0.1));
         }
         
         .strip-card:nth-child(n+6) {
             z-index: 95;
             transform: translateY(15px) translateX(-1px) rotate(-0.1deg);
-            filter: drop-shadow(-1px 1px 3px rgba(0, 0, 0, 0.1));
         }
         
         .strip-card.moving-back {
             animation: slideToBack 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-            filter: drop-shadow(-8px 8px 16px rgba(0, 0, 0, 0.25)) !important;
         }
         
         @keyframes slideToBack {
