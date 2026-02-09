@@ -77,30 +77,30 @@
         
         .tester-input {
             position: absolute;
-            top: 42px;                     
-            transform: translateY(-50%);   /* Center it */
+            top: 42px;
+            transform: translateY(-50%);
             left: 0;
             width: 100%;
-            height: auto;                  /* Change from 100% to auto */
+            height: auto;
             background: transparent;
             border: none;
             font-family: 'Times New Roman', Times, serif;
             font-size: 1.0em;
             text-align: center;
-            padding: 0 40px 0 10px;        /* Remove top/bottom padding */
+            padding: 0 40px 0 10px;
             z-index: 1;
             clip-path: polygon(0 10%, 85% 10%, 100% 50%, 85% 90%, 0 90%);
             resize: none;
             overflow: hidden;
             word-wrap: break-word;
             line-height: 1.3;
-            transition: top 0.3s ease, transform 0.3s ease;  /* Add this line */
+            transition: top 0.3s ease, transform 0.3s ease;
         }
         
         .tester-input::placeholder {
             color: #999;
             font-style: italic;
-            text-align: center;            /* Add this */
+            text-align: center;
         }
         
         .tester-input:focus {
@@ -208,10 +208,10 @@
             clip-path: polygon(0 10%, 85% 10%, 100% 50%, 85% 90%, 0 90%);
             overflow: hidden;
             transition: opacity 0.3s ease;
-            word-wrap: break-word;      /* Add this */
-            overflow-wrap: break-word;  /* Add this */
-            white-space: normal;         /* Add this */
-            text-align: center;          /* Add this */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+            text-align: center;
         }
         
         .strip-card:nth-child(1) .submission-text { opacity: 1; }
@@ -429,7 +429,7 @@
                 class="tester-input" 
                 id="testerInput"
                 placeholder="capture a moment"
-                maxlength="69"
+                maxlength="67"
                 rows="2"
             ></textarea>
         </div>
@@ -705,20 +705,6 @@
         
         // TESTER STRIP FUNCTIONALITY
         const input = document.getElementById('testerInput');
-        // Dynamic centering for textarea
-        if (input) {
-            input.addEventListener('input', function() {
-                if (this.value.length > 0) {
-                    // Text exists - move to top
-                    this.style.top = '15px';
-                    this.style.transform = 'none';
-                } else {
-                    // Empty - center it
-                    this.style.top = '50%';
-                    this.style.transform = 'translateY(-50%)';
-                }
-            });
-        }
         const cardStack = document.getElementById('cardStack');
         
         // REPLACE THIS URL WITH YOUR ACTUAL GOOGLE APPS SCRIPT URL
@@ -806,8 +792,8 @@
         });
         
         // Add new submission
-        // Dynamic centering for textarea
         if (input) {
+            // Dynamic centering for textarea
             input.addEventListener('input', function() {
                 if (this.value.trim().length > 0) {
                     // Text exists - move to top
@@ -815,8 +801,26 @@
                     this.style.transform = 'none';
                 } else {
                     // Empty - center it
-                    this.style.top = '40px';  // Use the same value as your CSS
+                    this.style.top = '42px';
                     this.style.transform = 'translateY(-50%)';
+                }
+            });
+            
+            // Submit on Enter key
+            input.addEventListener('keypress', async (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();  // Prevent new line
+                    const text = stripPunctuation(input.value.trim());
+                    
+                    if (text && !isLoading) {
+                        input.value = '';
+                        input.placeholder = 'saving...';
+                        await saveSubmission(text);
+                        input.placeholder = 'capture a moment';
+                        // Re-center after clearing
+                        input.style.top = '42px';
+                        input.style.transform = 'translateY(-50%)';
+                    }
                 }
             });
         }
