@@ -89,6 +89,9 @@
             padding: 5px 40px 5px 10px;
             z-index: 1;
             clip-path: polygon(0 10%, 85% 10%, 100% 50%, 85% 90%, 0 90%);
+            resize: none;              /* Add this */
+            overflow: hidden;          /* Add this */
+            word-wrap: break-word;     /* Add this */
         }
         
         .tester-input::placeholder {
@@ -406,12 +409,13 @@
                       stroke="black" 
                       stroke-width="0.3"/>
             </svg>
-            <input 
-                type="text" 
+            <textarea 
                 class="tester-input" 
                 id="testerInput"
                 placeholder="capture a moment"
-            >
+                maxlength="80"
+                rows="3"
+            ></textarea>
         </div>
         <div class="card-stack" id="cardStack"></div>
     </aside>
