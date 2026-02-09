@@ -6,6 +6,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Screenshot Scents</title>
     <style>
+        /* Scrolling scanlines effect for images */
+        .post-photo-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .post-photo-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.31) 0px,
+                rgba(0, 0, 0, 0.31) 3px,
+                transparent 3px,
+                transparent 8px
+            );
+            pointer-events: none;
+            z-index: 1;
+            animation: scanlines 4s linear infinite;
+        }
+        
+        @keyframes scanlines {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(8px);
+            }
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -578,7 +613,7 @@
         const posts = [
             {
                 timestamp: '2026-02-09T12:31:00',
-                content: 'tubi watch', 
+                content: 'tubitime', 
                 photo: 'klute-jane fonda.png',
                 link: 'https://tubitv.com/movies/100012210/klute'
             },
@@ -664,9 +699,9 @@
                 let photoHtml = '';
                 if (post.photo) {
                     if (post.link) {
-                        photoHtml = `<a href="${post.link}" target="_blank"><img src="${post.photo}" alt="Blog photo" class="post-photo"></a>`;
+                        photoHtml = `<div class="post-photo-wrapper"><a href="${post.link}" target="_blank"><img src="${post.photo}" alt="Blog photo" class="post-photo"></a></div>`;
                     } else {
-                        photoHtml = `<img src="${post.photo}" alt="Blog photo" class="post-photo">`;
+                        photoHtml = `<div class="post-photo-wrapper"><img src="${post.photo}" alt="Blog photo" class="post-photo"></div>`;
                     }
                 }
                 
