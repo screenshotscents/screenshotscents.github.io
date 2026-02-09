@@ -44,11 +44,11 @@
             min-height: 100vh;
         }
         
-        /* Tester Strip - Top Left Corner (Desktop only) */
+        /* Tester Strip - Top Right Corner (Desktop only) */
         .tester-strip {
             width: 280px;
             position: fixed;
-            left: 20px;
+            right: 20px;
             top: 40px;
             background: white;
             display: flex;
@@ -84,7 +84,7 @@
             background: transparent;
             border: none;
             font-family: 'Times New Roman', Times, serif;
-            font-size: 1.0em;
+            font-size: 0.85em;
             text-align: center;
             padding: 5px 40px 5px 10px;
             z-index: 1;
@@ -194,7 +194,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1em;
+            font-size: 0.85em;
             line-height: 1.2;
             padding: 5px 40px 5px 10px;
             z-index: 1;
@@ -246,6 +246,15 @@
         #current-time {
             font-size: 1.1em;
             color: #333;
+        }
+        
+        #moon-phase {
+            margin-top: 10px;
+        }
+        
+        #moon-phase svg {
+            width: 20px;
+            height: 20px;
         }
         
         .entries {
@@ -419,6 +428,7 @@
                 <h1>screenshot scents</h1>
                 <div id="datetime"></div>
                 <div id="current-time"></div>
+                <div id="moon-phase"></div>
             </header>
             
             <div class="entries" id="entries"></div>
@@ -451,11 +461,65 @@
         updateDateTime();
         setInterval(updateDateTime, 1000);
         
+        // Moon phase calculation and display
+        function getMoonPhase(date) {
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
+            
+            let c = 0;
+            let e = 0;
+            let jd = 0;
+            let b = 0;
+            
+            if (month < 3) {
+                year--;
+                month += 12;
+            }
+            
+            ++month;
+            c = 365.25 * year;
+            e = 30.6 * month;
+            jd = c + e + day - 694039.09;
+            jd /= 29.5305882;
+            b = parseInt(jd);
+            jd -= b;
+            b = Math.round(jd * 8);
+            
+            if (b >= 8) b = 0;
+            
+            return b;
+        }
+        
+        function getMoonSVG(phase) {
+            const svgs = {
+                0: `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="black"/></svg>`, // New Moon
+                1: `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="none" stroke="black" stroke-width="1"/><path d="M 12,2 A 10,10 0 0,1 12,22 A 6,10 0 0,0 12,2" fill="black"/></svg>`, // Waxing Crescent
+                2: `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="none" stroke="black" stroke-width="1"/><path d="M 12,2 L 12,22 A 10,10 0 0,1 12,2" fill="black"/></svg>`, // First Quarter
+                3: `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="none" stroke="black" stroke-width="1"/><path d="M 12,2 A 10,10 0 0,1 12,22 A 6,10 0 0,1 12,2" fill="black"/></svg>`, // Waxing Gibbous
+                4: `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="none" stroke="black" stroke-width="1"/></svg>`, // Full Moon
+                5: `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="none" stroke="black" stroke-width="1"/><path d="M 12,2 A 10,10 0 0,0 12,22 A 6,10 0 0,1 12,2" fill="black"/></svg>`, // Waning Gibbous
+                6: `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="none" stroke="black" stroke-width="1"/><path d="M 12,2 L 12,22 A 10,10 0 0,0 12,2" fill="black"/></svg>`, // Last Quarter
+                7: `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="none" stroke="black" stroke-width="1"/><path d="M 12,2 A 10,10 0 0,0 12,22 A 6,10 0 0,0 12,2" fill="black"/></svg>` // Waning Crescent
+            };
+            return svgs[phase];
+        }
+        
+        function updateMoonPhase() {
+            const now = new Date();
+            const phase = getMoonPhase(now);
+            const moonContainer = document.getElementById('moon-phase');
+            moonContainer.innerHTML = getMoonSVG(phase);
+        }
+        
+        updateMoonPhase();
+        setInterval(updateMoonPhase, 3600000); // Update every hour
+        
         // Blog posts
         const posts = [
             {
                 timestamp: '2026-02-06T16:43:00',
-                content: 'snotty tapes\n\nlatest low was pretty much a tapout wouldnt wish it on my worst enemy and what if i already had admitted to therapist number two that staunchly holding onto the pharmaceutical livestock argument is avoidant and irresponsible an implacable part of it still seeking validation of thought fumbling through questions with quote fragile handle with care unquote in all caps written all over them notification center pushing the low battery mode lifeline medication manager number two asks if i had any questions i asked can you give me a second i need to charge my computer its dying',
+                content: 'snotty tapes\n\nlatest low was pretty much a tapout wouldnt wish on my worst enemy and what if i already had admitted to therapist number two that staunchly holding onto the pharmaceutical livestock argument is avoidant and irresponsible an implacable part of it still seeking validation of thought fumbling through questions with quote fragile handle with care unquote in all caps written all over them notification center pushing the low battery mode lifeline medication manager number two asks if i had any questions i asked can you give me a second i need to charge my computer its dying',
                 photo: ''
             },
             {
