@@ -398,6 +398,33 @@
             color: black;
             z-index: 1000;
         }
+
+        .surf-info {
+            position: fixed;
+            top: 20px;
+            right: 60px;
+            font-size: 0.9em;
+            color: black;
+            z-index: 1000;
+            max-width: 300px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        
+        .surf-scroll {
+            display: inline-block;
+            animation: scrollText 20s linear infinite;
+            padding-left: 100%;
+        }
+        
+        @keyframes scrollText {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
         
         /* Smooth hide on narrow windows */
         @media (max-width: 1300px) {
@@ -423,6 +450,9 @@
 <body>
     <div id="custom-cursor"></div>
     <div class="moon-symbol-fixed" id="moonSymbol"></div>
+    <div class="surf-info">
+        <span class="surf-scroll" id="surfInfo">loading bay st conditions...</span>
+    </div>
     <a href="#" class="about-link" id="aboutLink">about</a>
     
     <!-- Tester Strip Column (Desktop only) -->
