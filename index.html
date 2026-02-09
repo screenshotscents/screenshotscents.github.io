@@ -201,6 +201,10 @@
             clip-path: polygon(0 10%, 85% 10%, 100% 50%, 85% 90%, 0 90%);
             overflow: hidden;
             transition: opacity 0.3s ease;
+            word-wrap: break-word;      /* Add this */
+            overflow-wrap: break-word;  /* Add this */
+            white-space: normal;         /* Add this */
+            text-align: center;          /* Add this */
         }
         
         .strip-card:nth-child(1) .submission-text { opacity: 1; }
