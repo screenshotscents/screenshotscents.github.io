@@ -819,7 +819,10 @@
             const emailText = document.createElement('div');
             emailText.className = 'email-reveal typing';
             emailText.style.borderRight = '2px solid black';
-            document.body.appendChild(emailText);
+            
+            // Insert it right after the email link in the header
+            const header = document.querySelector('header');
+            header.appendChild(emailText);
             
             const fullText = 'screenshotscents [at] gmail [dot] com';
             let charIndex = 0;
