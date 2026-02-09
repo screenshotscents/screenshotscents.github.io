@@ -373,6 +373,26 @@
         .about-link.hidden {
             display: none;
         }
+
+        .email-link {
+            font-size: 1.1em;
+            font-family: 'Times New Roman', Times, serif;
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            display: block;
+            margin-top: 10px;
+            pointer-events: auto;
+        }
+        
+        .email-link:hover {
+            color: #000;
+        }
+        
+        .email-link.hidden {
+            display: none;
+        }
         
         .about-text {
             position: fixed;
@@ -477,6 +497,7 @@
                 <h1>screenshot scents</h1>
                 <div id="datetime"></div>
                 <div id="current-time"></div>
+                <a href="#" class="email-link" id="emailLink">email</a>
             </header>
             
             <div class="entries" id="entries"></div>
@@ -765,6 +786,55 @@
                     }, 500);
                 }
             }, 80); // 80ms per character = ~5 seconds total
+        });
+
+        // Email button functionality
+        const emailLink = document.getElementById('emailLink');
+        let emailClicked = false;
+        
+        emailLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            if (emailClicked) return;
+            emailClicked = true;
+            
+            emailLink.classList.add('hidden');
+            
+            const emailText = document.createElement('div');
+            emailText.className = 'about-text typing';
+            emailText.style.borderRight = '2px solid black';
+            emailText.style.bottom = 'auto';
+            emailText.style.top = '180px';
+            emailText.style.left = '20px';
+            emailText.style.right = 'auto';
+            emailText.style.textAlign = 'left';
+            document.body.appendChild(emailText);
+            
+            const fullText = 'screenshotscents [at] gmail [dot] com';
+            let charIndex = 0;
+            
+            // Type character by character
+            const typeInterval = setInterval(() => {
+                if (charIndex < fullText.length) {
+                    emailText.textContent = fullText.substring(0, charIndex + 1);
+                    charIndex++;
+                } else {
+                    clearInterval(typeInterval);
+                    // Remove cursor and start misting
+                    emailText.style.borderRight = 'none';
+                    
+                    setTimeout(() => {
+                        emailText.classList.remove('typing');
+                        emailText.classList.add('misting');
+                        
+                        setTimeout(() => {
+                            emailText.remove();
+                            emailClicked = false;
+                            emailLink.classList.remove('hidden');
+                        }, 4000);
+                    }, 500);
+                }
+            }, 80);
         });
         
         // TESTER STRIP FUNCTIONALITY
