@@ -19,17 +19,33 @@
             position: fixed;
             width: 60px;
             height: 60px;
-            border-radius: 50%;
+            border-radius: 45% 55% 52% 48% / 48% 45% 55% 52%;
             background: radial-gradient(ellipse at 35% 35%, 
-                rgba(30, 30, 50, 0.4) 0%,      /* dark blue-black */
-                rgba(40, 40, 60, 0.3) 30%,     
-                rgba(50, 50, 70, 0.15) 60%,    
+                rgba(30, 30, 50, 0.4) 0%,
+                rgba(40, 40, 60, 0.3) 30%,
+                rgba(50, 50, 70, 0.15) 60%,
                 transparent 100%);
             pointer-events: none;
             z-index: 9999;
             transition: opacity 0.5s ease;
             opacity: 1;
             display: none;
+            animation: blobMorph 8s ease-in-out infinite;
+        }
+        
+        @keyframes blobMorph {
+            0%, 100% {
+                border-radius: 45% 55% 52% 48% / 48% 45% 55% 52%;
+            }
+            25% {
+                border-radius: 52% 48% 45% 55% / 55% 52% 48% 45%;
+            }
+            50% {
+                border-radius: 48% 52% 55% 45% / 45% 55% 52% 48%;
+            }
+            75% {
+                border-radius: 55% 45% 48% 52% / 52% 48% 45% 55%;
+            }
         }
 
         #custom-cursor.hidden {
@@ -649,7 +665,7 @@
             trailDot.style.top = e.clientY - 25 + 'px';
             trailDot.style.width = '50px';
             trailDot.style.height = '50px';
-            trailDot.style.borderRadius = '50%';
+            trailDot.style.borderRadius = '48% 52% 45% 55% / 52% 48% 55% 45%';
             trailDot.style.background = 'radial-gradient(ellipse at 35% 35%, rgba(30, 30, 50, 0.25), rgba(40, 40, 60, 0.15), transparent)';
             trailDot.style.pointerEvents = 'none';
             trailDot.style.zIndex = '9998';
