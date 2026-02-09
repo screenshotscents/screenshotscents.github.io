@@ -818,7 +818,6 @@
             
             const emailText = document.createElement('div');
             emailText.className = 'email-reveal typing';
-            emailText.style.borderRight = '2px solid black';
             
             // Insert it right after the email link in the header
             const header = document.querySelector('header');
@@ -834,9 +833,7 @@
                     charIndex++;
                 } else {
                     clearInterval(typeInterval);
-                    // Remove cursor and start misting
-                    emailText.style.borderRight = 'none';
-                    
+                    // Start misting immediately after typing finishes
                     setTimeout(() => {
                         emailText.classList.remove('typing');
                         emailText.classList.add('misting');
