@@ -393,6 +393,22 @@
         .email-link.hidden {
             display: none;
         }
+
+        .email-reveal {
+            position: relative;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 1.1em;
+            color: black;
+            margin-top: 10px;
+            text-align: left;
+            white-space: nowrap;
+            display: block;
+        }
+        
+        .email-reveal.typing {
+            overflow: visible;
+            white-space: nowrap;
+        }
         
         .about-text {
             position: fixed;
@@ -801,13 +817,8 @@
             emailLink.classList.add('hidden');
             
             const emailText = document.createElement('div');
-            emailText.className = 'about-text typing';
+            emailText.className = 'email-reveal typing';
             emailText.style.borderRight = '2px solid black';
-            emailText.style.bottom = 'auto';
-            emailText.style.top = '180px';
-            emailText.style.left = '20px';
-            emailText.style.right = 'auto';
-            emailText.style.textAlign = 'left';
             document.body.appendChild(emailText);
             
             const fullText = 'screenshotscents [at] gmail [dot] com';
