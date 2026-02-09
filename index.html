@@ -77,22 +77,23 @@
         
         .tester-input {
             position: absolute;
-            top: 0;
+            top: 50%;                      /* Start in vertical center */
+            transform: translateY(-50%);   /* Center it */
             left: 0;
             width: 100%;
-            height: 100%;
+            height: auto;                  /* Change from 100% to auto */
             background: transparent;
             border: none;
             font-family: 'Times New Roman', Times, serif;
             font-size: 1.0em;
-            text-align: center;           /* Horizontal center */
-            padding: 15px 40px 15px 10px; /* Adjust top/bottom padding for vertical centering */
+            text-align: center;
+            padding: 0 40px 0 10px;        /* Remove top/bottom padding */
             z-index: 1;
             clip-path: polygon(0 10%, 85% 10%, 100% 50%, 85% 90%, 0 90%);
             resize: none;
             overflow: hidden;
             word-wrap: break-word;
-            line-height: 1.3;              /* Add this for better line spacing */
+            line-height: 1.3;
         }
         
         .tester-input::placeholder {
@@ -691,6 +692,20 @@
         
         // TESTER STRIP FUNCTIONALITY
         const input = document.getElementById('testerInput');
+        // Dynamic centering for textarea
+        if (input) {
+            input.addEventListener('input', function() {
+                if (this.value.length > 0) {
+                    // Text exists - move to top
+                    this.style.top = '15px';
+                    this.style.transform = 'none';
+                } else {
+                    // Empty - center it
+                    this.style.top = '50%';
+                    this.style.transform = 'translateY(-50%)';
+                }
+            });
+        }
         const cardStack = document.getElementById('cardStack');
         
         // REPLACE THIS URL WITH YOUR ACTUAL GOOGLE APPS SCRIPT URL
