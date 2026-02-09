@@ -17,19 +17,20 @@
 
         #custom-cursor {
             position: fixed;
-            width: 60px;
-            height: 60px;
-            border-radius: 45% 55% 52% 48% / 48% 45% 55% 52%;
-            background: radial-gradient(ellipse at 35% 35%, 
-                rgba(30, 30, 50, 0.4) 0%,
-                rgba(40, 40, 60, 0.3) 30%,
-                rgba(50, 50, 70, 0.15) 60%,
+            width: 80px;
+            height: 80px;
+            border-radius: 48% 52% 45% 55% / 52% 48% 55% 45%;
+            background: radial-gradient(ellipse at 40% 40%, 
+                rgba(30, 30, 50, 0.15) 0%,
+                rgba(40, 40, 60, 0.1) 40%,
+                rgba(50, 50, 70, 0.05) 70%,
                 transparent 100%);
             pointer-events: none;
             z-index: 9999;
             transition: opacity 0.5s ease;
             opacity: 1;
             display: none;
+            filter: blur(3px);
             animation: blobMorph 8s ease-in-out infinite;
         }
         
@@ -663,10 +664,11 @@
             trailDot.style.position = 'fixed';
             trailDot.style.left = e.clientX - 25 + 'px';
             trailDot.style.top = e.clientY - 25 + 'px';
-            trailDot.style.width = '50px';
-            trailDot.style.height = '50px';
+            trailDot.style.width = '70px';
+            trailDot.style.height = '70px';
             trailDot.style.borderRadius = '48% 52% 45% 55% / 52% 48% 55% 45%';
-            trailDot.style.background = 'radial-gradient(ellipse at 35% 35%, rgba(30, 30, 50, 0.25), rgba(40, 40, 60, 0.15), transparent)';
+            trailDot.style.background = 'radial-gradient(ellipse at 40% 40%, rgba(30, 30, 50, 0.12), rgba(40, 40, 60, 0.08), rgba(50, 50, 70, 0.04), transparent)';
+            trailDot.style.filter = 'blur(4px)';
             trailDot.style.pointerEvents = 'none';
             trailDot.style.zIndex = '9998';
             trailDot.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
@@ -702,10 +704,11 @@
             trailDot.style.position = 'fixed';
             trailDot.style.left = touch.clientX - 25 + 'px';
             trailDot.style.top = touch.clientY - 25 + 'px';
-            trailDot.style.width = '50px';
-            trailDot.style.height = '50px';
+            trailDot.style.width = '70px';
+            trailDot.style.height = '70px';
             trailDot.style.borderRadius = '48% 52% 45% 55% / 52% 48% 55% 45%';
-            trailDot.style.background = 'radial-gradient(ellipse at 35% 35%, rgba(30, 30, 50, 0.25), rgba(40, 40, 60, 0.15), transparent)';
+            trailDot.style.background = 'radial-gradient(ellipse at 40% 40%, rgba(30, 30, 50, 0.12), rgba(40, 40, 60, 0.08), rgba(50, 50, 70, 0.04), transparent)';
+            trailDot.style.filter = 'blur(4px)';
             trailDot.style.pointerEvents = 'none';
             trailDot.style.zIndex = '9998';
             trailDot.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
