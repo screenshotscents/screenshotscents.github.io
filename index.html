@@ -795,12 +795,17 @@
         if (input) {
             // Dynamic centering for textarea
             input.addEventListener('input', function() {
-                if (this.value.trim().length > 0) {
-                    // Text exists - move to top
+                // Check if text has wrapped to multiple lines
+                const lineHeight = parseFloat(getComputedStyle(this).lineHeight);
+                const scrollHeight = this.scrollHeight;
+                const hasMultipleLines = scrollHeight > lineHeight * 1.5; // More than 1 line
+                
+                if (hasMultipleLines) {
+                    // Multiple lines - move to top
                     this.style.top = '15px';
                     this.style.transform = 'none';
                 } else {
-                    // Empty - center it
+                    // Single line or empty - keep centered
                     this.style.top = '42px';
                     this.style.transform = 'translateY(-50%)';
                 }
