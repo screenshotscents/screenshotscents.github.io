@@ -11,17 +11,27 @@
             position: relative;
             display: block;
             width: 100%;
-            overflow: hidden;
             line-height: 0;
         }
         
-        .post-photo-wrapper::before {
+        .post-photo {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+            display: block;
+            position: relative;
+        }
+        
+        .post-photo-wrapper .post-photo {
+            margin: 0;
+        }
+        
+        .post-photo-wrapper::after {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
             width: 100%;
             height: 100%;
             background: repeating-linear-gradient(
@@ -32,10 +42,7 @@
                 transparent 8px
             );
             pointer-events: none;
-            z-index: 1;
             animation: scanlines 4s linear infinite;
-            will-change: transform;
-            overflow: hidden;
         }
         
         @keyframes scanlines {
