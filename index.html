@@ -20,12 +20,27 @@
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(245, 192, 195, 0.3) 0%, rgba(245, 192, 195, 0.1) 50%, transparent 100%);
+            background: radial-gradient(circle at 30% 30%, 
+                rgba(255, 0, 255, 0.3) 0%,      /* magenta */
+                rgba(0, 255, 255, 0.3) 25%,     /* cyan */
+                rgba(255, 255, 0, 0.3) 50%,     /* yellow */
+                rgba(0, 255, 0, 0.3) 75%,       /* green */
+                transparent 100%);
             pointer-events: none;
             z-index: 9999;
             transition: opacity 0.5s ease;
             opacity: 1;
             display: none;
+            animation: iridescent 3s ease-in-out infinite;
+        }
+        
+        @keyframes iridescent {
+            0%, 100% {
+                filter: hue-rotate(0deg) saturate(1.2);
+            }
+            50% {
+                filter: hue-rotate(30deg) saturate(1.5);
+            }
         }
 
         #custom-cursor.hidden {
