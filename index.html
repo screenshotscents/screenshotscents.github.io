@@ -577,6 +577,13 @@
         // Blog posts
         const posts = [
             {
+                timestamp: '2026-02-09T12:31:00',
+                content: 'tubi watch', 
+                photo: 'klute-jane fonda.png',
+                link: 'https://tubitv.com/movies/100012210/klute'
+            },
+            
+            {
                 timestamp: '2026-02-06T16:43:00',
                 content: 'snotty tapes\n\nlatest low was pretty much a tapout wouldnt wish it on my worst enemy and what if i already had admitted to therapist number two that staunchly holding onto the pharmaceutical livestock argument is avoidant and irresponsible an implacable part of it still seeking validation of thought fumbling through questions with quote fragile handle with care unquote in all caps written all over them notification center pushing the low battery mode lifeline medication manager number two asks if i had any questions i asked can you give me a second i need to charge my computer its dying',
                 photo: ''
@@ -656,7 +663,11 @@
 
                 let photoHtml = '';
                 if (post.photo) {
-                    photoHtml = `<img src="${post.photo}" alt="Blog photo" class="post-photo">`;
+                    if (post.link) {
+                        photoHtml = `<a href="${post.link}" target="_blank"><img src="${post.photo}" alt="Blog photo" class="post-photo"></a>`;
+                    } else {
+                        photoHtml = `<img src="${post.photo}" alt="Blog photo" class="post-photo">`;
+                    }
                 }
                 
                 const content = escapeHtml(post.content);
