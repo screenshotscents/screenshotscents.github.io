@@ -60,7 +60,7 @@
             box-sizing: border-box;
         }
 
-        *:not(.about-link):not(.email-link) {
+        *:not(.about-link) {
             cursor: none;
         }
 
@@ -457,10 +457,6 @@
             overflow: visible;
             white-space: nowrap;
         }
-
-        .email-reveal.no-cursor {
-            border-right: 2px solid transparent !important;
-        }
         
         .about-text {
             position: fixed;
@@ -536,7 +532,7 @@
 <body>
     <div id="custom-cursor"></div>
     <div class="moon-symbol-fixed" id="moonSymbol"></div>
-    <a class="about-link" id="aboutLink">about</a>
+    <a href="#" class="about-link" id="aboutLink">about</a>
     
     <!-- Tester Strip Column (Desktop only) -->
     <aside class="tester-strip">
@@ -630,7 +626,7 @@
         const posts = [
             {
                 timestamp: '2026-02-09T12:31:00',
-                content: '', 
+                content: '\n', 
                 photo: 'klute-jane fonda.png',
                 link: 'https://tubitv.com/movies/100012210/klute'
             },
@@ -871,9 +867,8 @@
         const emailLink = document.getElementById('emailLink');
         let emailClicked = false;
         
-        emailLink.addEventListener('click', function(e) {
+        emailLink.addEventListener('click', (e) => {
             e.preventDefault();
-            e.stopPropagation();
             
             if (emailClicked) return;
             emailClicked = true;
@@ -897,7 +892,6 @@
                     charIndex++;
                 } else {
                     clearInterval(typeInterval);
-                    emailText.classList.add('no-cursor');
                     // Start misting immediately after typing finishes
                     setTimeout(() => {
                         emailText.classList.remove('typing');
