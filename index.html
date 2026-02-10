@@ -898,7 +898,10 @@
             const emailText = document.createElement('div');
             emailText.className = 'email-reveal';
             emailText.textContent = 'screenshotscents [at] gmail';
-            document.body.appendChild(emailText);
+            
+            // Insert it right after the email link in the header
+            const header = document.querySelector('header');
+            header.appendChild(emailText);
             
             // Start misting after a brief pause
             setTimeout(() => {
