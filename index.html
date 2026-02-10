@@ -457,6 +457,10 @@
             overflow: visible;
             white-space: nowrap;
         }
+
+        .email-reveal.no-cursor {
+            border-right: 2px solid transparent !important;
+        }
         
         .about-text {
             position: fixed;
@@ -893,7 +897,7 @@
                     charIndex++;
                 } else {
                     clearInterval(typeInterval);
-                    emailText.style.borderRight = '2px solid transparent';
+                    emailText.classList.add('no-cursor');
                     // Start misting immediately after typing finishes
                     setTimeout(() => {
                         emailText.classList.remove('typing');
