@@ -432,7 +432,6 @@
             display: block;
             margin-top: 10px;
             pointer-events: auto;
-            user-select: none;
         }
         
         .email-link:hover {
@@ -875,7 +874,7 @@
             if (emailClicked) return;
             emailClicked = true;
             
-            emailLink.style.visibility = 'hidden';
+            emailLink.classList.add('hidden');
             
             const emailText = document.createElement('div');
             emailText.className = 'email-reveal typing';
