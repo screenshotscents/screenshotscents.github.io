@@ -867,8 +867,9 @@
         const emailLink = document.getElementById('emailLink');
         let emailClicked = false;
         
-        emailLink.addEventListener('click', (e) => {
+        emailLink.addEventListener('click', function(e) {
             e.preventDefault();
+            e.stopPropagation();
             
             if (emailClicked) return;
             emailClicked = true;
