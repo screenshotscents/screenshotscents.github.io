@@ -880,35 +880,23 @@
             emailLink.classList.add('hidden');
             
             const emailText = document.createElement('div');
-            emailText.className = 'email-reveal typing';
+            emailText.className = 'email-reveal';
+            emailText.textContent = 'screenshotscents [at] gmail';
             
             // Insert it right after the email link in the header
             const header = document.querySelector('header');
             header.appendChild(emailText);
             
-            const fullText = 'screenshotscents [at] gmail';
-            let charIndex = 0;
-            
-            // Type character by character
-            const typeInterval = setInterval(() => {
-                if (charIndex < fullText.length) {
-                    emailText.textContent = fullText.substring(0, charIndex + 1);
-                    charIndex++;
-                } else {
-                    clearInterval(typeInterval);
-                    // Start misting immediately after typing finishes
-                    setTimeout(() => {
-                        emailText.classList.remove('typing');
-                        emailText.classList.add('misting');
-                        
-                        setTimeout(() => {
-                            emailText.remove();
-                            emailClicked = false;
-                            emailLink.classList.remove('hidden');
-                        }, 4000);
-                    }, 500);
-                }
-            }, 80);
+            // Start misting after a brief pause
+            setTimeout(() => {
+                emailText.classList.add('misting');
+                
+                setTimeout(() => {
+                    emailText.remove();
+                    emailClicked = false;
+                    emailLink.classList.remove('hidden');
+                }, 4000);
+            }, 1500);
         });
         
         // TESTER STRIP FUNCTIONALITY
