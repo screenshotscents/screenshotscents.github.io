@@ -43,7 +43,7 @@
                 transparent 4px
             );
             pointer-events: none;
-            animation: scanlines 8s linear infinite;
+            animation: scanlines 10s linear infinite;
         }
         
         @keyframes scanlines {
@@ -61,7 +61,7 @@
             box-sizing: border-box;
         }
 
-        *:not(.about-link) {
+        *:not(.about-link):not(.email-link) {
             cursor: none;
         }
 
@@ -115,16 +115,17 @@
             min-height: 100vh;
         }
         
-        /* Tester Strip - Top Left Corner (Desktop only) */
+        /* Tester Strip - Top Right Corner (Desktop only) */
         .tester-strip {
             width: 280px;
             position: fixed;
-            left: 20px;
+            right: 20px;
             top: 40px;
             background: white;
             display: flex;
             flex-direction: column;
             z-index: 100;
+            transform: scaleX(-1);
         }
         
         /* Input strip - styled like a test strip */
@@ -149,7 +150,7 @@
         .tester-input {
             position: absolute;
             top: 43px;
-            transform: translateY(-50%);
+            transform: translateY(-50%) scaleX(-1);
             left: 0;
             width: 100%;
             height: auto;
@@ -158,7 +159,7 @@
             font-family: 'Times New Roman', Times, serif;
             font-size: 1.0em;
             text-align: center;
-            padding: 10px 40px 10px 10px;  /* Changed from 0 to 8px top/bottom */
+            padding: 10px 40px 10px 10px;
             z-index: 1;
             clip-path: polygon(0 10%, 85% 10%, 100% 50%, 85% 90%, 0 90%);
             resize: none;
@@ -285,6 +286,7 @@
             overflow-wrap: break-word;
             white-space: normal;
             text-align: center;
+            transform: scaleX(-1);
         }
         
         .strip-card:nth-child(1) .submission-text { opacity: 1; }
@@ -424,14 +426,16 @@
         }
 
         .email-link {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
             font-size: 1.1em;
             font-family: 'Times New Roman', Times, serif;
             color: #000;
             text-decoration: none;
             cursor: pointer;
             transition: color 0.3s ease;
-            display: block;
-            margin-top: 10px;
+            z-index: 1000;
             pointer-events: auto;
             -webkit-tap-highlight-color: transparent;
             -webkit-touch-callout: none;
@@ -448,12 +452,13 @@
         }
 
         .email-reveal {
-            position: relative;
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
             font-family: 'Times New Roman', Times, serif;
             font-size: 1.1em;
             color: black;
-            margin-top: 10px;
-            text-align: left;
+            z-index: 1000;
             white-space: nowrap;
             display: block;
             opacity: 0;
@@ -524,7 +529,7 @@
             .tester-strip {
                 opacity: 0;
                 pointer-events: none;
-                transform: scale(0.95);
+                transform: scale(0.95) scaleX(-1);
                 transition: opacity 0.3s ease, transform 0.3s ease;
             }
         }
@@ -533,7 +538,7 @@
             .tester-strip {
                 opacity: 1;
                 pointer-events: auto;
-                transform: scale(1);
+                transform: scale(1) scaleX(-1);
                 transition: opacity 0.3s ease, transform 0.3s ease;
             }
         }
@@ -544,6 +549,7 @@
     <div id="custom-cursor"></div>
     <div class="moon-symbol-fixed" id="moonSymbol"></div>
     <a href="#" class="about-link" id="aboutLink">about</a>
+    <a href="#" class="email-link" id="emailLink">@</a>
     
     <!-- Tester Strip Column (Desktop only) -->
     <aside class="tester-strip">
@@ -572,7 +578,6 @@
                 <h1>screenshot scents</h1>
                 <div id="datetime"></div>
                 <div id="current-time"></div>
-                <a class="email-link" id="emailLink">@</a>
             </header>
             
             <div class="entries" id="entries"></div>
@@ -874,10 +879,12 @@
                         
                         setTimeout(() => {
                             aboutText.remove();
+                            aboutClicked = false;
+                            aboutLink.classList.remove('hidden');
                         }, 4000);
                     }, 500);
                 }
-            }, 80); // 80ms per character = ~5 seconds total
+            }, 80);
         });
 
         // Email button functionality
@@ -895,10 +902,7 @@
             const emailText = document.createElement('div');
             emailText.className = 'email-reveal';
             emailText.textContent = 'screenshotscents [at] gmail';
-            
-            // Insert it right after the email link in the header
-            const header = document.querySelector('header');
-            header.appendChild(emailText);
+            document.body.appendChild(emailText);
             
             // Start misting after a brief pause
             setTimeout(() => {
