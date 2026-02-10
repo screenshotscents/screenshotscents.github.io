@@ -893,6 +893,7 @@
                     charIndex++;
                 } else {
                     clearInterval(typeInterval);
+                    emailText.style.borderRight = '2px solid transparent';
                     // Start misting immediately after typing finishes
                     setTimeout(() => {
                         emailText.classList.remove('typing');
