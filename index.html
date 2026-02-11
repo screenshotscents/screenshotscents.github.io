@@ -15,46 +15,6 @@
             line-height: 0;
         }
         
-        .post-photo {
-            width: 100%;
-            max-width: 100%;
-            height: auto;
-            margin: 20px 0;
-            display: block;
-            position: relative;
-        }
-        
-        .post-photo-wrapper .post-photo {
-            margin: 0;
-        }
-        
-        .post-photo-wrapper::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: calc(100% - 4px);
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(0, 0, 0, 0.75) 0px,
-                rgba(0, 0, 0, 0.75) 1px,
-                transparent 1px,
-                transparent 4px
-            );
-            pointer-events: none;
-            animation: scanlines 10s linear infinite;
-        }
-        
-        @keyframes scanlines {
-            0% {
-                transform: translateY(0);
-            }
-            100% {
-                transform: translateY(4px);
-            }
-        }
-        
         * {
             margin: 0;
             padding: 0;
@@ -641,6 +601,13 @@
         // Blog posts
         const posts = [
             {
+                timestamp: '2026-02-11T14:01:00',
+                content: '\n',
+                photo: 'no mercy.gif',
+                link: 'https://tubitv.com/movies/678891/no-mercy'
+            },
+            
+            {
                 timestamp: '2026-02-10T17:38:00',
                 content: 'bae street\n\nthe difference between\na lifeguards uniform\na thrifted red one piece swimsuit\nthe confession of wanting to delete the years\nthe proclamation of wanting beach day to last forever\na blind date after an eye exam\nhope at the end of a hangover\ngesturally italian\naudibly portuguese\nwise words for the week\nyou never know',
                 photo: ''
@@ -649,7 +616,7 @@
             {
                 timestamp: '2026-02-09T12:31:00',
                 content: '\n', 
-                photo: 'klute-jane fonda.png',
+                photo: 'klute.gif',
                 link: 'https://tubitv.com/movies/100012210/klute'
             },
             
