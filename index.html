@@ -37,8 +37,8 @@
             height: calc(100% - 4px);
             background: repeating-linear-gradient(
                 0deg,
-                rgba(0, 0, 0, 0.75) 0px,
-                rgba(0, 0, 0, 0.75) 1px,
+                rgba(0, 0, 0, 0.7) 0px,
+                rgba(0, 0, 0, 0.7) 1px,
                 transparent 1px,
                 transparent 4px
             );
@@ -61,7 +61,7 @@
             box-sizing: border-box;
         }
 
-        *:not(.about-link):not(.email-link) {
+        *:not(.about-link):not(.email-link):not(.like-button) {
             cursor: none;
         }
 
@@ -115,12 +115,12 @@
             min-height: 100vh;
         }
         
-        /* Tester Strip - Top Right Corner (Desktop only) */
+        /* Tester Strip - Bottom Left Corner (Desktop only) */
         .tester-strip {
             width: 280px;
             position: fixed;
-            right: 20px;
-            top: 40px;
+            left: 20px;
+            bottom: 60px;
             background: white;
             display: flex;
             flex-direction: column;
@@ -521,6 +521,43 @@
             z-index: 1000;
         }
         
+        /* Like button styling */
+        .like-container {
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1em;
+        }
+        
+        .like-button {
+            cursor: pointer;
+            font-size: 1.3em;
+            transition: transform 0.2s ease;
+            user-select: none;
+            display: inline-block;
+            pointer-events: auto;
+        }
+        
+        .like-button:hover {
+            transform: scale(1.1);
+        }
+        
+        .like-button.liked {
+            animation: likePopup 0.3s ease;
+        }
+        
+        @keyframes likePopup {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+        
+        .like-count {
+            font-family: 'Times New Roman', Times, serif;
+            color: #666;
+        }
+        
         /* Smooth hide on narrow windows */
         @media (max-width: 1300px) {
             .tester-strip {
@@ -612,7 +649,7 @@
             const knownNewMoon = new Date(2000, 0, 6, 18, 14);
             const lunarCycle = 29.53058867;
             
-            const diff = (date - knownNewMoon) / (1000 * 60 * 60 * 24);
+            const diff = (date - knownNewMoon) / (1000, 60, 60 * 24);
             const phase = ((diff % lunarCycle) + lunarCycle) % lunarCycle;
             
             if (phase < 1.84566) return '●';
@@ -639,7 +676,7 @@
         const posts = [
             {
                 timestamp: '2026-02-10T17:38:00',
-                content: 'bae street\n\na lifeguards uniform\nthe thrifted red one piece swimsuit\nthe confession of wanting to delete the years\nthe proclamation of wanting beach day to last forever\na blind date after an eye exam\nhope at the end of a hangover\ngesturally italian\naudibly portuguese\nwise words for the week\nyou never know',
+                content: 'bae street\n\na lifeguards uniform versus\na thrifted red one piece swimsuit\nthe confession of wanting to delete the years\nthe proclamation of wanting beach day to last forever\na blind date after an eye exam\nhope at the end of a hangover\ngesturally italian\naudibly portuguese\nwise words for the week\nyou never know',
                 photo: ''
             },
             
@@ -707,7 +744,94 @@
             }
         ];
         
-        // Display posts
+        // Google Apps Script URL
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwUu6ya58scJK35EgXuqAhYSi8vzDtftp-yOkEEbO5X6qM5_0GoQmnqP94Ga7bBxRma_g/exec';
+        
+        // Submissions and Likes system
+        let submissions = [];
+        let likesData = {};
+        let userLikes = new Set();
+        let isLoading = false;
+        
+        // Generate or retrieve user ID
+        let userId = localStorage.getItem('userId');
+        if (!userId) {
+            userId = 'user_' + Math.random().toString(36).substr(2, 9) + Date.now();
+            localStorage.setItem('userId', userId);
+        }
+        
+        // Load likes from server
+        async function loadLikes() {
+            try {
+                const response = await fetch(SCRIPT_URL + '?action=getLikes');
+                const data = await response.json();
+                if (data.success) {
+                    likesData = data.likes || {};
+                    updateLikeCounts();
+                }
+            } catch (error) {
+                console.error('Error loading likes:', error);
+            }
+        }
+        
+        // Toggle like for a post
+        async function toggleLike(postId) {
+            if (isLoading) return;
+            isLoading = true;
+            
+            const isLiked = userLikes.has(postId);
+            
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'toggleLike',
+                        postId: postId,
+                        userId: userId
+                    })
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    if (data.liked) {
+                        userLikes.add(postId);
+                        likesData[postId] = (likesData[postId] || 0) + 1;
+                    } else {
+                        userLikes.delete(postId);
+                        likesData[postId] = Math.max(0, (likesData[postId] || 1) - 1);
+                    }
+                    updateLikeCounts();
+                }
+            } catch (error) {
+                console.error('Error toggling like:', error);
+            } finally {
+                isLoading = false;
+            }
+        }
+        
+        // Update like counts in the UI
+        function updateLikeCounts() {
+            posts.forEach(post => {
+                const likeButton = document.getElementById(`like-btn-${post.timestamp}`);
+                const likeCount = document.getElementById(`like-count-${post.timestamp}`);
+                
+                if (likeButton && likeCount) {
+                    const count = likesData[post.timestamp] || 0;
+                    const isLiked = userLikes.has(post.timestamp);
+                    
+                    likeButton.textContent = isLiked ? '🖼️' : '🖼';
+                    likeCount.textContent = count > 0 ? count : '';
+                    
+                    if (isLiked) {
+                        likeButton.classList.add('liked');
+                    } else {
+                        likeButton.classList.remove('liked');
+                    }
+                }
+            });
+        }
+        
+        // Display posts with like buttons
         function displayPosts() {
             const entriesContainer = document.getElementById('entries');
             entriesContainer.innerHTML = '';
@@ -747,13 +871,24 @@
                     return wrappedWords;
                 }).join('\n');
                 
+                const likeCount = likesData[post.timestamp] || 0;
+                const isLiked = userLikes.has(post.timestamp);
+                
                 postDiv.innerHTML = `
                     <div class="entry-date">${dateString}</div>
                     <div class="entry-content">${wrappedContent}</div>
                     ${photoHtml}
+                    <div class="like-container">
+                        <span class="like-button ${isLiked ? 'liked' : ''}" id="like-btn-${post.timestamp}">${isLiked ? '🖼️' : '🖼'}</span>
+                        <span class="like-count" id="like-count-${post.timestamp}">${likeCount > 0 ? likeCount : ''}</span>
+                    </div>
                 `;
                 
                 entriesContainer.appendChild(postDiv);
+                
+                // Add click event to like button
+                const likeButton = document.getElementById(`like-btn-${post.timestamp}`);
+                likeButton.addEventListener('click', () => toggleLike(post.timestamp));
             });
         }
         
@@ -763,8 +898,6 @@
             return div.innerHTML;
         }
         
-        displayPosts();
-
         // Custom cursor with trail
         const cursor = document.getElementById('custom-cursor');
         let cursorTimeout;
@@ -919,12 +1052,6 @@
         const input = document.getElementById('testerInput');
         const cardStack = document.getElementById('cardStack');
         
-        // REPLACE THIS URL WITH YOUR ACTUAL GOOGLE APPS SCRIPT URL
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxQ4l46fvEUFX_CcfhXJ6QRQomfJ1DcomWv73K9DwNUjyvpHVQqdsNCCuFQYLf0PKCRtg/exec';
-        
-        let submissions = [];
-        let isLoading = false;
-        
         // Load submissions from Google Sheets
         async function loadSubmissions() {
             try {
@@ -1021,8 +1148,10 @@
             });
         }
         
-        // Load submissions on page load
+        // Load everything on page load
         loadSubmissions();
+        loadLikes();
+        displayPosts();
         
     </script>
 </body>
