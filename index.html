@@ -34,16 +34,16 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: calc(100% - 5px);
+            height: calc(100% - 4px);
             background: repeating-linear-gradient(
                 0deg,
-                rgba(0, 0, 0, 0.85) 0px,
-                rgba(0, 0, 0, 0.85) 1.5px,
-                transparent 1.5px,
-                transparent 5px
+                rgba(0, 0, 0, 0.75) 0px,
+                rgba(0, 0, 0, 0.75) 1px,
+                transparent 1px,
+                transparent 4px
             );
             pointer-events: none;
-            animation: scanlines 4s linear infinite;
+            animation: scanlines 10s linear infinite;
         }
         
         @keyframes scanlines {
@@ -51,7 +51,7 @@
                 transform: translateY(0);
             }
             100% {
-                transform: translateY(5px);
+                transform: translateY(4px);
             }
         }
         
