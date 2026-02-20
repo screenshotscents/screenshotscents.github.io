@@ -537,6 +537,7 @@
                 <h1>screenshot scents</h1>
                 <div id="datetime"></div>
                 <div id="current-time"></div>
+                <div id="last-online"></div>
                 <a class="email-link" id="emailLink">@</a>
             </header>
             
@@ -545,6 +546,33 @@
     </div>
 
     <script>
+        function getLastOnline() {
+            const mostRecent = posts.reduce((a, b) => 
+                new Date(a.timestamp) > new Date(b.timestamp) ? a : b
+            );
+            
+            const postDate = new Date(mostRecent.timestamp);
+            const now = new Date();
+            const diffDays = Math.floor((now - postDate) / (1000 * 60 * 60 * 24));
+            
+            const timeAgo = diffDays === 0 ? 'today' 
+                : diffDays === 1 ? '1 day ago' 
+                : `${diffDays} days ago`;
+            
+            const moonNames = {
+                '●': 'a new moon', '☽': 'a waxing crescent', '◐': 'a first quarter moon',
+                '◑': 'a waxing gibbous', '○': 'a full moon', '☾': 'a waning crescent'
+            };
+            
+            const moon = getMoonPhase(postDate);
+            const moonName = moonNames[moon] || 'the moon';
+            
+            document.getElementById('last-online').textContent = 
+                `last online ${timeAgo}, under ${moonName}`;
+        }
+        
+        getLastOnline();
+        
         // Update date and time
         function updateDateTime() {
             const now = new Date();
