@@ -547,32 +547,6 @@
     </div>
 
     <script>
-        function getLastOnline() {
-            const mostRecent = posts.reduce((a, b) => 
-                new Date(a.timestamp) > new Date(b.timestamp) ? a : b
-            );
-            
-            const postDate = new Date(mostRecent.timestamp);
-            const now = new Date();
-            const diffDays = Math.floor((now - postDate) / (1000 * 60 * 60 * 24));
-            
-            const timeAgo = diffDays === 0 ? 'today' 
-                : diffDays === 1 ? '1 day ago' 
-                : `${diffDays} days ago`;
-            
-            const moonNames = {
-                '●': 'a new moon', '☽': 'a waxing crescent', '◐': 'a first quarter moon',
-                '◑': 'a waxing gibbous', '○': 'a full moon', '☾': 'a waning crescent'
-            };
-            
-            const moon = getMoonPhase(postDate);
-            const moonName = moonNames[moon] || 'the moon';
-            
-            document.getElementById('last-online').textContent = 
-                `last online ${timeAgo}, under ${moonName}`;
-        }
-        
-        getLastOnline();
         
         // Update date and time
         function updateDateTime() {
@@ -824,6 +798,33 @@
                 cursor.classList.add('hidden');
             }, 1000);
         });
+
+        function getLastOnline() {
+            const mostRecent = posts.reduce((a, b) => 
+                new Date(a.timestamp) > new Date(b.timestamp) ? a : b
+            );
+            
+            const postDate = new Date(mostRecent.timestamp);
+            const now = new Date();
+            const diffDays = Math.floor((now - postDate) / (1000 * 60 * 60 * 24));
+            
+            const timeAgo = diffDays === 0 ? 'today' 
+                : diffDays === 1 ? '1 day ago' 
+                : `${diffDays} days ago`;
+            
+            const moonNames = {
+                '●': 'a new moon', '☽': 'a waxing crescent', '◐': 'a first quarter moon',
+                '◑': 'a waxing gibbous', '○': 'a full moon', '☾': 'a waning crescent'
+            };
+            
+            const moon = getMoonPhase(postDate);
+            const moonName = moonNames[moon] || 'the moon';
+            
+            document.getElementById('last-online').textContent = 
+                `last online ${timeAgo}, under ${moonName}`;
+        }
+        
+        getLastOnline();
 
         // Touch trail for mobile
         document.addEventListener('touchmove', (e) => {
