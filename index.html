@@ -567,6 +567,8 @@
             background: white;
             cursor: pointer;
             transition: all 0.2s ease;
+            color: black;  /* Force black text by default */
+            text-decoration: none;  /* Remove underline */
         }
         
         .poll-button:hover {
@@ -575,15 +577,15 @@
         }
         
         .poll-button.pink:hover {
-            background: pink;
+            background: #FF69B4;  /* Hot pink with orange undertones */
             color: black;
-            border-color: pink;
+            border-color: #FF69B4;
         }
         
         .poll-button.green:hover {
-            background: green;
-            color: white;
-            border-color: green;
+            background: #39FF14;  /* Neon green */
+            color: black;
+            border-color: #39FF14;
         }
         
     </style>
@@ -643,15 +645,25 @@
     <script>
 
         // Poll functionality
-        function selectPoll(choice) {
-            // Save their choice to localStorage so they don't see it again
+        async function selectPoll(choice) {
+            // Save their choice to localStorage
             localStorage.setItem('pollChoice', choice);
+            
+            // Send to Google Sheets
+            try {
+                await fetch(https://script.google.com/macros/s/AKfycbzMtDqdz-bSKZ5wmmBJ0Vml1SdNOGE141gfTBOEPkNha6jokEV-prQQEYyyUzzkuFc3Ug/exec, {
+                    method: 'POST',
+                    body: JSON.stringify({ poll: choice })
+                });
+            } catch (error) {
+                console.error('Error saving poll:', error);
+            }
             
             // Hide the poll
             document.getElementById('pollOverlay').classList.add('hidden');
         }
         
-        // Check if user has already answered on page load
+        // Check if user has already answered
         window.addEventListener('load', () => {
             const hasAnswered = localStorage.getItem('pollChoice');
             if (hasAnswered) {
