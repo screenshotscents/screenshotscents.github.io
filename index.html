@@ -517,91 +517,10 @@
                 top: 40px;
             }
         }
-
-        /* Poll popup overlay */
-        .poll-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            opacity: 1;
-            transition: opacity 0.3s ease;
-        }
-        
-        .poll-overlay.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        
-        .poll-box {
-            background: white;
-            padding: 40px;
-            max-width: 400px;
-            text-align: center;
-            border: 2px solid black;
-        }
-        
-        .poll-question {
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 1.3em;
-            margin-bottom: 30px;
-        }
-        
-        .poll-options {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-        }
-        
-        .poll-button {
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 1.1em;
-            padding: 15px 40px;
-            border: 2px solid black;
-            background: white;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            color: black;  /* Force black text by default */
-            text-decoration: none;  /* Remove underline */
-        }
-        
-        .poll-button:hover {
-            background: black;
-            color: white;
-        }
-        
-        .poll-button.pink:hover {
-            background: #FF69B4;  /* Hot pink with orange undertones */
-            color: black;
-            border-color: #FF69B4;
-        }
-        
-        .poll-button.green:hover {
-            background: #39FF14;  /* Neon green */
-            color: black;
-            border-color: #39FF14;
-        }
         
     </style>
 </head>
 <body>
-
-    <div class="poll-overlay" id="pollOverlay">
-        <div class="poll-box">
-            <div class="poll-question">pink or green?</div>
-            <div class="poll-options">
-                <button class="poll-button pink" onclick="selectPoll('pink')">pink</button>
-                <button class="poll-button green" onclick="selectPoll('green')">green</button>
-            </div>
-        </div>
-    </div>
-    
     <div id="custom-cursor"></div>
     <div class="moon-symbol-fixed" id="moonSymbol"></div>
     <a href="#" class="about-link" id="aboutLink">about</a>
@@ -643,33 +562,6 @@
     </div>
 
     <script>
-
-        // Poll functionality
-        async function selectPoll(choice) {
-            // Save their choice to localStorage
-            localStorage.setItem('pollChoice', choice);
-            
-            // Send to Google Sheets
-            try {
-                await fetch(https://script.google.com/macros/s/AKfycbzMtDqdz-bSKZ5wmmBJ0Vml1SdNOGE141gfTBOEPkNha6jokEV-prQQEYyyUzzkuFc3Ug/exec, {
-                    method: 'POST',
-                    body: JSON.stringify({ poll: choice })
-                });
-            } catch (error) {
-                console.error('Error saving poll:', error);
-            }
-            
-            // Hide the poll
-            document.getElementById('pollOverlay').classList.add('hidden');
-        }
-        
-        // Check if user has already answered
-        window.addEventListener('load', () => {
-            const hasAnswered = localStorage.getItem('pollChoice');
-            if (hasAnswered) {
-                document.getElementById('pollOverlay').classList.add('hidden');
-            }
-        });
         
         // Update date and time
         function updateDateTime() {
