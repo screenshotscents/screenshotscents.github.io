@@ -517,10 +517,89 @@
                 top: 40px;
             }
         }
+
+        /* Poll popup overlay */
+        .poll-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+        
+        .poll-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .poll-box {
+            background: white;
+            padding: 40px;
+            max-width: 400px;
+            text-align: center;
+            border: 2px solid black;
+        }
+        
+        .poll-question {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 1.3em;
+            margin-bottom: 30px;
+        }
+        
+        .poll-options {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .poll-button {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 1.1em;
+            padding: 15px 40px;
+            border: 2px solid black;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .poll-button:hover {
+            background: black;
+            color: white;
+        }
+        
+        .poll-button.pink:hover {
+            background: pink;
+            color: black;
+            border-color: pink;
+        }
+        
+        .poll-button.green:hover {
+            background: green;
+            color: white;
+            border-color: green;
+        }
         
     </style>
 </head>
 <body>
+
+    <div class="poll-overlay" id="pollOverlay">
+        <div class="poll-box">
+            <div class="poll-question">pink or green?</div>
+            <div class="poll-options">
+                <button class="poll-button pink" onclick="selectPoll('pink')">pink</button>
+                <button class="poll-button green" onclick="selectPoll('green')">green</button>
+            </div>
+        </div>
+    </div>
+    
     <div id="custom-cursor"></div>
     <div class="moon-symbol-fixed" id="moonSymbol"></div>
     <a href="#" class="about-link" id="aboutLink">about</a>
@@ -562,6 +641,23 @@
     </div>
 
     <script>
+
+        // Poll functionality
+        function selectPoll(choice) {
+            // Save their choice to localStorage so they don't see it again
+            localStorage.setItem('pollChoice', choice);
+            
+            // Hide the poll
+            document.getElementById('pollOverlay').classList.add('hidden');
+        }
+        
+        // Check if user has already answered on page load
+        window.addEventListener('load', () => {
+            const hasAnswered = localStorage.getItem('pollChoice');
+            if (hasAnswered) {
+                document.getElementById('pollOverlay').classList.add('hidden');
+            }
+        });
         
         // Update date and time
         function updateDateTime() {
