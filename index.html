@@ -15,6 +15,20 @@
             font-style: normal;
         }
         
+        #datetime-line {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        #woof-status {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 10px;
+        }
+        
         /* Scrolling scanlines effect for images */
         .post-photo-wrapper {
             position: relative;
@@ -298,7 +312,6 @@
         
         #datetime {
             font-size: 1.1em;
-            margin-bottom: 10px;
         }
         
         #current-time {
@@ -404,8 +417,6 @@
             text-decoration: none;
             cursor: pointer;
             transition: color 0.3s ease;
-            display: block;
-            margin-top: 10px;
             pointer-events: auto;
             -webkit-tap-highlight-color: transparent;
             -webkit-touch-callout: none;
@@ -551,10 +562,13 @@
         <div class="main-content">
             <header>
                 <img src="screenshot_scents_text.png" alt="Screenshot Scents" class="logo-image">
-                <div id="datetime"></div>
-                <div id="current-time"></div>
+                <div id="datetime-line">
+                    <span id="datetime"></span>
+                    <span id="current-time"></span>
+                    <a class="email-link" id="emailLink">@</a>
+                </div>
                 <div id="last-online"></div>
-                <a class="email-link" id="emailLink">@</a>
+                <div id="woof-status"></div>
             </header>
             
             <div class="entries" id="entries"></div>
@@ -562,6 +576,12 @@
     </div>
 
     <script>
+        
+        // WOOF STATUS - Update this whenever you want!
+        const woofStatus = {
+            message: "just got back from my trip",
+            timestamp: "2026-03-05T14:30:00"
+        };
         
         // Update date and time
         function updateDateTime() {
@@ -622,7 +642,7 @@
             {
                 timestamp: '2026-03-01T15:38:00',
                 content: '',
-                photo: 'hard country scene_3_halftone.gif',
+                photo: 'scene_2_halftone.gif',
                 link: 'https://tubitv.com/movies/465041/hard-country'
             },
             
@@ -894,10 +914,33 @@
             const moonName = moonNames[moon] || 'the moon';
             
             document.getElementById('last-online').textContent = 
-                `last online ${timeAgo}, under ${moonName}`;
+                `last online ${timeAgo} under ${moonName}`;
         }
         
         getLastOnline();
+        
+        function updateWoofStatus() {
+            const woofDate = new Date(woofStatus.timestamp);
+            const now = new Date();
+            const diffMs = now - woofDate;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMs / 3600000);
+            const diffDays = Math.floor(diffMs / 86400000);
+            
+            let timeAgo;
+            if (diffMins < 60) {
+                timeAgo = diffMins === 1 ? '1 minute ago' : `${diffMins} minutes ago`;
+            } else if (diffHours < 24) {
+                timeAgo = diffHours === 1 ? '1 hour ago' : `${diffHours} hours ago`;
+            } else {
+                timeAgo = diffDays === 1 ? '1 day ago' : `${diffDays} days ago`;
+            }
+            
+            document.getElementById('woof-status').textContent = `woof: ${woofStatus.message} (${timeAgo})`;
+        }
+        
+        updateWoofStatus();
+        setInterval(updateWoofStatus, 60000);
 
         // Touch trail for mobile
         document.addEventListener('touchmove', (e) => {
@@ -1008,7 +1051,6 @@
         const input = document.getElementById('testerInput');
         const cardStack = document.getElementById('cardStack');
         
-        // REPLACE THIS URL WITH YOUR ACTUAL GOOGLE APPS SCRIPT URL
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxQ4l46fvEUFX_CcfhXJ6QRQomfJ1DcomWv73K9DwNUjyvpHVQqdsNCCuFQYLf0PKCRtg/exec';
         
         let submissions = [];
@@ -1069,14 +1111,12 @@
         
         function renderCards() {
             cardStack.innerHTML = '';
-            // Only show top 10 cards visually
             const visibleSubmissions = submissions.slice(0, 10);
             visibleSubmissions.forEach(text => {
                 cardStack.appendChild(createCard(text));
             });
         }
         
-        // Click to cycle cards (just visual, doesn't change order in database)
         cardStack.addEventListener('click', (e) => {
             if (submissions.length > 1) {
                 const topCard = cardStack.querySelector('.strip-card:first-child');
@@ -1092,12 +1132,10 @@
             }
         });
 
-        // Add new submission
         if (input) {
-            // Submit on Enter key
             input.addEventListener('keypress', async (e) => {
                 if (e.key === 'Enter') {
-                    e.preventDefault();  // Prevent new line
+                    e.preventDefault();
                     const text = stripPunctuation(input.value.trim());
                     
                     if (text && !isLoading) {
@@ -1110,7 +1148,6 @@
             });
         }
         
-        // Load submissions on page load
         loadSubmissions();
         
     </script>
