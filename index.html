@@ -10,7 +10,7 @@
 
         #last-online {
             font-size: 0.9em;
-            color: #999;
+            color: #666;
             margin-top: 10px;
             font-style: italic;
         }
@@ -64,7 +64,7 @@
             position: fixed;
             right: 20px;
             top: 100px;
-            background: black;
+            background: white;
             display: flex;
             flex-direction: column;
             z-index: 100;
@@ -106,11 +106,10 @@
             overflow: hidden;
             word-wrap: break-word;
             line-height: 1.3;
-            color: white;
         }
         
         .tester-input::placeholder {
-            color: #666;
+            color: #999;
             text-align: center;
             animation: blurPulse 4s ease-in-out infinite;
         }
@@ -181,7 +180,6 @@
             white-space: normal;
             text-align: center;
             transform: scaleX(-1);
-            color: white;
         }
         
         .strip-card:nth-child(1) .submission-text { opacity: 1; }
@@ -193,8 +191,8 @@
         .main-content { flex: 1; }
         
         body {
-            background: black;
-            color: white;
+            background: white;
+            color: black;
             font-family: 'Times New Roman', Times, serif;
             padding: 40px 20px;
             max-width: 800px;
@@ -216,7 +214,7 @@
         }
         
         #datetime { font-size: 1.1em; margin-bottom: 10px; }
-        #current-time { font-size: 1.1em; color: #ccc; }
+        #current-time { font-size: 1.1em; color: #333; }
         
         .entries { margin-top: 40px; }
         
@@ -235,7 +233,7 @@
         
         .entry-date {
             font-size: 0.9em;
-            color: #999;
+            color: #666;
             margin-bottom: 10px;
         }
         
@@ -280,7 +278,7 @@
             bottom: 20px; right: 20px;
             font-size: 1.1em;
             font-family: 'Times New Roman', Times, serif;
-            color: white;
+            color: #000;
             text-decoration: none;
             cursor: pointer;
             transition: color 0.3s ease;
@@ -288,13 +286,13 @@
             pointer-events: auto;
         }
         
-        .about-link:hover { color: white; }
+        .about-link:hover { color: #000; }
         .about-link.hidden { display: none; }
 
         .email-link {
             font-size: 1.1em;
             font-family: 'Times New Roman', Times, serif;
-            color: white;
+            color: #000;
             text-decoration: none;
             cursor: pointer;
             transition: color 0.3s ease;
@@ -307,14 +305,14 @@
             user-select: none;
         }
         
-        .email-link:hover { color: white; }
+        .email-link:hover { color: #000; }
         .email-link.hidden { display: none; }
 
         .email-reveal {
             position: relative;
             font-family: 'Times New Roman', Times, serif;
             font-size: 1.1em;
-            color: white;
+            color: black;
             margin-top: 10px;
             text-align: left;
             white-space: nowrap;
@@ -330,7 +328,7 @@
             bottom: 20px; right: 20px;
             font-family: 'Times New Roman', Times, serif;
             font-size: 1.1em;
-            color: white;
+            color: black;
             z-index: 10000;
             text-align: right;
             white-space: nowrap;
@@ -348,7 +346,7 @@
             position: fixed;
             top: 40px; right: 20px;
             font-size: 1.5em;
-            color: white;
+            color: black;
             z-index: 1000;
         }
         
@@ -385,7 +383,7 @@
         <div class="input-strip-container">
             <svg class="input-strip-svg" viewBox="0 0 240 70" preserveAspectRatio="none">
                 <path d="M 0,7 L 200,7 L 240,35 L 200,63 L 0,63 Z" 
-                      fill="black" stroke="white" stroke-width="0.3"/>
+                      fill="white" stroke="black" stroke-width="0.3"/>
             </svg>
             <textarea 
                 class="tester-input" 
@@ -402,7 +400,7 @@
     <div class="container">
         <div class="main-content">
             <header>
-                <img src="screenshot_scents_text_white.png" alt="Screenshot Scents" class="logo-image">
+                <img src="screenshot_scents_text.png" alt="Screenshot Scents" class="logo-image">
                 <div><span id="datetime"></span> <span id="current-time"></span></div>
                 <div id="last-online"></div>
                 <a class="email-link" id="emailLink">contact</a>
@@ -619,7 +617,7 @@
             aboutLink.classList.add('hidden');
             const aboutText = document.createElement('div');
             aboutText.className = 'about-text';
-            aboutText.style.borderRight = '2px solid white';
+            aboutText.style.borderRight = '2px solid black';
             document.body.appendChild(aboutText);
             const fullText = 'sabrina is a blogger who stops and reads nail polish names';
             let i = 0;
@@ -684,7 +682,7 @@
         function createCard(text) {
             const card = document.createElement('div');
             card.className = 'strip-card';
-            card.innerHTML = `<svg class="strip-svg" viewBox="0 0 240 70" preserveAspectRatio="none"><path d="M 0,7 L 200,7 L 240,35 L 200,63 L 0,63 Z" fill="black" stroke="white" stroke-width="0.3"/></svg><div class="submission-text">${text}</div>`;
+            card.innerHTML = `<svg class="strip-svg" viewBox="0 0 240 70" preserveAspectRatio="none"><path d="M 0,7 L 200,7 L 240,35 L 200,63 L 0,63 Z" fill="white" stroke="black" stroke-width="0.3"/></svg><div class="submission-text">${text}</div>`;
             return card;
         }
 
