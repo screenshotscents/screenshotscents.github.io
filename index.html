@@ -342,11 +342,8 @@
         }
 
         .moon-symbol-fixed {
-            position: fixed;
-            top: 40px; right: 20px;
             font-size: 1.5em;
             color: white;
-            z-index: 1000;
         }
         
         @media (max-width: 1300px) {
@@ -375,7 +372,6 @@
 </head>
 <body>
     <div id="custom-cursor"></div>
-    <div class="moon-symbol-fixed" id="moonSymbol"></div>
     <a href="#" class="about-link" id="aboutLink">about</a>
     
     <aside class="tester-strip">
@@ -400,7 +396,7 @@
         <div class="main-content">
             <header>
                 <img src="screenshot_scents_text_white.png" alt="Screenshot Scents" class="logo-image">
-                <div><span id="datetime"></span> <span id="current-time"></span></div>
+                <div><span id="datetime"></span> <span id="current-time"></span> <span id="moonSymbol"></span></div>
                 <div id="last-online"></div>
                 <div id="headerLinks" style="display: flex; gap: 15px; margin-top: 10px;">
                     <a href="fragrance.html" class="email-link" style="margin-top: 0;">fragrance</a>
