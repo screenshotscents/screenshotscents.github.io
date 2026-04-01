@@ -311,14 +311,11 @@
         .email-link.hidden { display: none; }
 
         .email-reveal {
-            position: relative;
             font-family: 'Times New Roman', Times, serif;
             font-size: 1.1em;
             color: white;
-            margin-top: 10px;
-            text-align: left;
             white-space: nowrap;
-            display: block;
+            display: inline;
             opacity: 0;
             animation: fadeIn 0.8s ease-in forwards;
         }
@@ -402,10 +399,10 @@
     <div class="container">
         <div class="main-content">
             <header>
-                <img src="screenshot_scents_text.png" alt="Screenshot Scents" class="logo-image">
+                <img src="screenshot_scents_text_white.png" alt="Screenshot Scents" class="logo-image">
                 <div><span id="datetime"></span> <span id="current-time"></span></div>
                 <div id="last-online"></div>
-                <div style="display: flex; gap: 15px; margin-top: 10px;">
+                <div id="headerLinks" style="display: flex; gap: 15px; margin-top: 10px;">
                     <a href="fragrance.html" class="email-link" style="margin-top: 0;">fragrance</a>
                     <a class="email-link" id="emailLink" style="margin-top: 0;">contact</a>
                 </div>
@@ -647,10 +644,10 @@
             if (emailClicked) return;
             emailClicked = true;
             emailLink.classList.add('hidden');
-            const emailText = document.createElement('div');
+            const emailText = document.createElement('span');
             emailText.className = 'email-reveal';
             emailText.textContent = 'screenshotscents [at] gmail';
-            document.querySelector('header').appendChild(emailText);
+            document.getElementById('headerLinks').appendChild(emailText);
             setTimeout(() => {
                 emailText.classList.add('misting');
                 setTimeout(() => { emailText.remove(); emailClicked = false; emailLink.classList.remove('hidden'); }, 4000);
