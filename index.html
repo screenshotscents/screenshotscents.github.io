@@ -345,6 +345,44 @@
             font-size: 1.5em;
             color: white;
         }
+
+        .mixtape-flash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('ss001 announcement screen.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .mixtape-flash.show {
+            animation: flashAnnouncement 8s ease-in-out forwards;
+        }
+
+        @keyframes flashAnnouncement {
+            0% { opacity: 0; }
+            15% { opacity: 1; }
+            85% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        .mixtape-text {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 1.5em;
+            color: white;
+            text-align: center;
+            line-height: 1.6;
+            text-shadow: 0 0 20px rgba(0,0,0,0.8);
+            padding: 40px;
+        }
         
         @media (max-width: 1300px) {
             .tester-strip {
@@ -372,6 +410,12 @@
 </head>
 <body>
     <div id="custom-cursor"></div>
+    <div class="mixtape-flash" id="mixtapeFlash">
+        <div class="mixtape-text">
+            ss001 releases on 4/20/26<br>
+            a screenshot scents fragrance
+        </div>
+    </div>
     <a href="#" class="about-link" id="aboutLink">about</a>
     
     <aside class="tester-strip">
@@ -410,6 +454,25 @@
     </div>
 
     <script>
+
+        // Mixtape announcement flash (once per session)
+        window.addEventListener('load', () => {
+            if (!sessionStorage.getItem('mixtapeFlashShown')) {
+                setTimeout(() => {
+                    const flash = document.getElementById('mixtapeFlash');
+                    flash.classList.add('show');
+                    sessionStorage.setItem('mixtapeFlashShown', 'true');
+                    
+                    // Remove from DOM after animation
+                    setTimeout(() => {
+                        flash.remove();
+                    }, 8000);
+                }, 1500); // 1.5 second delay after page load
+            } else {
+                // Already shown this session, remove immediately
+                document.getElementById('mixtapeFlash').remove();
+            }
+        });
 
         function updateDateTime() {
             const now = new Date();
