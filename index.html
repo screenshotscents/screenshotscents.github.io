@@ -455,23 +455,17 @@
 
     <script>
 
-        // Mixtape announcement flash (once per session)
+        // Mixtape announcement flash (every visit)
         window.addEventListener('load', () => {
-            if (!sessionStorage.getItem('mixtapeFlashShown')) {
+            setTimeout(() => {
+                const flash = document.getElementById('mixtapeFlash');
+                flash.classList.add('show');
+                
+                // Remove from DOM after animation
                 setTimeout(() => {
-                    const flash = document.getElementById('mixtapeFlash');
-                    flash.classList.add('show');
-                    sessionStorage.setItem('mixtapeFlashShown', 'true');
-                    
-                    // Remove from DOM after animation
-                    setTimeout(() => {
-                        flash.remove();
-                    }, 8000);
-                }, 1500); // 1.5 second delay after page load
-            } else {
-                // Already shown this session, remove immediately
-                document.getElementById('mixtapeFlash').remove();
-            }
+                    flash.remove();
+                }, 8000);
+            }, 1500); // 1.5 second delay after page load
         });
 
         function updateDateTime() {
