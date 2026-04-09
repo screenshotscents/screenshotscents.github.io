@@ -398,6 +398,15 @@
             letter-spacing: 8px;
             animation: breathe 4s ease-in-out infinite;
             white-space: nowrap;
+            margin-bottom: 20px;
+        }
+        
+        .mixtape-text .date {
+            font-size: 1.6em;
+            font-weight: 200;
+            letter-spacing: 1px;
+            animation: breathe 4s ease-in-out infinite 1s;
+            white-space: nowrap;
         }
         
         .mixtape-text .subtitle {
@@ -406,18 +415,8 @@
             letter-spacing: 2px;
             animation: breathe 4s ease-in-out infinite 0.5s;
             position: absolute;
-            bottom: 100px;
-            white-space: nowrap;
-        }
-        
-        .mixtape-text .date {
-            font-size: 1.3em;
-            font-weight: 200;
-            letter-spacing: 1px;
-            animation: breathe 4s ease-in-out infinite 1s;
-            position: absolute;
-            bottom: 60px;
-            white-space: nowrap;
+            bottom: 80px;
+            white-space: pre;
         }
         
         @keyframes breathe {
@@ -454,7 +453,7 @@
     <div class="mixtape-flash" id="mixtapeFlash">
         <div class="mixtape-text">
             <span class="title">s s 0 0 1</span>
-            <span class="subtitle">e a u  d e  b l o g</span>
+            <span class="subtitle">e a u &nbsp;d e &nbsp;b l o g</span>
             <span class="date">coming monday april twenty</span>
         </div>
     </div>
