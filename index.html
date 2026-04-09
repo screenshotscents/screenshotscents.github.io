@@ -427,17 +427,20 @@
             font-weight: 400;
             letter-spacing: 2px;
             white-space: pre;
+            position: relative;
+            padding-bottom: 5px;
             background: linear-gradient(
                 90deg,
-                rgba(255,255,255,0.4) 0%,
+                rgba(255,255,255,0.6) 0%,
                 rgba(255,255,255,1) 50%,
-                rgba(255,255,255,0.4) 100%
+                rgba(255,255,255,0.6) 100%
             );
             background-size: 200% 100%;
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: shimmer 12s ease-in-out infinite;
+            animation: shimmer 3s ease-in-out infinite;
+            overflow: visible;
         }
         
         .mixtape-text .date {
