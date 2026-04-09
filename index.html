@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Screenshot Scents</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
 
         #last-online {
@@ -375,13 +376,15 @@
         }
 
         .mixtape-text {
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 1.5em;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8em;
+            font-weight: 500;
             color: white;
             text-align: center;
             line-height: 1.6;
             text-shadow: 0 0 20px rgba(0,0,0,0.8);
             padding: 40px;
+            letter-spacing: 0.5px;
         }
         
         @media (max-width: 1300px) {
@@ -465,7 +468,7 @@
                 setTimeout(() => {
                     flash.remove();
                 }, 8000);
-            }, 1500); // 1.5 second delay after page load
+            }, 500); // 0.5 second delay after page load
         });
 
         function updateDateTime() {
