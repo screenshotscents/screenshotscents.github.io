@@ -365,14 +365,14 @@
         }
 
         .mixtape-flash.show {
-            animation: flashAnnouncement 8s ease-in-out forwards;
+            animation: flashAnnouncement 6s ease-in-out forwards;
         }
 
         @keyframes flashAnnouncement {
-            0% { opacity: 0; }
-            15% { opacity: 1; }
-            85% { opacity: 1; }
-            100% { opacity: 0; }
+            0% { opacity: 0; filter: blur(0px); }
+            10% { opacity: 1; filter: blur(0px); }
+            80% { opacity: 1; filter: blur(0px); }
+            100% { opacity: 0; filter: blur(15px); }
         }
 
         .mixtape-text {
@@ -506,7 +506,7 @@
                 setTimeout(() => {
                     flash.remove();
                 }, 8000);
-            }, 500); // 0.5 second delay after page load
+            }, 0); // No delay
         });
 
         function updateDateTime() {
