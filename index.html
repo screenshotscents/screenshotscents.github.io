@@ -423,11 +423,21 @@
         }
         
         .mixtape-text .subtitle {
-            font-size: 1.25em;
+            font-size: 1em;
             font-weight: 400;
             letter-spacing: 2px;
-            animation: breathe 4s ease-in-out infinite 0.5s;
             white-space: pre;
+            background: linear-gradient(
+                90deg,
+                rgba(255,255,255,0.4) 0%,
+                rgba(255,255,255,1) 50%,
+                rgba(255,255,255,0.4) 100%
+            );
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 3s ease-in-out infinite;
         }
         
         .mixtape-text .date {
@@ -442,6 +452,11 @@
         @keyframes breathe {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.85; transform: scale(0.96); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
         }
         
         @media (max-width: 1300px) {
