@@ -64,6 +64,12 @@
             font-size: 1.1em;
             font-weight: normal;
             margin-bottom: 20px;
+            animation: breathe 4s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(0.96); }
         }
 
         .back-link {
