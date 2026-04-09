@@ -369,10 +369,32 @@
         }
 
         @keyframes flashAnnouncement {
-            0% { opacity: 0; filter: blur(0px); }
-            10% { opacity: 1; filter: blur(0px); }
-            80% { opacity: 1; filter: blur(0px); }
-            100% { opacity: 0; filter: blur(15px); }
+            0% { 
+                opacity: 0; 
+                filter: blur(0px) contrast(100%);
+                image-rendering: pixelated;
+                transform: scale(1.05);
+            }
+            5% { 
+                opacity: 1; 
+                filter: blur(8px) contrast(80%);
+                image-rendering: pixelated;
+                transform: scale(1.03);
+            }
+            15% { 
+                opacity: 1; 
+                filter: blur(0px) contrast(100%);
+                image-rendering: auto;
+                transform: scale(1);
+            }
+            80% { 
+                opacity: 1; 
+                filter: blur(0px) contrast(100%);
+            }
+            100% { 
+                opacity: 0; 
+                filter: blur(15px);
+            }
         }
 
         .mixtape-text {
@@ -411,7 +433,7 @@
         
         .mixtape-text .date {
             font-size: 1.3em;
-            font-weight: 200;
+            font-weight: 300;
             letter-spacing: 1px;
             animation: breathe 4s ease-in-out infinite 1s;
             position: absolute;
