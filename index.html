@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Screenshot Scents</title>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;400;500;600&display=swap" rel="stylesheet">
     <style>
 
         #last-online {
@@ -353,7 +353,7 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-image: url('ss001 announcement screen.jpg');
+            background-image: url('ss001_announcement.gif');
             background-size: cover;
             background-position: center;
             display: flex;
@@ -377,14 +377,41 @@
 
         .mixtape-text {
             font-family: 'Oswald', sans-serif;
-            font-size: 1.8em;
-            font-weight: 500;
             color: white;
             text-align: center;
-            line-height: 1.6;
             text-shadow: 0 0 20px rgba(0,0,0,0.8);
             padding: 40px;
-            letter-spacing: 0.5px;
+        }
+        
+        .mixtape-text .title {
+            font-size: 3.5em;
+            font-weight: 200;
+            letter-spacing: 8px;
+            display: block;
+            margin-bottom: 15px;
+            animation: breathe 4s ease-in-out infinite;
+        }
+        
+        .mixtape-text .subtitle {
+            font-size: 1.3em;
+            font-weight: 400;
+            letter-spacing: 2px;
+            display: block;
+            margin-bottom: 10px;
+            animation: breathe 4s ease-in-out infinite 0.5s;
+        }
+        
+        .mixtape-text .date {
+            font-size: 1.3em;
+            font-weight: 200;
+            letter-spacing: 1px;
+            display: block;
+            animation: breathe 4s ease-in-out infinite 1s;
+        }
+        
+        @keyframes breathe {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(0.96); }
         }
         
         @media (max-width: 1300px) {
@@ -415,8 +442,9 @@
     <div id="custom-cursor"></div>
     <div class="mixtape-flash" id="mixtapeFlash">
         <div class="mixtape-text">
-            ss001 releases on 4/20/26<br>
-            a screenshot scents fragrance
+            <span class="title">s s 0 0 1</span>
+            <span class="subtitle">e a u  d e  b l o g</span>
+            <span class="date">coming monday april twenty</span>
         </div>
     </div>
     <a href="#" class="about-link" id="aboutLink">about</a>
