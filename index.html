@@ -347,25 +347,16 @@
             color: white;
         }
 
-        .mixtape-flash {
-            position: fixed;
-            top: -20px;
-            left: -20px;
-            right: -20px;
-            bottom: -20px;
-            width: calc(100vw + 40px);
-            height: calc(100dvh + 40px);
-            min-height: calc(100vh + 40px);
-            background-image: url('ss001 announcement screen bg.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10001;
-            opacity: 0;
+        .mixtape-flash::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center, transparent 40%, rgba(0,100,100,0.8) 100%);
             pointer-events: none;
+            z-index: 1;
         }
 
         .mixtape-flash.show {
