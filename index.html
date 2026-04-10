@@ -365,7 +365,7 @@
         }
 
         .mixtape-flash.show {
-            animation: flashAnnouncement 10s ease-in-out forwards;
+            animation: flashAnnouncement 5s ease-in-out forwards;
         }
 
         @keyframes flashAnnouncement {
@@ -416,7 +416,7 @@
         
         .mixtape-text .title {
             font-size: 3em;
-            font-weight: 250;
+            font-weight: 200;
             letter-spacing: 8px;
             white-space: nowrap;
             margin-bottom: 20px;
@@ -444,7 +444,7 @@
         }
         
         .mixtape-text .date {
-            font-size: 1.5em;
+            font-size: 1.25em;
             font-weight: 300;
             letter-spacing: 1px;
             position: absolute;
@@ -543,7 +543,7 @@
                 // Remove from DOM after animation
                 setTimeout(() => {
                     flash.remove();
-                }, 10000);
+                }, 5000);
             }, 0); // No delay
         });
 
