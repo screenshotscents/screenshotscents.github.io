@@ -551,31 +551,34 @@
                 const flash = document.getElementById('mixtapeFlash');
                 flash.classList.add('show');
                 
-                // Play audio
                 const audio = new Audio('acid jingle v1.mp3');
                 audio.volume = 0.4;
                 
-                // Attempt autoplay
-                audio.play().catch(() => {
-                    // If blocked, play on first user interaction
-                    const playOnTouch = () => {
-                        audio.play();
-                        document.removeEventListener('click', playOnTouch);
-                        document.removeEventListener('touchstart', playOnTouch);
-                    };
-                    document.addEventListener('click', playOnTouch, { once: true });
-                    document.addEventListener('touchstart', playOnTouch, { once: true });
-                });
+                let audioPlayed = false;
+                
+                // Play audio on first scroll
+                const playOnScroll = () => {
+                    if (!audioPlayed) {
+                        audioPlayed = true;
+                        audio.play().catch(e => console.log('Audio blocked:', e));
+                        window.removeEventListener('scroll', playOnScroll);
+                    }
+                };
+                
+                window.addEventListener('scroll', playOnScroll);
                 
                 // Remove flash when audio ends
                 audio.addEventListener('ended', () => {
                     flash.remove();
+                    window.removeEventListener('scroll', playOnScroll);
                 });
                 
                 // Fallback: remove after 15 seconds if audio doesn't play
                 setTimeout(() => {
-                    if (!flash.parentElement) return; // Already removed
-                    flash.remove();
+                    if (flash.parentElement) {
+                        flash.remove();
+                        window.removeEventListener('scroll', playOnScroll);
+                    }
                 }, 15000);
             }, 0);
         });
