@@ -554,25 +554,33 @@
                 const flash = document.getElementById('mixtapeFlash');
                 flash.classList.add('show');
                 
-                // Try to play audio (will be blocked on most browsers)
                 const audio = new Audio('acid jingle v1.mp3');
                 audio.volume = 0.4;
                 
-                // Attempt autoplay
+                let audioPlayed = false;
+                
+                // Play audio on first scroll
+                const playOnScroll = () => {
+                    if (!audioPlayed) {
+                        audio.play().catch(() => {
+                            console.log('Audio play failed');
+                        });
+                        audioPlayed = true;
+                        window.removeEventListener('scroll', playOnScroll);
+                    }
+                };
+                
+                window.addEventListener('scroll', playOnScroll, { passive: true });
+                
+                // Also try autoplay
                 audio.play().catch(() => {
-                    // If blocked, play on first user interaction
-                    const playOnTouch = () => {
-                        audio.play();
-                        document.removeEventListener('click', playOnTouch);
-                        document.removeEventListener('touchstart', playOnTouch);
-                    };
-                    document.addEventListener('click', playOnTouch, { once: true });
-                    document.addEventListener('touchstart', playOnTouch, { once: true });
+                    // If autoplay fails, wait for scroll
                 });
                 
                 // Remove from DOM after animation
                 setTimeout(() => {
                     flash.remove();
+                    window.removeEventListener('scroll', playOnScroll);
                 }, 10000);
             }, 0);
         });
