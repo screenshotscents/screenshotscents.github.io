@@ -213,7 +213,7 @@
             height: 120px;
             display: block;
             margin-bottom: 20px;
-            animation: screenshotFlash 11s ease-in-out infinite;
+            animation: screenshotFlash 10s ease-in-out infinite;
         }
         
         #datetime { font-size: 1.1em; margin-bottom: 10px; }
@@ -378,7 +378,7 @@
         }
 
         .mixtape-flash.show {
-            animation: flashAnnouncement 5s ease-in-out forwards;
+            animation: flashAnnouncement 10s ease-in-out forwards;
         }
 
         @keyframes flashAnnouncement {
@@ -551,7 +551,7 @@
                 const flash = document.getElementById('mixtapeFlash');
                 flash.classList.add('show');
                 
-                // Try to play audio (will be blocked on most browsers)
+                // Play audio
                 const audio = new Audio('acid jingle v1.mp3');
                 audio.volume = 0.4;
                 
@@ -567,10 +567,16 @@
                     document.addEventListener('touchstart', playOnTouch, { once: true });
                 });
                 
-                // Remove from DOM after animation
-                setTimeout(() => {
+                // Remove flash when audio ends
+                audio.addEventListener('ended', () => {
                     flash.remove();
-                }, 5000);
+                });
+                
+                // Fallback: remove after 15 seconds if audio doesn't play
+                setTimeout(() => {
+                    if (!flash.parentElement) return; // Already removed
+                    flash.remove();
+                }, 15000);
             }, 0);
         });
 
