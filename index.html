@@ -750,7 +750,7 @@
             cursor.classList.remove('hidden');
 
             const dot = document.createElement('div');
-            dot.style.cssText = `position:fixed;left:${e.clientX-20}px;top:${e.clientY-20}px;width:40px;height:40px;background-image:url("dog_nose_white.png");background-size:contain;background-repeat:no-repeat;opacity:0.4;filter:blur(2px);pointer-events:none;z-index:9998;transition:opacity 0.8s ease,transform 0.8s ease;`;
+            dot.style.cssText = `position:fixed;left:${e.clientX-20}px;top:${e.clientY-20}px;width:40px;height:40px;background-image:url("dog_nose_white.png");background-size:contain;background-repeat:no-repeat;opacity:0.4;filter:blur(2px);pointer-events:none;z-index:10002;transition:opacity 0.8s ease,transform 0.8s ease;`;
             document.body.appendChild(dot);
             requestAnimationFrame(() => { dot.style.opacity = '0'; dot.style.transform = 'scale(1.5)'; });
             setTimeout(() => dot.remove(), 800);
