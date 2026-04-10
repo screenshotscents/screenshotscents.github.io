@@ -559,28 +559,29 @@
                 
                 let audioPlayed = false;
                 
-                // Play audio on first scroll
-                const playOnScroll = () => {
+                // Play audio on first touch/click
+                const playOnInteraction = () => {
                     if (!audioPlayed) {
-                        audio.play().catch(() => {
-                            console.log('Audio play failed');
-                        });
+                        audio.play()
+                            .then(() => console.log('Audio playing!'))
+                            .catch((err) => console.log('Audio failed:', err));
                         audioPlayed = true;
-                        window.removeEventListener('scroll', playOnScroll);
+                        document.removeEventListener('click', playOnInteraction);
+                        document.removeEventListener('touchstart', playOnInteraction);
                     }
                 };
                 
-                window.addEventListener('scroll', playOnScroll, { passive: true });
+                document.addEventListener('click', playOnInteraction, { once: true });
+                document.addEventListener('touchstart', playOnInteraction, { once: true, passive: true });
                 
-                // Also try autoplay
+                // Try autoplay (will likely fail on mobile)
                 audio.play().catch(() => {
-                    // If autoplay fails, wait for scroll
+                    console.log('Autoplay blocked, waiting for user interaction');
                 });
                 
                 // Remove from DOM after animation
                 setTimeout(() => {
                     flash.remove();
-                    window.removeEventListener('scroll', playOnScroll);
                 }, 10000);
             }, 0);
         });
