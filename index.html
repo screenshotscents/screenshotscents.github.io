@@ -97,7 +97,8 @@
             height: auto;
             background: transparent;
             border: none;
-            font-family: 'Times New Roman', Times, serif;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 200;
             font-size: 1.0em;
             text-align: center;
             padding: 10px 30px 10px 50px;
@@ -170,6 +171,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 200;
             font-size: 1em;
             line-height: 1.2;
             padding: 5px 50px;
@@ -196,7 +199,8 @@
         body {
             background: black;
             color: white;
-            font-family: 'Times New Roman', Times, serif;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 200;
             padding: 40px 20px;
             max-width: 800px;
             margin: 0 auto;
@@ -280,7 +284,8 @@
             position: fixed;
             bottom: 20px; right: 20px;
             font-size: 1.1em;
-            font-family: 'Times New Roman', Times, serif;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 200;
             color: white;
             text-decoration: none;
             cursor: pointer;
@@ -294,7 +299,8 @@
 
         .email-link {
             font-size: 1.1em;
-            font-family: 'Times New Roman', Times, serif;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 200;
             color: white;
             text-decoration: none;
             cursor: pointer;
@@ -312,7 +318,8 @@
         .email-link.hidden { display: none; }
 
         .email-reveal {
-            font-family: 'Times New Roman', Times, serif;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 200;
             font-size: 1.1em;
             color: white;
             white-space: nowrap;
@@ -326,7 +333,8 @@
         .about-text {
             position: fixed;
             bottom: 20px; right: 20px;
-            font-family: 'Times New Roman', Times, serif;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 200;
             font-size: 1.1em;
             color: white;
             z-index: 10000;
@@ -363,7 +371,7 @@
             z-index: 10001;
             opacity: 0;
             pointer-events: none;
-            cursor: none; /* Add this line */
+            cursor: none;
         }
 
         .mixtape-flash::before {
@@ -380,36 +388,15 @@
 
         .mixtape-flash.show {
             animation: flashAnnouncement 10s ease-in-out forwards;
-            pointer-events: auto;  /* Add this line */
+            pointer-events: auto;
         }
 
         @keyframes flashAnnouncement {
-            0% { 
-                opacity: 0; 
-                filter: blur(0px) contrast(100%);
-                image-rendering: pixelated;
-                transform: scale(1.05);
-            }
-            5% { 
-                opacity: 1; 
-                filter: blur(8px) contrast(80%);
-                image-rendering: pixelated;
-                transform: scale(1.03);
-            }
-            15% { 
-                opacity: 1; 
-                filter: blur(0px) contrast(100%);
-                image-rendering: auto;
-                transform: scale(1);
-            }
-            80% { 
-                opacity: 1; 
-                filter: blur(0px) contrast(100%);
-            }
-            100% { 
-                opacity: 0; 
-                filter: blur(15px);
-            }
+            0% { opacity: 0; filter: blur(0px) contrast(100%); image-rendering: pixelated; transform: scale(1.05); }
+            5% { opacity: 1; filter: blur(8px) contrast(80%); image-rendering: pixelated; transform: scale(1.03); }
+            15% { opacity: 1; filter: blur(0px) contrast(100%); image-rendering: auto; transform: scale(1); }
+            80% { opacity: 1; filter: blur(0px) contrast(100%); }
+            100% { opacity: 0; filter: blur(15px); }
         }
 
         .mixtape-text {
@@ -443,12 +430,7 @@
             white-space: pre;
             position: relative;
             padding-bottom: 5px;
-            background: linear-gradient(
-                90deg,
-                rgba(255,255,255,0.3) 0%,
-                rgba(255,255,255,1) 50%,
-                rgba(255,255,255,0.3) 100%
-            );
+            background: linear-gradient(90deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0.3) 100%);
             background-size: 200% 100%;
             -webkit-background-clip: text;
             background-clip: text;
@@ -464,11 +446,6 @@
             position: absolute;
             bottom: 175px;
             white-space: nowrap;
-        }
-        
-        @keyframes breathe {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.85; transform: scale(0.96); }
         }
 
         @keyframes shimmer {
@@ -541,53 +518,33 @@
                 </div>
             </header>
             <div class="entries" id="entries"></div>
-            <!-- When this enters the viewport, the next batch loads -->
             <div id="load-sentinel"></div>
         </div>
     </div>
 
     <script>
 
-        // Mixtape announcement flash (once per session)
         window.addEventListener('load', () => {
-            // Check if flash has already been shown this session
-            if (sessionStorage.getItem('flashShown')) {
-                return; // Don't show flash again
-            }
-            
+            if (sessionStorage.getItem('flashShown')) return;
             setTimeout(() => {
                 const flash = document.getElementById('mixtapeFlash');
                 flash.classList.add('show');
-                
                 const audio = new Audio('ss001 jingle v1.mp3');
                 audio.volume = 0.4;
-                
                 let audioPlayed = false;
-                
-                // Play audio on first touch/click
                 const playOnInteraction = () => {
                     if (!audioPlayed) {
-                        audio.play()
-                            .then(() => console.log('Audio playing!'))
-                            .catch((err) => console.log('Audio failed:', err));
+                        audio.play().catch((err) => console.log('Audio failed:', err));
                         audioPlayed = true;
                         document.removeEventListener('click', playOnInteraction);
                         document.removeEventListener('touchstart', playOnInteraction);
                     }
                 };
-                
                 document.addEventListener('click', playOnInteraction, { once: true });
                 document.addEventListener('touchstart', playOnInteraction, { once: true, passive: true });
-                
-                // Try autoplay (will likely fail on mobile)
-                audio.play().catch(() => {
-                    console.log('Autoplay blocked, waiting for user interaction');
-                });
-                
-                // Remove from DOM after animation
+                audio.play().catch(() => {});
                 setTimeout(() => {
                     flash.remove();
-                    // Mark flash as shown for this session
                     sessionStorage.setItem('flashShown', 'true');
                 }, 10000);
             }, 0);
@@ -631,9 +588,9 @@
             { timestamp: '2026-04-20T00:00:00', content: '', photo: 'ss001 blog post.gif', link: 'https://screenshotscents.bandcamp.com/album/ebilen-screenshot-scents-001' },
             { timestamp: '2026-04-19T09:20:00', content: 'holiday inn visible\n\nbonus day\ntax day\nwin some lose some\nin fact\ni learned on my cab ride home from l a x that\nthe i r s is headquartered in\nmfkn looville\nwhere my day co-incidentally\nbegan well into the night\nthree thirty a m\na morning that stretched westward\ntwo planes\nthree airports\nshortest layover attempted\ndallas\nsuccess\nwhere i was inducted into the\ngratuitous world of\npackaged beverages\nseven years ago\nlucky number\nhow it was still morning\nwhen i got back home\nback to real life\nexactly one year on the job\nmanager told me i didnt have to work\nnice\nwasnt planning on it anyway\nhow the morning sun wades\nthrough the balcony blinds\n\nhow come\non fateful days\nwishful thinking\nfeels like a sin\nhow come\nwaiting for a miracle feels like\nhell', photo: '' },
             { timestamp: '2026-04-09T04:11:00', content: 'tfw he texts back\nthe tao of organizing 1\n\nstatistical wisdom is\nunderstanding\nrandom is practically impossible\nfor everything starts with a seed\neven random number generators\nbegin inside the hull\nno such thing as\npure random\nstats teacher getting\ntechnical with it\none time she swore\nthere was a dead animal\nstuck in the vents of her classroom ceiling\nher nose\nher hunch\ncorrect oh\nhow some memories\ndo tattoo\n\nhint colon the start part\nis the breakthrough\nput the instincts in autopilot\nwhy not sort\non the most immediate disarray\nthe one within arms reach\na pile of virgin notebooks\nfirst by size\nthen maybe by shape\ngroove with the permutation riddle\nundo redo ctrl s\nreaction time game\nblank pages\ncharged with anticipation\nfor that one juicy occasion state\nthe damnation of sentimental value\nshit its already ten fifty eight\nunknow the justification\n\nstep two is revolutionary\nzoom out\nsquint scan\nand identify\nthe next dense thing\nsprawling\nspilling\nover the entryway side table\na charming greeting card\nof sorts\nto those who dare enter\nunderstand the avoidance\ngive it a parting hug\nunknow the justification\n\nstep three\nnormalize little by little\nverbalize its not that bad\nwhere floor and desk\nwere always going to be one\nand the same\nunknow the justification', photo: '' },
-            { timestamp: '2026-04-08T00:35:00', content: 'dj orchid tracklist\n\ncolumn thrust forward\nin the softest magenta hoodie\nlike an awning to oversee\nand protect\nher cradle of heaven\nfrom her own dewy thirst\nlips coming in brackets\ntimely attractors\nguaranteed bliss\nin symmetry\npollenia radiating\necstasy yellow\nwise pink petals\nequally wise\npink sepals\nif reason is sex\nwisdom is purple', photo: '' },            
+            { timestamp: '2026-04-08T00:35:00', content: 'dj orchid tracklist\n\ncolumn thrust forward\nin the softest magenta hoodie\nlike an awning to oversee\nand protect\nher cradle of heaven\nfrom her own dewy thirst\nlips coming in brackets\ntimely attractors\nguaranteed bliss\nin symmetry\npollenia radiating\necstasy yellow\nwise pink petals\nequally wise\npink sepals\nif reason is sex\nwisdom is purple', photo: '' },
             { timestamp: '2026-03-31T13:19:00', content: 'girls play here\n\ndramamine for spin mode\nor spin the other way\ncandy feeder\nthat one lighter\na straggling pair of kitchen scissors misplaced\na finger hole partially melted\nkept for the charm\nolive oil clam pasta\nlinguini olive oil onion tinned clams lemon parsley\ngarlic girl\na raw clove of garlic\nslouchy shoulder bag or\nconcise mini canvas tote\nlong hair\nshort hair giving\nstar hair\nbeading california toast bfast all day everyday\nsour candy care package\nas a result of divorced fathers\nwith daughters who then\ndivorced themselves\nmother clones\nsisterhood\nyour highness dish\nexecutive ass\nindiff greetings\nwe heart the y\nneedlepoint-coded girl statistics\nbruise by pole\nto claim good memory\nestimative sentimentality is a postcard\ntension hypersensitivity novel sodas the rainbow diet\narouse analyze laugh\nso clearly pummeling through the grief\nchoose your armor\ndisplay it in a museum then\nadmire alongside a self-made man\npot stirred best alone naked\nlove women\ngood friends good teachers\nhashtag laughter\nmugwort incense\nblast off\ndoes ur therapist think ur cool\nsunlit yoga mats\nrock or anchor\nunconscious therapy\nsub seven\ndom orientalism\nshoulder topography check\npareidolia tip\nastrology and the ssris\nself-knowledge power buttons\nsaturday mornings are for drawing circles\nwith the hips\nsweaty blush\nblinking stop red at the sign searchers\na band of agnostics\nthe vulgarity test\na ghost named apolitical\nsituational soundtracks\nan overworn see-through slip dress\neffortless claw clip\nsporty mary jane sneakers\ngrabbing each others hands and wrists\nin front of an aggressively lit gas station\na hollywood tower of terror looming somewhere above us\nwait its so good to see you dude\ncry emoji in spirit\nteethy irl smiles on the precipice of giggling hashtagcoquine\nintermittently grabbing each other by the wrist\ngiving it a shake\ncommon learned asian mom storytelling expressions\nour conversational affection\nquickly reminding us\nno time had passed\nlove that bitch down\nto embellish or to downplay\nno more treacherous takebacks\nthe unspoken governance of ancestral diplomacy\nsaying bag lady in canadian\nanthropologycore\ndefective streetlights quantized to\ndowner indie music measureless\nhuman condition humor\nmy anchor a\nnatural detergent sponsorship\ntwo-phone body\ntwo-computer mind\npaige freaking turnt\npattern recognition by\naccident or by angel\nas seen on a car sticker\nstuck in traffic\nnow tattooed into my skipping stone phone\nsirens of numerology\nbeautiful cognition\nthe narcissists chain reaction\nis it one or the other love\nplaces and things\neveryone so different\nenergy recognize nrg\nthe never-ending project\nto manage menty bs butter\non toast\nmontana\nmindset\nmiracle-gro no more\nits all about the timing\nstrong not skinny\nin the heat of the happy frog\nhunt\ner gatherers tried and true\nand yet the timing is never right\nno hallmark holidays left in this bihh', photo: '' },
-            { timestamp: '2026-03-18T15:09:00', content: '', photo: 'clockwatchers.gif', link: 'https://tubitv.com/movies/667228/clockwatchers' },            
+            { timestamp: '2026-03-18T15:09:00', content: '', photo: 'clockwatchers.gif', link: 'https://tubitv.com/movies/667228/clockwatchers' },
             { timestamp: '2026-03-18T13:22:00', content: 'latest findings 2\n\nmiami vice on tubi the erotic thriller zone yellow apple new fav apple opal apple not everyone craves fruit miswak shame still the name of the game honesty does not mean saying hurtful things so then how is it that the truth sometimes hurts the most no more coffee for me actually i am scientific method-pilled irritable writing is still worth reading if and only if i am learning primordial soup no leaves no life revenge is alive the word suture betrayal is horror taking a sip of water in lieu of applauding no humor not living beauty of joseon matte sun stick definition of dating is painfully subjective identify confront resolve realize not an outcome but the income generated from a change within earth is a blue planet but it is a green world new fav quote the siren of edwige fenech clockwatchers parker poseys mystique nurses are on average more likeable than doctors the catharsis in improving communication skills gsp short for german shorthaired pointer making mac n cheese is not easy to make one thing at a time', photo: '' },
             { timestamp: '2026-03-15T11:48:00', content: '', photo: 'snfk mirror shot.gif', link: 'https://tubitv.com/movies/557490/strip-nude-for-your-killer' },
             { timestamp: '2026-03-12T17:58:00', content: 'the los angeles bias\nfirst and last in las vegas day 2\n\nok this will have to be my last vegas entry\nwant to move on\nmaybe i will break down fremont st\nwhen i can\n\ndid i mention\nthere was another ballroom next to the main ballroom\nalbeit smaller\nand way more familiar\nthe type of stuff youd see on trade show tv\nthink dog shows\nbut make it beer\n\nngl some of the booths had me awestruck\nfeats a boozehound would never know\nfor example\na branded but consummate sand castle\nprobably the most legit sand castle ive witnessed to date\nthe kind-eyed local artist leisurely guarded his creation\nhis house of cards\ni snuck in a youre fabulous in passing\nhe was sincerely appreciative\nsaid thank you hun\nlowkey giving richard gere\n\nanother booth involved standing in line to get a snap with\nthe winner of a reality tv show\nthe talk of the town\nlast calendar year\nhad no idea what she was about\nbut could tell you exactly who she was\nin a room stuffed with baby blue polos and blouses\nshe was all dolled up and\nplayed the meet-n-greet part quite satisfactorily\narms eyes mouth wide open\nno skimping on the lip gloss\nshe had done this before\nsmile flash next\nto whomever finessed that contract\none how much\ntwo which of the two parties actually has more to gain\n\nmeanwhile lispy big oil baby stood in line for thirty minutes\nto get a custom branded baseball card\nof himself\nsmug\nhe showed it to the team\ni nearly scoffed\nyou want us to be your fucking babysitter\nor what', link: '' },
@@ -677,7 +634,6 @@
             { timestamp: '2022-04-29T04:29:00', content: 'qwerty prayer\n\nthe weather widget reports sixtysix degrees on average here in la lately i dont bother with the highs and lows when the insides of my nose start to burn i look up santa ana winds the results are there but elusive every time what do i expect what am i even hoping for searching for signs is such a corny habit if sand could only paper but also if winds could eraser flow like water is the not enough information given circle filled in santa monica blvd is route sixtysix benediction i should know better proclamations made oceanside get washed out hard and fast blessing or curse ive seen it happen this what having faith looks like question mark crossing my fingers sometimes i find myself weaving them together today i bought more neon green hair dye direct application rocks i love the way it glows in flash photo what is wicked and what is radical i ask together but to be treated as discrete', photo: '' }
         ];
 
-        // Sort once up front
         posts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
         const BATCH_SIZE = 8;
@@ -737,14 +693,13 @@
             isRendering = false;
         }
 
-        // Watch the sentinel — load next batch when it scrolls into view
         const sentinel = document.getElementById('load-sentinel');
         const loadObserver = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting) renderBatch();
         }, { rootMargin: '200px' });
 
         loadObserver.observe(sentinel);
-        renderBatch(); // first batch on load
+        renderBatch();
 
         function getLastOnline() {
             const mostRecent = posts.reduce((a, b) =>
@@ -758,7 +713,6 @@
         }
         getLastOnline();
 
-        // Custom cursor
         const cursor = document.getElementById('custom-cursor');
         let cursorTimeout;
 
@@ -777,7 +731,6 @@
             cursorTimeout = setTimeout(() => cursor.classList.add('hidden'), 1000);
         });
 
-        // Touch trail throttled to 100ms
         let lastTouch = 0;
         document.addEventListener('touchmove', (e) => {
             const now = Date.now();
@@ -791,7 +744,6 @@
             setTimeout(() => dot.remove(), 800);
         }, { passive: true });
 
-        // About button
         const aboutLink = document.getElementById('aboutLink');
         let aboutClicked = false;
         aboutLink.addEventListener('click', (e) => {
@@ -818,7 +770,6 @@
             }, 80);
         });
 
-        // Email button
         const emailLink = document.getElementById('emailLink');
         let emailClicked = false;
         emailLink.addEventListener('click', (e) => {
@@ -836,7 +787,6 @@
             }, 1500);
         });
 
-        // Tester strip
         const input = document.getElementById('testerInput');
         const cardStack = document.getElementById('cardStack');
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxQ4l46fvEUFX_CcfhXJ6QRQomfJ1DcomWv73K9DwNUjyvpHVQqdsNCCuFQYLf0PKCRtg/exec';
