@@ -307,7 +307,7 @@
                 }
 
                 const titleHtml = post.title
-                    ? `<div class="grid-item-title">${escapeHtml(post.title)}</div>`
+                    ? `<div class="grid-item-title">${post.link ? `<a href="${post.link}" target="_blank" style="color:white;text-decoration:none;">${escapeHtml(post.title)}</a>` : escapeHtml(post.title)}</div>`
                     : '';
 
                 const contentHtml = post.content
