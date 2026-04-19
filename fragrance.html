@@ -45,7 +45,7 @@
             color: white;
             font-family: 'Times New Roman', Times, serif;
             padding: 40px 20px;
-            max-width: 900px;
+            max-width: 800px;
             margin: 0 auto;
             line-height: 1.0;
         }
@@ -90,6 +90,8 @@
             cursor: pointer;
             transition: color 0.3s ease;
             pointer-events: auto;
+            display: block;
+            margin-top: 10px;
             -webkit-tap-highlight-color: transparent;
             -webkit-touch-callout: none;
             -webkit-user-select: none;
@@ -118,7 +120,6 @@
             100% { opacity: 0; filter: blur(3px); }
         }
 
-        /* Grid layout */
         .grid {
             columns: 3;
             column-gap: 20px;
@@ -148,8 +149,10 @@
         .grid-item-title {
             font-size: 1.0em;
             font-style: italic;
-            margin-bottom: 8px;
+            margin-top: 8px;
+            margin-bottom: 0;
             color: #ccc;
+            text-align: center;
         }
 
         .grid-item-content {
@@ -232,7 +235,7 @@
         <img src="screenshot_scents_text.png" alt="Screenshot Scents" class="logo-image">
         <div><span id="datetime"></span> <span id="current-time"></span> <span id="moonSymbol"></span></div>
         <div id="last-online"></div>
-        <div id="headerLinks" style="display: flex; gap: 15px; margin-top: 10px;">
+        <div id="headerLinks" style="margin-top: 10px;">
             <a href="index.html" class="back-link">blog</a>
             <a class="email-link" id="emailLink">contact</a>
         </div>
@@ -242,11 +245,6 @@
     <div id="load-sentinel"></div>
 
     <script>
-        // ── posts ──────────────────────────────────────────────
-        // Each post: { timestamp, title, content, photo, link }
-        // title is optional — shown in italics above content
-        // photo is optional — filename or URL
-        // link wraps the photo in an anchor if set
         const posts = [
             {
                 timestamp: '2026-04-20T00:00:00',
@@ -328,7 +326,6 @@
         loadObserver.observe(sentinel);
         renderBatch();
 
-        // ── datetime ───────────────────────────────────────────
         function updateDateTime() {
             const now = new Date();
             document.getElementById('datetime').textContent = now.toLocaleDateString('en-US', {
@@ -341,7 +338,6 @@
         updateDateTime();
         setInterval(updateDateTime, 1000);
 
-        // ── moon ───────────────────────────────────────────────
         function getMoonPhase(date) {
             const knownNewMoon = new Date(2000, 0, 6, 18, 14);
             const lunarCycle = 29.53058867;
@@ -364,7 +360,6 @@
         updateMoonSymbol();
         setInterval(updateMoonSymbol, 60000);
 
-        // ── last online ────────────────────────────────────────
         function getLastOnline() {
             const mostRecent = posts.reduce((a, b) =>
                 new Date(a.timestamp) > new Date(b.timestamp) ? a : b);
@@ -380,7 +375,6 @@
         }
         getLastOnline();
 
-        // ── cursor ─────────────────────────────────────────────
         const cursor = document.getElementById('custom-cursor');
         let cursorTimeout;
 
@@ -412,7 +406,6 @@
             setTimeout(() => dot.remove(), 800);
         }, { passive: true });
 
-        // ── about ──────────────────────────────────────────────
         const aboutLink = document.getElementById('aboutLink');
         let aboutClicked = false;
         aboutLink.addEventListener('click', (e) => {
@@ -439,7 +432,6 @@
             }, 80);
         });
 
-        // ── email ──────────────────────────────────────────────
         const emailLink = document.getElementById('emailLink');
         let emailClicked = false;
         emailLink.addEventListener('click', (e) => {
