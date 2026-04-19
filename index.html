@@ -548,8 +548,13 @@
 
     <script>
 
-        // Mixtape announcement flash (every visit)
+        // Mixtape announcement flash (once per session)
         window.addEventListener('load', () => {
+            // Check if flash has already been shown this session
+            if (sessionStorage.getItem('flashShown')) {
+                return; // Don't show flash again
+            }
+            
             setTimeout(() => {
                 const flash = document.getElementById('mixtapeFlash');
                 flash.classList.add('show');
@@ -582,6 +587,8 @@
                 // Remove from DOM after animation
                 setTimeout(() => {
                     flash.remove();
+                    // Mark flash as shown for this session
+                    sessionStorage.setItem('flashShown', 'true');
                 }, 10000);
             }, 0);
         });
