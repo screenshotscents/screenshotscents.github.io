@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fragrance - Screenshot Scents</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,7 +14,7 @@
             box-sizing: border-box;
         }
 
-        *:not(.back-link):not(.email-link) {
+        *:not(.back-link):not(.email-link):not(.about-link) {
             cursor: none;
         }
 
@@ -44,7 +45,7 @@
             color: white;
             font-family: 'Times New Roman', Times, serif;
             padding: 40px 20px;
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             line-height: 1.0;
         }
@@ -117,179 +118,225 @@
             100% { opacity: 0; filter: blur(3px); }
         }
 
+        /* Grid layout */
+        .grid {
+            columns: 3;
+            column-gap: 20px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 700px) {
+            .grid { columns: 2; }
+        }
+
+        @media (max-width: 420px) {
+            .grid { columns: 1; }
+        }
+
+        .grid-item {
+            break-inside: avoid;
+            margin-bottom: 20px;
+            border: 0.3px solid #333;
+            padding: 16px;
+            animation: entryFadeIn 0.4s ease-out both;
+        }
+
+        @keyframes entryFadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .grid-item-title {
+            font-size: 1.0em;
+            font-style: italic;
+            margin-bottom: 8px;
+            color: #ccc;
+        }
+
+        .grid-item-content {
+            font-size: 0.9em;
+            white-space: pre-wrap;
+            line-height: 1.4;
+            color: white;
+        }
+
+        .grid-item-photo {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .grid-item-photo-only {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .word {
+            display: inline-block;
+            animation: wordBreathe 3s ease-in-out infinite;
+            will-change: opacity, transform;
+            contain: layout style;
+        }
+
+        @keyframes wordBreathe {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(0.94); }
+        }
+
         .moon-symbol-fixed {
             font-size: 1.5em;
             color: white;
         }
 
-        .content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 60px;
-        }
-
-        .hologram-container {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-            height: 600px;
-            perspective: 1000px;
-            margin-bottom: 60px;
-        }
-
-        .cassette-hologram {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            animation: float 6s ease-in-out infinite, glitch 10s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotateY(-5deg); }
-            50% { transform: translateY(-20px) rotateY(5deg); }
-        }
-
-        @keyframes glitch {
-            0%, 90%, 100% { transform: translate(0) rotateY(-5deg); }
-            91% { transform: translate(-2px, 2px) rotateY(-5deg); }
-            92% { transform: translate(2px, -2px) rotateY(-5deg); }
-            93% { transform: translate(-2px, 2px) rotateY(-5deg); }
-            94% { transform: translate(0) rotateY(-5deg); }
-        }
-
-        .cassette-image {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            filter: drop-shadow(0 0 40px rgba(0, 100, 100, 0.6));
-            animation: hologramPulse 3s ease-in-out infinite;
-        }
-
-        @keyframes hologramPulse {
-            0%, 100% { 
-                filter: drop-shadow(0 0 40px rgba(0, 100, 100, 0.6)) brightness(1.1);
-            }
-            50% { 
-                filter: drop-shadow(0 0 60px rgba(0, 150, 150, 0.8)) brightness(1.3);
-            }
-        }
-
-        .cassette-hologram::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(
-                0deg,
-                transparent 0%,
-                rgba(0, 200, 200, 0.1) 2%,
-                transparent 4%
-            );
-            background-size: 100% 3px;
-            pointer-events: none;
-            z-index: 2;
-            animation: scanlines 8s linear infinite;
-        }
-
-        @keyframes scanlines {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(100%); }
-        }
-
-        .cassette-hologram::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                45deg,
-                transparent 30%,
-                rgba(0, 255, 255, 0.1) 50%,
-                transparent 70%
-            );
-            pointer-events: none;
-            z-index: 1;
-            animation: shimmer 4s ease-in-out infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-        }
-
-        .hologram-container::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 120%;
-            height: 120%;
-            background: radial-gradient(
-                ellipse at center,
-                rgba(0, 100, 100, 0.3) 0%,
-                transparent 70%
-            );
-            animation: glow 3s ease-in-out infinite;
-            z-index: -1;
-        }
-
-        @keyframes glow {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
-
-        .coming-soon {
+        .about-link {
+            position: fixed;
+            bottom: 20px; right: 20px;
             font-size: 1.1em;
-            text-align: center;
-            animation: breathe 4s ease-in-out infinite;
+            font-family: 'Times New Roman', Times, serif;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            z-index: 1000;
+            pointer-events: auto;
         }
 
-        @keyframes breathe {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.85; transform: scale(0.96); }
+        .about-link:hover { color: white; }
+        .about-link.hidden { display: none; }
+
+        .about-text {
+            position: fixed;
+            bottom: 20px; right: 20px;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 1.1em;
+            color: white;
+            z-index: 10000;
+            text-align: right;
+            white-space: nowrap;
         }
+
+        #load-sentinel { height: 1px; margin-top: 40px; }
 
         @media (max-width: 768px) {
-            .hologram-container {
-                max-width: 300px;
-                height: 450px;
-            }
-
             .moon-symbol-fixed { top: 40px; }
         }
     </style>
 </head>
 <body>
     <div id="custom-cursor"></div>
-    
+
+    <a href="#" class="about-link" id="aboutLink">about</a>
+
     <header>
-        <img src="screenshot_scents_text_white.png" alt="Screenshot Scents" class="logo-image">
+        <img src="screenshot_scents_text.png" alt="Screenshot Scents" class="logo-image">
         <div><span id="datetime"></span> <span id="current-time"></span> <span id="moonSymbol"></span></div>
         <div id="last-online"></div>
         <div id="headerLinks" style="display: flex; gap: 15px; margin-top: 10px;">
-            <a href="index.html" class="back-link">back</a>
+            <a href="index.html" class="back-link">blog</a>
             <a class="email-link" id="emailLink">contact</a>
         </div>
     </header>
 
-    <div class="content">
-        <div class="hologram-container">
-            <div class="cassette-hologram">
-                <img src="IMG_2722.jpeg" alt="ebilen cassette" class="cassette-image">
-            </div>
-        </div>
-        
-        <div class="coming-soon">coming soon...</div>
-    </div>
+    <div class="grid" id="grid"></div>
+    <div id="load-sentinel"></div>
 
     <script>
+        // ── posts ──────────────────────────────────────────────
+        // Each post: { timestamp, title, content, photo, link }
+        // title is optional — shown in italics above content
+        // photo is optional — filename or URL
+        // link wraps the photo in an anchor if set
+        const posts = [
+            {
+                timestamp: '2026-04-20T00:00:00',
+                title: 'ss001',
+                content: '',
+                photo: 'ss001 blog post.gif',
+                link: 'https://screenshotscents.bandcamp.com/album/ebilen-screenshot-scents-001'
+            },
+            {
+                timestamp: '2026-04-01T12:00:00',
+                title: 'first fragrance note',
+                content: 'add your fragrance posts here\njust like the main blog',
+                photo: '',
+                link: ''
+            }
+            // add more posts here
+        ];
+
+        posts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+        const BATCH_SIZE = 12;
+        let renderedCount = 0;
+        let isRendering = false;
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function wrapWords(content, postIndex) {
+            const escaped = escapeHtml(content);
+            return escaped.split('\n').map(line =>
+                line.split(' ').map((word, i) => {
+                    const delay = ((i * 0.1) + (postIndex * 0.3)) % 2;
+                    return `<span class="word" style="animation-delay:${delay.toFixed(2)}s">${word}</span>`;
+                }).join(' ')
+            ).join('\n');
+        }
+
+        function renderBatch() {
+            if (isRendering || renderedCount >= posts.length) return;
+            isRendering = true;
+
+            const container = document.getElementById('grid');
+            const fragment = document.createDocumentFragment();
+            const end = Math.min(renderedCount + BATCH_SIZE, posts.length);
+
+            for (let i = renderedCount; i < end; i++) {
+                const post = posts[i];
+                const div = document.createElement('div');
+                div.className = 'grid-item';
+
+                let photoHtml = '';
+                if (post.photo) {
+                    const cls = post.content || post.title ? 'grid-item-photo' : 'grid-item-photo-only';
+                    const img = `<img src="${post.photo}" alt="" class="${cls}" loading="lazy" decoding="async">`;
+                    photoHtml = post.link ? `<a href="${post.link}" target="_blank">${img}</a>` : img;
+                }
+
+                const titleHtml = post.title
+                    ? `<div class="grid-item-title">${escapeHtml(post.title)}</div>`
+                    : '';
+
+                const contentHtml = post.content
+                    ? `<div class="grid-item-content">${wrapWords(post.content, i)}</div>`
+                    : '';
+
+                div.innerHTML = `
+                    ${titleHtml}
+                    ${contentHtml}
+                    ${photoHtml}
+                `;
+                fragment.appendChild(div);
+            }
+
+            container.appendChild(fragment);
+            renderedCount = end;
+            isRendering = false;
+        }
+
+        const sentinel = document.getElementById('load-sentinel');
+        const loadObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) renderBatch();
+        }, { rootMargin: '200px' });
+        loadObserver.observe(sentinel);
+        renderBatch();
+
+        // ── datetime ───────────────────────────────────────────
         function updateDateTime() {
             const now = new Date();
             document.getElementById('datetime').textContent = now.toLocaleDateString('en-US', {
@@ -302,6 +349,7 @@
         updateDateTime();
         setInterval(updateDateTime, 1000);
 
+        // ── moon ───────────────────────────────────────────────
         function getMoonPhase(date) {
             const knownNewMoon = new Date(2000, 0, 6, 18, 14);
             const lunarCycle = 29.53058867;
@@ -324,8 +372,23 @@
         updateMoonSymbol();
         setInterval(updateMoonSymbol, 60000);
 
-        document.getElementById('last-online').textContent = 'ebilen — coming soon';
+        // ── last online ────────────────────────────────────────
+        function getLastOnline() {
+            const mostRecent = posts.reduce((a, b) =>
+                new Date(a.timestamp) > new Date(b.timestamp) ? a : b);
+            const postDate = new Date(mostRecent.timestamp);
+            const diffDays = Math.floor((new Date() - postDate) / (1000 * 60 * 60 * 24));
+            const timeAgo = diffDays === 0 ? 'today' : diffDays === 1 ? '1 day ago' : `${diffDays} days ago`;
+            const moonNames = {
+                '●': 'a new moon', '☽': 'a waxing crescent', '◐': 'a first quarter moon',
+                '◑': 'a waxing gibbous', '○': 'a full moon', '☾': 'a waning crescent'
+            };
+            document.getElementById('last-online').textContent =
+                `last updated ${timeAgo}, under ${moonNames[getMoonPhase(postDate)] || 'the moon'}`;
+        }
+        getLastOnline();
 
+        // ── cursor ─────────────────────────────────────────────
         const cursor = document.getElementById('custom-cursor');
         let cursorTimeout;
 
@@ -357,6 +420,34 @@
             setTimeout(() => dot.remove(), 800);
         }, { passive: true });
 
+        // ── about ──────────────────────────────────────────────
+        const aboutLink = document.getElementById('aboutLink');
+        let aboutClicked = false;
+        aboutLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (aboutClicked) return;
+            aboutClicked = true;
+            aboutLink.classList.add('hidden');
+            const aboutText = document.createElement('div');
+            aboutText.className = 'about-text';
+            aboutText.style.borderRight = '2px solid white';
+            document.body.appendChild(aboutText);
+            const fullText = 'sabrina is a blogger who stops and reads nail polish names';
+            let i = 0;
+            const t = setInterval(() => {
+                if (i < fullText.length) { aboutText.textContent = fullText.substring(0, ++i); }
+                else {
+                    clearInterval(t);
+                    aboutText.style.borderRight = 'none';
+                    setTimeout(() => {
+                        aboutText.classList.add('misting');
+                        setTimeout(() => { aboutText.remove(); aboutClicked = false; aboutLink.classList.remove('hidden'); }, 4000);
+                    }, 500);
+                }
+            }, 80);
+        });
+
+        // ── email ──────────────────────────────────────────────
         const emailLink = document.getElementById('emailLink');
         let emailClicked = false;
         emailLink.addEventListener('click', (e) => {
