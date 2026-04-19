@@ -90,8 +90,6 @@
             cursor: pointer;
             transition: color 0.3s ease;
             pointer-events: auto;
-            display: block;
-            margin-top: 10px;
             -webkit-tap-highlight-color: transparent;
             -webkit-touch-callout: none;
             -webkit-user-select: none;
@@ -148,11 +146,12 @@
 
         .grid-item-title {
             font-size: 1.0em;
-            font-style: italic;
+            font-style: normal;
             margin-top: 8px;
             margin-bottom: 0;
-            color: #ccc;
+            color: white;
             text-align: center;
+            display: block;
         }
 
         .grid-item-content {
@@ -166,7 +165,6 @@
             width: 100%;
             height: auto;
             display: block;
-            margin-top: 10px;
         }
 
         .grid-item-photo-only {
@@ -235,7 +233,7 @@
         <img src="screenshot_scents_text.png" alt="Screenshot Scents" class="logo-image">
         <div><span id="datetime"></span> <span id="current-time"></span> <span id="moonSymbol"></span></div>
         <div id="last-online"></div>
-        <div id="headerLinks" style="margin-top: 10px;">
+        <div id="headerLinks" style="display: flex; gap: 15px; margin-top: 10px;">
             <a href="index.html" class="back-link">blog</a>
             <a class="email-link" id="emailLink">contact</a>
         </div>
@@ -293,7 +291,7 @@
 
                 let photoHtml = '';
                 if (post.photo) {
-                    const cls = post.content || post.title ? 'grid-item-photo' : 'grid-item-photo-only';
+                    const cls = post.content ? 'grid-item-photo' : 'grid-item-photo-only';
                     const img = `<img src="${post.photo}" alt="" class="${cls}" loading="lazy" decoding="async">`;
                     photoHtml = post.link ? `<a href="${post.link}" target="_blank">${img}</a>` : img;
                 }
