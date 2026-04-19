@@ -440,7 +440,7 @@
             const emailText = document.createElement('span');
             emailText.className = 'email-reveal';
             emailText.textContent = 'screenshotscents [at] gmail';
-            document.getElementById('headerLinks').appendChild(emailText);
+            emailLink.insertAdjacentElement('afterend', emailText);
             setTimeout(() => {
                 emailText.classList.add('misting');
                 setTimeout(() => { emailText.remove(); emailClicked = false; emailLink.classList.remove('hidden'); }, 4000);
