@@ -136,9 +136,8 @@
         .grid-item {
             break-inside: avoid;
             margin-bottom: 20px;
-            border: 0.3px solid #333;
-            padding: 16px;
             animation: entryFadeIn 0.4s ease-out both;
+            text-align: center;
         }
 
         @keyframes entryFadeIn {
@@ -310,9 +309,9 @@
                     : '';
 
                 div.innerHTML = `
-                    ${titleHtml}
                     ${contentHtml}
                     ${photoHtml}
+                    ${titleHtml}
                 `;
                 fragment.appendChild(div);
             }
