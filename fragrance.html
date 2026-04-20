@@ -152,7 +152,7 @@
             font-size: 1.0em;
             font-style: normal;
             font-family: 'Oswald', sans-serif;
-            font-weight: 200;
+            font-weight: 400;
             margin-top: 8px;
             margin-bottom: 0;
             color: white;
@@ -302,12 +302,12 @@
                 let photoHtml = '';
                 if (post.photo) {
                     const cls = post.content ? 'grid-item-photo' : 'grid-item-photo-only';
-                    const img = `<img src="${post.photo}" alt="" class="${cls}" loading="lazy" decoding="async">`;
+                    const img = `<img src="${post.photo}" alt="" class="${cls}" loading="lazy" decoding="async" onload="this.parentElement.nextElementSibling.style.opacity='1'">`;
                     photoHtml = post.link ? `<a href="${post.link}" target="_blank">${img}</a>` : img;
                 }
-
+                
                 const titleHtml = post.title
-                    ? `<div class="grid-item-title">${post.link ? `<a href="${post.link}" target="_blank" style="color:white;text-decoration:none;display:block;">${escapeHtml(post.title)}</a>` : escapeHtml(post.title)}</div>`
+                    ? `<div class="grid-item-title" style="opacity:0;transition:opacity 0.3s ease;">${post.link ? `<a href="${post.link}" target="_blank" style="color:white;text-decoration:none;display:block;">${escapeHtml(post.title)}</a>` : escapeHtml(post.title)}</div>`
                     : '';
 
                 const contentHtml = post.content
@@ -434,7 +434,7 @@
                     aboutText.style.borderRight = 'none';
                     setTimeout(() => {
                         aboutText.classList.add('misting');
-                        setTimeout(() => { aboutText.remove(); aboutClicked = false; aboutLink.classList.remove('hidden'); }, 4000);
+                        setTimeout(() => aboutText.remove(), 4000);
                     }, 500);
                 }
             }, 80);
