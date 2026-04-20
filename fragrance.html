@@ -303,12 +303,12 @@
                 let photoHtml = '';
                 if (post.photo) {
                     const cls = post.content ? 'grid-item-photo' : 'grid-item-photo-only';
-                    const img = `<img src="${post.photo}" alt="" class="${cls}" loading="lazy" decoding="async" onload="document.getElementById('${titleId}').style.opacity='1'">`;
+                    const img = `<img src="${post.photo}" alt="" class="${cls}" decoding="async">`;
                     photoHtml = post.link ? `<a href="${post.link}" target="_blank">${img}</a>` : img;
                 }
         
                 const titleHtml = post.title
-                    ? `<div id="${titleId}" class="grid-item-title" style="opacity:0;transition:opacity 0.3s ease;">${post.link ? `<a href="${post.link}" target="_blank" style="color:white;text-decoration:none;display:block;">${escapeHtml(post.title)}</a>` : escapeHtml(post.title)}</div>`
+                    ? `<div class="grid-item-title">${post.link ? `<a href="${post.link}" target="_blank" style="color:white;text-decoration:none;display:block;">${escapeHtml(post.title)}</a>` : escapeHtml(post.title)}</div>`
                     : '';
         
                 const contentHtml = post.content
