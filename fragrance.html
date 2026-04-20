@@ -289,31 +289,32 @@
         function renderBatch() {
             if (isRendering || renderedCount >= posts.length) return;
             isRendering = true;
-
+        
             const container = document.getElementById('grid');
             const fragment = document.createDocumentFragment();
             const end = Math.min(renderedCount + BATCH_SIZE, posts.length);
-
+        
             for (let i = renderedCount; i < end; i++) {
                 const post = posts[i];
                 const div = document.createElement('div');
                 div.className = 'grid-item';
-
+                const titleId = `title-${i}`;
+        
                 let photoHtml = '';
                 if (post.photo) {
                     const cls = post.content ? 'grid-item-photo' : 'grid-item-photo-only';
-                    const img = `<img src="${post.photo}" alt="" class="${cls}" loading="lazy" decoding="async" onload="this.parentElement.nextElementSibling.style.opacity='1'">`;
+                    const img = `<img src="${post.photo}" alt="" class="${cls}" loading="lazy" decoding="async" onload="document.getElementById('${titleId}').style.opacity='1'">`;
                     photoHtml = post.link ? `<a href="${post.link}" target="_blank">${img}</a>` : img;
                 }
-                
+        
                 const titleHtml = post.title
-                    ? `<div class="grid-item-title" style="opacity:0;transition:opacity 0.3s ease;">${post.link ? `<a href="${post.link}" target="_blank" style="color:white;text-decoration:none;display:block;">${escapeHtml(post.title)}</a>` : escapeHtml(post.title)}</div>`
+                    ? `<div id="${titleId}" class="grid-item-title" style="opacity:0;transition:opacity 0.3s ease;">${post.link ? `<a href="${post.link}" target="_blank" style="color:white;text-decoration:none;display:block;">${escapeHtml(post.title)}</a>` : escapeHtml(post.title)}</div>`
                     : '';
-
+        
                 const contentHtml = post.content
                     ? `<div class="grid-item-content">${wrapWords(post.content, i)}</div>`
                     : '';
-
+        
                 div.innerHTML = `
                     ${contentHtml}
                     ${photoHtml}
@@ -321,7 +322,7 @@
                 `;
                 fragment.appendChild(div);
             }
-
+        
             container.appendChild(fragment);
             renderedCount = end;
             isRendering = false;
