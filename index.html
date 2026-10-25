@@ -693,7 +693,8 @@
         function createCard(text) {
             const card = document.createElement('div');
             card.className = 'strip-card';
-            card.innerHTML = `<svg class="strip-svg" viewBox="0 0 240 70" preserveAspectRatio="none"><path d="M 0,7 L 200,7 L 240,35 L 200,63 L 0,63 Z" fill="black" stroke="white" stroke-width="0.3"/></svg><div class="submission-text">${text}</div>`;
+            card.innerHTML = `<svg class="strip-svg" viewBox="0 0 240 70" preserveAspectRatio="none"><path d="M 0,7 L 200,7 L 240,35 L 200,63 L 0,63 Z" fill="black" stroke="white" stroke-width="0.3"/></svg><div class="submission-text"></div>`;
+            card.querySelector('.submission-text').textContent = text;
             return card;
         }
 
