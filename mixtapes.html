@@ -160,6 +160,29 @@
             transition: opacity 0.8s ease-out, filter 0.8s ease-out;
         }
 
+        /* photo + rotated title container */
+        .photo-wrap {
+            position: relative;
+            /* reserve a strip on the right so the title sits outside the image
+               without spilling into the next column */
+            padding-right: 1.6em;
+        }
+
+        /* title runs vertically beside the image, starting at its top edge */
+        .photo-wrap .grid-item-title {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            margin: 0;
+            padding: 0;
+            writing-mode: vertical-rl;
+            text-align: start;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
         .grid-item:hover .grid-item-title {
             opacity: 1;
             filter: blur(0px);
@@ -329,11 +352,11 @@
                     ? `<div class="grid-item-content">${wrapWords(post.content, i)}</div>`
                     : '';
         
-                div.innerHTML = `
-                    ${contentHtml}
-                    ${photoHtml}
-                    ${titleHtml}
-                `;
+                // with a photo, the title sits rotated on the photo's right edge;
+                // without one, it falls back to sitting below as before
+                div.innerHTML = post.photo
+                    ? `${contentHtml}<div class="photo-wrap">${photoHtml}${titleHtml}</div>`
+                    : `${contentHtml}${titleHtml}`;
                 fragment.appendChild(div);
                 revealObserver.observe(div);
             }
