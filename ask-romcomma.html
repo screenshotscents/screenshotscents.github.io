@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="favicon-32x32.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask Romcomma - Screenshot Scents</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: black;
+            color: white;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 200;
+            padding: 40px 16px 80px;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.0;
+        }
+
+        header { margin-bottom: 60px; }
+        .site-name { font-size: 1.1em; color: white; text-decoration: none; letter-spacing: 0.04em; }
+        #headerLinks { display: flex; gap: 15px; margin-top: 10px; }
+        #headerLinks a { color: white; text-decoration: none; font-size: 1.1em; font-weight: 400; }
+
+        /* dog nose cursor (same as index.html) */
+        :root { --blush: #e8899a; }
+        @media (hover: hover) and (pointer: fine) {
+            *:not(a) { cursor: none; }
+        }
+        #custom-cursor {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            background-image: url('dog_nose_white.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            pointer-events: none;
+            z-index: 10002;
+            transition: opacity 0.5s ease;
+            opacity: 0.3;
+            display: none;
+            filter: blur(1px);
+        }
+        #custom-cursor.hidden { opacity: 0; }
+        @media (hover: hover) and (pointer: fine) {
+            #custom-cursor { display: block; }
+        }
+
+        /* breathing words: they swell in waves while the room warms around them */
+        .word {
+            display: inline-block;
+            animation: wordBreathe 10s ease-in-out infinite;
+            will-change: opacity, transform;
+            contain: layout style;
+        }
+        /* on this page the reply breathes in waves:
+           small swells that build, recede, build higher,
+           crest, then a long slow afterglow */
+        @keyframes wordBreathe {
+            0%   { transform: scale(1);     opacity: 1;    }
+            12%  { transform: scale(1.012); opacity: 0.94; }
+            20%  { transform: scale(1.004); opacity: 0.98; }
+            34%  { transform: scale(1.025); opacity: 0.92; }
+            42%  { transform: scale(1.012); opacity: 0.96; }
+            58%  { transform: scale(1.04);  opacity: 0.9;  }
+            64%  { transform: scale(1.028); opacity: 0.94; }
+            76%  { transform: scale(1.065); opacity: 1;    }
+            84%  { transform: scale(1.03);  opacity: 1;    }
+            100% { transform: scale(1);     opacity: 1;    }
+        }
+
+        /* about (same as index.html) */
+        .about-link {
+            position: fixed;
+            bottom: 20px; right: 20px;
+            font-size: 1.1em;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 200;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .about-link.hidden { display: none; }
+        .about-text {
+            position: fixed;
+            bottom: 20px; right: 20px;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 200;
+            font-size: 1.1em;
+            color: white;
+            z-index: 10000;
+            text-align: right;
+            white-space: nowrap;
+        }
+        .misting { animation: mistOut 4s ease-out forwards; }
+        @keyframes mistOut {
+            0% { opacity: 1; filter: blur(0px); }
+            50% { opacity: 0.5; filter: blur(1px); }
+            100% { opacity: 0; filter: blur(3px); }
+        }
+
+        /* #1 the room heats up: the background fills with blood red, almost reaching a blush
+           at the crest of each swell, in sync with the reply */
+        body { animation: roomWarm 10s ease-in-out infinite; }
+        /* like a nervous flush: each rush of blood arrives fast,
+           then drains away slowly; the rushes come closer and stronger,
+           a few heartbeats flicker at the peak, then a long fade */
+        @keyframes roomWarm {
+            0%   { background-color: #000000; animation-timing-function: ease-in-out; }
+            20%  { background-color: #000000; animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
+            25%  { background-color: #1c0202; animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+            38%  { background-color: #060000; animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
+            43%  { background-color: #2e0405; animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+            53%  { background-color: #120101; animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
+            58%  { background-color: #3c0607; animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+            66%  { background-color: #250303; animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
+            74%  { background-color: #5c1822; animation-timing-function: ease-in-out; }
+            76%  { background-color: #50141d; animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
+            78%  { background-color: #5c1822; animation-timing-function: ease-in-out; }
+            80%  { background-color: #52151e; animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
+            82%  { background-color: #591721; animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+            100% { background-color: #000000; }
+        }
+
+        /* calm breathing, exactly like index.html (title + coming soon) */
+        .word-calm {
+            display: inline-block;
+            animation: calmBreathe 3s ease-in-out infinite;
+            will-change: opacity, transform;
+            contain: layout style;
+        }
+        @keyframes calmBreathe {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(0.94); }
+        }
+
+        /* the column */
+        .column {
+            max-width: 340px;
+            margin: 0 auto;
+        }
+
+        .masthead { text-align: left; }
+        .masthead h1 {
+            font-weight: 200;
+            font-size: 1.2em;
+            letter-spacing: 0.02em;
+            line-height: 1.2;
+        }
+        .entry-date {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            color: #999;
+        }
+
+        /* a hairline above every entry: between the page title and the
+           first entry, and between each entry after that */
+        .entry {
+            border-top: 0.5px solid rgba(255, 255, 255, 0.3);
+            padding-top: 30px;
+            padding-bottom: 40px;
+        }
+
+        .letter {
+            padding: 0;
+            margin-bottom: 22px;
+            font-size: 1.2em;
+            line-height: 1.2;
+            letter-spacing: 0.02em;
+            font-style: italic;
+            color: white;
+        }
+        .signoff { white-space: pre-line; }
+        .letter .signed { display: block; margin-top: 8px; text-align: right; font-size: 0.75em; color: #999; }
+
+        .reply {
+            font-size: 1.2em;
+            line-height: 1.2;
+            letter-spacing: 0.02em;
+            text-align: justify;
+            hyphens: auto;
+            -webkit-hyphens: auto;
+        }
+        .reply p + p { margin-top: 1em; }
+
+        .signoff {
+            margin-top: 26px;
+            text-align: right;
+            font-size: 1.2em;
+            line-height: 1.2;
+        }
+
+        .write-in {
+            margin-top: 4px;
+            margin-bottom: 30px;
+            text-align: left;
+            font-size: 0.9em;
+            color: #999;
+        }
+
+        .sample-note {
+            font-size: 0.9em;
+            color: #777;
+            margin-bottom: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="custom-cursor"></div>
+    <a href="#" class="about-link" id="aboutLink">about</a>
+    <header>
+        <a class="site-name" href="/">screenshot scents</a>
+        <div id="headerLinks">
+            <a href="index.html">blog</a>
+            <a href="mixtapes.html">mixtapes</a>
+            <a href="#">contact</a>
+        </div>
+    </header>
+
+    <main class="column">
+        <div class="masthead">
+            <h1>ask romcomma</h1>
+        </div>
+        <div class="write-in">ask [at] screenshotscents.com</div>
+        <div id="entries"></div>
+
+    </main>
+
+    <script>
+        // ask romcomma entries
+        // add a new entry at the top of this list.
+        // in "reply", leave a blank line (\n\n) between paragraphs.
+        //
+        // example (copy this, paste it inside the [ ], and fill it in):
+        // {
+        //     timestamp: '2026-11-19T21:00:00',
+        //     question: 'the reader\'s question',
+        //     signed: 'their nickname',
+        //     reply: 'first paragraph\n\nsecond paragraph',
+        //     signoff: 'keep your pulse up,\nromcomma'
+        // },
+        const entries = [
+        ];
+
+        entries.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+        function el(tag, className, text) {
+            const node = document.createElement(tag);
+            if (className) node.className = className;
+            if (text !== undefined) node.textContent = text;
+            return node;
+        }
+
+        // wraps each word so it breathes; every word moves together, as one body
+        function addBreathingWords(parent, text, startIndex) {
+            let i = startIndex;
+            text.split(' ').forEach((word, n) => {
+                if (n > 0) parent.appendChild(document.createTextNode(' '));
+                if (!word) return;
+                const span = el('span', 'word', word);
+                parent.appendChild(span);
+                i++;
+            });
+            return i;
+        }
+
+        // breathing exactly like the journal on index.html
+        function addCalmWords(parent, text, postIndex) {
+            parent.textContent = '';
+            text.split(' ').forEach((word, i) => {
+                if (i > 0) parent.appendChild(document.createTextNode(' '));
+                const span = el('span', 'word-calm', word);
+                const delay = ((i * 0.1) + (postIndex * 0.3)) % 2;
+                span.style.animationDelay = delay.toFixed(2) + 's';
+                parent.appendChild(span);
+            });
+        }
+        addCalmWords(document.querySelector('.masthead h1'), 'ask romcomma', 0);
+
+        const container = document.getElementById('entries');
+
+        // while there are no entries yet, show "coming soon" (it breathes too)
+        if (entries.length === 0) {
+            const soon = el('div', 'entry reply coming-soon');
+            addCalmWords(soon, 'coming soon', 1);
+            container.appendChild(soon);
+        }
+        entries.forEach(entry => {
+            const article = el('article', 'entry');
+
+            article.appendChild(el('div', 'entry-date', new Date(entry.timestamp).toLocaleDateString('en-US', {
+                weekday: 'long', year: 'numeric', month: 'long',
+                day: 'numeric', hour: '2-digit', minute: '2-digit'
+            })));
+
+            const letter = el('div', 'letter');
+            letter.appendChild(el('div', 'question', entry.question));
+            if (entry.signed) letter.appendChild(el('span', 'signed', '— ' + entry.signed));
+            article.appendChild(letter);
+
+            if (entry.sample) article.appendChild(el('div', 'sample-note', '[sample reply, your words go here]'));
+
+            const reply = el('div', 'reply');
+            let wordCount = 0;
+            entry.reply.split('\n\n').forEach((par, pIndex) => {
+                const p = el('p');
+                wordCount = addBreathingWords(p, par, wordCount);
+                reply.appendChild(p);
+            });
+            article.appendChild(reply);
+
+            if (entry.signoff) article.appendChild(el('div', 'signoff', entry.signoff));
+
+            container.appendChild(article);
+        });
+        // dog nose cursor + trail (same as index.html)
+        const cursor = document.getElementById('custom-cursor');
+        let cursorTimeout;
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX - 30 + 'px';
+            cursor.style.top = e.clientY - 30 + 'px';
+            cursor.classList.remove('hidden');
+
+            const dot = document.createElement('div');
+            dot.style.cssText = `position:fixed;left:${e.clientX-20}px;top:${e.clientY-20}px;width:40px;height:40px;background-image:url("dog_nose_white.png");background-size:contain;background-repeat:no-repeat;opacity:0.4;filter:blur(2px);pointer-events:none;z-index:10002;transition:opacity 0.8s ease,transform 0.8s ease;`;
+            document.body.appendChild(dot);
+            requestAnimationFrame(() => { dot.style.opacity = '0'; dot.style.transform = 'scale(1.5)'; });
+            setTimeout(() => dot.remove(), 800);
+
+            clearTimeout(cursorTimeout);
+            cursorTimeout = setTimeout(() => cursor.classList.add('hidden'), 1000);
+        });
+
+        // about (same as index.html)
+        const aboutLink = document.getElementById('aboutLink');
+        let aboutClicked = false;
+        aboutLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (aboutClicked) return;
+            aboutClicked = true;
+            aboutLink.classList.add('hidden');
+            const aboutText = document.createElement('div');
+            aboutText.className = 'about-text';
+            aboutText.style.borderRight = '2px solid white';
+            document.body.appendChild(aboutText);
+            const fullText = 'romcomma is a blogger who stops and reads nail polish names';
+            let i = 0;
+            const t = setInterval(() => {
+                if (i < fullText.length) { aboutText.textContent = fullText.substring(0, ++i); }
+                else {
+                    clearInterval(t);
+                    aboutText.style.borderRight = 'none';
+                    setTimeout(() => {
+                        aboutText.classList.add('misting');
+                        setTimeout(() => aboutText.remove(), 4000);
+                    }, 500);
+                }
+            }, 80);
+        });
+    </script>
+
+</body>
+</html>
