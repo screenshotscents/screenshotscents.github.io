@@ -2,33 +2,42 @@
 <html lang="en">
 <head>
     <link rel="icon" type="image/png" href="favicon-32x32.png">
+    <link href="https://fonts.googleapis.com/css2?family=Xanh+Mono:ital@0;1&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ask Romcomma - Screenshot Scents</title>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;400&display=swap" rel="stylesheet">
+    <title>ask romcomma - Screenshot Scents</title>
     <style>
+        /* page colors: swap these to try a paper version
+           (e.g. --paper: #f3e6e2; --ink: #111111;) */
+        :root {
+            --paper: #000000;
+            --ink: #ffffff;
+            --muted: #999999;
+            --serif: 'Xanh Mono', 'Courier New', monospace;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background: black;
-            color: white;
-            font-family: 'Oswald', sans-serif;
-            font-weight: 200;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: 'Xanh Mono', 'Courier New', monospace;
+            font-weight: normal;
             padding: 40px 16px 80px;
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             line-height: 1.0;
         }
 
-        header { margin-bottom: 60px; }
-        .site-name { font-size: 1.1em; color: white; text-decoration: none; letter-spacing: 0.04em; }
+        /* header (same links as the rest of the site) */
+        header { margin-bottom: 50px; }
+        .site-name { font-size: 1.1em; color: inherit; text-decoration: none; letter-spacing: 0.04em; }
         #headerLinks { display: flex; gap: 15px; margin-top: 10px; }
-        #headerLinks a { color: white; text-decoration: none; font-size: 1.1em; font-weight: 400; }
+        #headerLinks a { color: inherit; text-decoration: none; font-size: 1.1em; font-weight: normal; }
 
         /* dog nose cursor (same as index.html) */
-        :root { --blush: #e8899a; }
         @media (hover: hover) and (pointer: fine) {
-            *:not(a) { cursor: none; }
+            *:not(a):not(textarea):not(input) { cursor: none; }
         }
         #custom-cursor {
             position: fixed;
@@ -50,27 +59,155 @@
             #custom-cursor { display: block; }
         }
 
-        /* breathing words: they swell in waves while the room warms around them */
-        .word {
-            display: inline-block;
-            animation: wordBreathe 10s ease-in-out infinite;
-            will-change: opacity, transform;
-            contain: layout style;
+        /* ---------- the problem page ---------- */
+
+        .masthead, .masthead-sub { text-align: center; }
+        .masthead {
+            font-weight: normal;
+            font-size: 1.2em;
+            letter-spacing: 0.02em;
+            line-height: 1.2;
         }
-        /* on this page the reply breathes in waves:
-           small swells that build, recede, build higher,
-           crest, then a long slow afterglow */
-        @keyframes wordBreathe {
-            0%   { transform: scale(1);     opacity: 1;    }
-            12%  { transform: scale(1.012); opacity: 0.94; }
-            20%  { transform: scale(1.004); opacity: 0.98; }
-            34%  { transform: scale(1.025); opacity: 0.92; }
-            42%  { transform: scale(1.012); opacity: 0.96; }
-            58%  { transform: scale(1.04);  opacity: 0.9;  }
-            64%  { transform: scale(1.028); opacity: 0.94; }
-            76%  { transform: scale(1.065); opacity: 1;    }
-            84%  { transform: scale(1.03);  opacity: 1;    }
-            100% { transform: scale(1);     opacity: 1;    }
+        .masthead-sub {
+            font-style: italic;
+            font-size: 0.9em;
+            color: #999;
+            margin-top: 6px;
+        }
+
+        /* the intro box, with the question box inside it */
+        .intro {
+            border: 1px solid var(--ink);
+            padding: 16px 18px 14px;
+            margin: 22px 0 34px;
+            font-family: var(--serif);
+            font-size: 1.1em;
+            line-height: 1.35;
+        }
+        .intro a { color: inherit; font-weight: normal; text-decoration: none; }
+
+        /* the ask box: one plain box and one gray button, like an old search page */
+        .ask-box {
+            margin-top: 18px;
+            text-align: center;
+        }
+        .ask-box input#askQuestion {
+            display: block;
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 4px 6px;
+            background: #ffffff;
+            color: #000000;
+            font-family: 'Xanh Mono', 'Courier New', monospace;
+            font-size: 16px;
+            border: 1px solid;
+            border-color: #7a7a7a #c0c0c0 #c0c0c0 #7a7a7a;
+            border-radius: 0;
+            outline: none;
+            cursor: text;
+            transition: background-color 0.5s ease-out, border-color 0.5s ease-out;
+        }
+        /* once they stop typing, the blush fades away slowly */
+        .ask-box input#askQuestion.cooling {
+            transition: background-color 2.5s ease-in-out, border-color 2.5s ease-in-out;
+        }
+        .ask-box button {
+            margin-top: 10px;
+            padding: 3px 12px;
+            background: #dddddd;
+            color: #000000;
+            font-family: 'Xanh Mono', 'Courier New', monospace;
+            font-size: 13px;
+            border: 2px outset #eeeeee;
+            border-radius: 0;
+            cursor: pointer;
+        }
+        .ask-box button:active { border-style: inset; }
+        .ask-box .hp { position: absolute; left: -9999px; }
+        .ask-status {
+            display: block;
+            min-height: 1.3em;
+            margin-top: 8px;
+            font-family: 'Xanh Mono', 'Courier New', monospace;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        /* the letters, flowing in columns like a magazine page */
+        .letters {
+            column-count: 3;
+            column-gap: 26px;
+        }
+        @media (max-width: 860px) { .letters { column-count: 2; } }
+        @media (max-width: 600px) { .letters { column-count: 1; } }
+
+        .entry {
+            break-inside: avoid;
+            margin-bottom: 30px;
+            font-family: var(--serif);
+            font-size: 1.05em;
+            line-height: 1.35;
+        }
+
+        /* headline blocks: fixed, white with black type */
+        .headline {
+            display: block;
+            font-family: 'Xanh Mono', 'Courier New', monospace;
+            font-weight: normal;
+            font-size: 1em;   /* same size as the letters and replies */
+            letter-spacing: 0.03em;
+            line-height: 1.05;
+            color: #000000;
+            padding: 7px 9px 6px;
+            margin-bottom: 10px;
+            background-color: #ffffff;
+        }
+
+        /* like a nervous flush: each rush of blood arrives fast,
+           then drains away slowly; the rushes come closer and stronger,
+           a few heartbeats flicker at the peak, then a long fade */
+        /* the text flushes like a nervous rush of blood: each rush arrives
+           fast and drains slowly, the rushes come closer and stronger, a few
+           heartbeats at the peak, then a long fade back to white.
+           (headline blocks, grays, and the ask box keep their own colors) */
+        body { animation: textFlush 10s infinite; }
+        @keyframes textFlush {
+            0%   { color: #ffffff; animation-timing-function: ease-in-out; }
+            20%  { color: #ffffff; animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
+            25%  { color: #f8e1e5; animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+            38%  { color: #fefafb; animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
+            43%  { color: #f2c8d0; animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+            53%  { color: #fbeef1; animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
+            58%  { color: #ecadb9; animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+            66%  { color: #f4d2d9; animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
+            74%  { color: #e0899a; animation-timing-function: ease-in-out; }
+            76%  { color: #e598a7; animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
+            78%  { color: #e0899a; animation-timing-function: ease-in-out; }
+            80%  { color: #e496a5; animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
+            82%  { color: #e18e9e; animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+            100% { color: #ffffff; }
+        }
+        @media (prefers-reduced-motion: reduce) { body { animation: none; } }
+
+        .letter p + p, .reply p + p { margin-top: 0.7em; }
+        .signed {
+            display: block;
+            margin-top: 6px;
+            text-align: right;
+            font-family: 'Xanh Mono', 'Courier New', monospace;
+            font-weight: normal;
+            font-size: 0.8em;
+            letter-spacing: 0.08em;
+        }
+        .reply { margin-top: 12px; }
+        .reply .signed { margin-top: 8px; }
+
+        .sample-note {
+            font-family: 'Xanh Mono', 'Courier New', monospace;
+            font-size: 0.8em;
+            color: var(--muted);
+            margin-bottom: 18px;
         }
 
         /* about (same as index.html) */
@@ -78,9 +215,9 @@
             position: fixed;
             bottom: 20px; right: 20px;
             font-size: 1.1em;
-            font-family: 'Oswald', sans-serif;
-            font-weight: 200;
-            color: white;
+            font-family: 'Xanh Mono', 'Courier New', monospace;
+            font-weight: normal;
+            color: var(--ink);
             text-decoration: none;
             cursor: pointer;
             z-index: 1000;
@@ -89,10 +226,10 @@
         .about-text {
             position: fixed;
             bottom: 20px; right: 20px;
-            font-family: 'Oswald', sans-serif;
-            font-weight: 200;
+            font-family: 'Xanh Mono', 'Courier New', monospace;
+            font-weight: normal;
             font-size: 1.1em;
-            color: white;
+            color: var(--ink);
             z-index: 10000;
             text-align: right;
             white-space: nowrap;
@@ -104,117 +241,21 @@
             100% { opacity: 0; filter: blur(3px); }
         }
 
-        /* #1 the room heats up: the background fills with blood red, almost reaching a blush
-           at the crest of each swell, in sync with the reply */
-        body { animation: roomWarm 10s ease-in-out infinite; }
-        /* like a nervous flush: each rush of blood arrives fast,
-           then drains away slowly; the rushes come closer and stronger,
-           a few heartbeats flicker at the peak, then a long fade */
-        @keyframes roomWarm {
-            0%   { background-color: #000000; animation-timing-function: ease-in-out; }
-            20%  { background-color: #000000; animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
-            25%  { background-color: #1c0202; animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
-            38%  { background-color: #060000; animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
-            43%  { background-color: #2e0405; animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
-            53%  { background-color: #120101; animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
-            58%  { background-color: #3c0607; animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
-            66%  { background-color: #250303; animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
-            74%  { background-color: #5c1822; animation-timing-function: ease-in-out; }
-            76%  { background-color: #50141d; animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
-            78%  { background-color: #5c1822; animation-timing-function: ease-in-out; }
-            80%  { background-color: #52151e; animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
-            82%  { background-color: #591721; animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
-            100% { background-color: #000000; }
+        /* bold for the email and the headline blocks.
+           xanh mono has no bold of its own, so instead of letting the browser
+           smear the letters, this traces each letter with a thin outline in its
+           own color, which thickens it cleanly */
+        .intro a,
+        .headline {
+            -webkit-text-stroke: 0.03em currentColor;
+            paint-order: stroke fill;
         }
-
-        /* calm breathing, exactly like index.html (title + coming soon) */
-        .word-calm {
-            display: inline-block;
-            animation: calmBreathe 3s ease-in-out infinite;
-            will-change: opacity, transform;
-            contain: layout style;
-        }
-        @keyframes calmBreathe {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(0.94); }
-        }
-
-        /* the column */
-        .column {
-            max-width: 340px;
-            margin: 0 auto;
-        }
-
-        .masthead { text-align: left; }
-        .masthead h1 {
-            font-weight: 200;
-            font-size: 1.2em;
-            letter-spacing: 0.02em;
-            line-height: 1.2;
-        }
-        .entry-date {
-            margin-top: 0;
-            margin-bottom: 10px;
-            font-size: 0.9em;
-            color: #999;
-        }
-
-        /* a hairline above every entry: between the page title and the
-           first entry, and between each entry after that */
-        .entry {
-            border-top: 0.5px solid rgba(255, 255, 255, 0.3);
-            padding-top: 30px;
-            padding-bottom: 40px;
-        }
-
-        .letter {
-            padding: 0;
-            margin-bottom: 22px;
-            font-size: 1.2em;
-            line-height: 1.2;
-            letter-spacing: 0.02em;
-            font-style: italic;
-            color: white;
-        }
-        .signoff { white-space: pre-line; }
-        .letter .signed { display: block; margin-top: 8px; text-align: right; font-size: 0.75em; color: #999; }
-
-        .reply {
-            font-size: 1.2em;
-            line-height: 1.2;
-            letter-spacing: 0.02em;
-            text-align: justify;
-            hyphens: auto;
-            -webkit-hyphens: auto;
-        }
-        .reply p + p { margin-top: 1em; }
-
-        .signoff {
-            margin-top: 26px;
-            text-align: right;
-            font-size: 1.2em;
-            line-height: 1.2;
-        }
-
-        .write-in {
-            margin-top: 4px;
-            margin-bottom: 30px;
-            text-align: left;
-            font-size: 0.9em;
-            color: #999;
-        }
-
-        .sample-note {
-            font-size: 0.9em;
-            color: #777;
-            margin-bottom: 10px;
-        }
-
     </style>
 </head>
 <body>
     <div id="custom-cursor"></div>
     <a href="#" class="about-link" id="aboutLink">about</a>
+
     <header>
         <a class="site-name" href="/">screenshot scents</a>
         <div id="headerLinks">
@@ -224,32 +265,65 @@
         </div>
     </header>
 
-    <main class="column">
-        <div class="masthead">
-            <h1>ask romcomma</h1>
-        </div>
-        <div class="write-in">ask [at] screenshotscents.com</div>
-        <div id="entries"></div>
+    <main>
+        <div class="masthead">ask romcomma</div>
+        <div class="masthead-sub">love, sex, and the senses</div>
 
+        <div class="intro">
+            if you're stuck with something tender, embarrassing, or just plain horny, drop romcomma a line. ask anonymously below, or write to <a id="askEmail" href="#">ask [at] screenshotscents.com</a>. romcomma reads every letter and answers a few each week.
+
+            <form class="ask-box" id="askForm" autocomplete="off">
+                <input type="text" id="askQuestion" maxlength="1000" aria-label="your question" required>
+                <input type="text" id="askWebsite" class="hp" tabindex="-1" aria-hidden="true">
+                <button type="submit" id="askSend">ask romcomma</button>
+                <span class="ask-status" id="askStatus"></span>
+            </form>
+        </div>
+
+        <div class="letters" id="entries"></div>
     </main>
 
     <script>
         // ask romcomma entries
         // add a new entry at the top of this list.
-        // in "reply", leave a blank line (\n\n) between paragraphs.
+        // use \n\n to start a new paragraph. put a \ before any apostrophe (don\'t).
         //
-        // example (copy this, paste it inside the [ ], and fill it in):
         // {
         //     timestamp: '2026-11-19T21:00:00',
+        //     headline: 'scent of a man',
         //     question: 'the reader\'s question',
         //     signed: 'their nickname',
-        //     reply: 'first paragraph\n\nsecond paragraph',
-        //     signoff: 'keep your pulse up,\nromcomma'
+        //     reply: 'first paragraph\n\nsecond paragraph'
         // },
         const entries = [
         ];
 
-        entries.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+        // placeholder letters so you can see the layout.
+        // set this to false before you share the page.
+        const SHOW_SAMPLES = false;
+        const samples = [
+            {
+                timestamp: '2026-11-12T21:40:00',
+                headline: 'scent of a man',
+                question: 'i asked him to send me a picture of the deodorant he uses. was that too much?',
+                signed: 'nose first, silver lake',
+                reply: 'sample reply. your words go here.'
+            },
+            {
+                timestamp: '2026-11-10T20:00:00',
+                headline: 'hoodie habits',
+                question: 'is it weird that i smell his hoodie when he leaves the room and then pretend i was folding it?',
+                signed: 'folding, echo park',
+                reply: 'sample reply. your words go here.\n\na second paragraph, to show how longer answers flow down the column.'
+            },
+            {
+                timestamp: '2026-11-08T20:00:00',
+                headline: 'thanks but no thanks',
+                question: 'how do i tell someone i like everything about them except how they kiss?',
+                signed: 'lipless, highland park',
+                reply: 'sample reply. your words go here.'
+            }
+        ];
 
         function el(tag, className, text) {
             const node = document.createElement(tag);
@@ -258,68 +332,36 @@
             return node;
         }
 
-        // wraps each word so it breathes; every word moves together, as one body
-        function addBreathingWords(parent, text, startIndex) {
-            let i = startIndex;
-            text.split(' ').forEach((word, n) => {
-                if (n > 0) parent.appendChild(document.createTextNode(' '));
-                if (!word) return;
-                const span = el('span', 'word', word);
-                parent.appendChild(span);
-                i++;
-            });
-            return i;
+        function addParagraphs(parent, text) {
+            text.split('\n\n').forEach(par => parent.appendChild(el('p', '', par)));
         }
 
-        // breathing exactly like the journal on index.html
-        function addCalmWords(parent, text, postIndex) {
-            parent.textContent = '';
-            text.split(' ').forEach((word, i) => {
-                if (i > 0) parent.appendChild(document.createTextNode(' '));
-                const span = el('span', 'word-calm', word);
-                const delay = ((i * 0.1) + (postIndex * 0.3)) % 2;
-                span.style.animationDelay = delay.toFixed(2) + 's';
-                parent.appendChild(span);
-            });
-        }
-        addCalmWords(document.querySelector('.masthead h1'), 'ask romcomma', 0);
+        const list = entries.length ? entries : (SHOW_SAMPLES ? samples : []);
+        list.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
         const container = document.getElementById('entries');
-
-        // while there are no entries yet, show "coming soon" (it breathes too)
-        if (entries.length === 0) {
-            const soon = el('div', 'entry reply coming-soon');
-            addCalmWords(soon, 'coming soon', 1);
-            container.appendChild(soon);
+        if (!entries.length && SHOW_SAMPLES) {
+            container.before(el('div', 'sample-note', '[sample letters, just to show the layout]'));
         }
-        entries.forEach(entry => {
+        list.forEach(entry => {
             const article = el('article', 'entry');
-
-            article.appendChild(el('div', 'entry-date', new Date(entry.timestamp).toLocaleDateString('en-US', {
-                weekday: 'long', year: 'numeric', month: 'long',
-                day: 'numeric', hour: '2-digit', minute: '2-digit'
-            })));
+            if (entry.headline) {
+                article.appendChild(el('div', 'headline', entry.headline));
+            }
 
             const letter = el('div', 'letter');
-            letter.appendChild(el('div', 'question', entry.question));
-            if (entry.signed) letter.appendChild(el('span', 'signed', '— ' + entry.signed));
+            addParagraphs(letter, entry.question);
+            if (entry.signed) letter.appendChild(el('span', 'signed', entry.signed));
             article.appendChild(letter);
 
-            if (entry.sample) article.appendChild(el('div', 'sample-note', '[sample reply, your words go here]'));
-
             const reply = el('div', 'reply');
-            let wordCount = 0;
-            entry.reply.split('\n\n').forEach((par, pIndex) => {
-                const p = el('p');
-                wordCount = addBreathingWords(p, par, wordCount);
-                reply.appendChild(p);
-            });
+            addParagraphs(reply, entry.reply);
+            reply.appendChild(el('span', 'signed', 'romcomma'));
             article.appendChild(reply);
-
-            if (entry.signoff) article.appendChild(el('div', 'signoff', entry.signoff));
 
             container.appendChild(article);
         });
+
         // dog nose cursor + trail (same as index.html)
         const cursor = document.getElementById('custom-cursor');
         let cursorTimeout;
@@ -364,7 +406,94 @@
                 }
             }, 80);
         });
-    </script>
 
+        // email link, put together here so spam bots can't scrape it from the page
+        (function () {
+            const user = 'ask', domain = 'screenshotscents.com';
+            const link = document.getElementById('askEmail');
+            link.href = 'mailto:' + user + '@' + domain;
+            link.textContent = user + '@' + domain;
+        })();
+
+        // the anonymous question box
+        // same script as the tester strips on index.html (questions go to a private tab)
+        const ASK_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxQ4l46fvEUFX_CcfhXJ6QRQomfJ1DcomWv73K9DwNUjyvpHVQqdsNCCuFQYLf0PKCRtg/exec';
+
+        const askForm = document.getElementById('askForm');
+        const askStatus = document.getElementById('askStatus');
+        const askSend = document.getElementById('askSend');
+        const askQuestion = document.getElementById('askQuestion');
+        let askSending = false;
+
+
+        // the box blushes while someone types: every keystroke sends a little
+        // rush of color, longer confessions keep it warmer, and when they
+        // stop it slowly cools back to white
+        const WHITE = [255, 255, 255];
+        const BLUSH = [214, 112, 132];
+        let heat = 0, pulse = 0, coolTimer = null, glowFrame = null;
+
+        function paintBox() {
+            const h = Math.min(1, heat + pulse);
+            const mix = (i) => Math.round(WHITE[i] + (BLUSH[i] - WHITE[i]) * h);
+            askQuestion.style.backgroundColor = `rgb(${mix(0)}, ${mix(1)}, ${mix(2)})`;
+            askQuestion.style.borderColor = h > 0.05 ? `rgb(${mix(0) - 40}, ${mix(1) - 40}, ${mix(2) - 40})` : '';
+        }
+
+        function settle() {
+            pulse *= 0.9;
+            paintBox();
+            if (pulse > 0.01) glowFrame = requestAnimationFrame(settle);
+            else { pulse = 0; glowFrame = null; }
+        }
+
+        askQuestion.addEventListener('input', () => {
+            askQuestion.classList.remove('cooling');
+            heat = Math.min(0.75, askQuestion.value.length / 220);
+            pulse = Math.min(0.35, pulse + 0.12);
+            paintBox();
+            if (!glowFrame) glowFrame = requestAnimationFrame(settle);
+            clearTimeout(coolTimer);
+            coolTimer = setTimeout(() => {
+                askQuestion.classList.add('cooling');
+                heat = 0; pulse = 0;
+                paintBox();
+            }, 1400);
+        });
+
+        function showStatus(text) {
+            askStatus.classList.remove('misting');
+            askStatus.textContent = text;
+            void askStatus.offsetWidth;
+            setTimeout(() => askStatus.classList.add('misting'), 2500);
+        }
+
+        askForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (askSending) return;
+            const question = askQuestion.value.trim();
+            const nickname = '';
+            const honeypot = document.getElementById('askWebsite').value;
+            if (!question || honeypot) return;
+
+            askSending = true;
+            askSend.textContent = 'sending…';
+            try {
+                await fetch(ASK_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ question, nickname })
+                });
+                askForm.reset();
+                askQuestion.classList.add('cooling');
+                heat = 0; pulse = 0; paintBox();
+                showStatus('sent. romcomma will be reading 😏');
+            } catch (err) {
+                showStatus('that didn\'t go through, try again?');
+            } finally {
+                askSending = false;
+                askSend.textContent = 'ask romcomma';
+            }
+        });
+    </script>
 </body>
 </html>
