@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ask romcomma - Screenshot Scents</title>
     <style>
+        /* always leave room for the scrollbar, so short and long pages line up exactly */
+        html { overflow-y: scroll; }
+
         /* page colors: swap these to try a paper version
            (e.g. --paper: #f3e6e2; --ink: #111111;) */
         :root {
@@ -23,8 +26,8 @@
             color: var(--ink);
             font-family: 'Xanh Mono', 'Courier New', monospace;
             font-weight: normal;
-            padding: 40px 16px 80px;
-            max-width: 1000px;
+            padding: 40px 20px;   /* same page width and margins as index.html */
+            max-width: 800px;
             margin: 0 auto;
             line-height: 1.0;
         }
@@ -58,7 +61,6 @@
             margin-top: 10px;
             font-style: italic;
         }
-        #last-online:empty { display: none; }
         #headerLinks { display: flex; gap: 15px; margin-top: 10px; }
         #headerLinks a {
             color: #ffffff;
@@ -182,10 +184,9 @@
 
         /* the letters, flowing in columns like a magazine page */
         .letters {
-            column-count: 3;
+            column-count: 2;
             column-gap: 26px;
         }
-        @media (max-width: 860px) { .letters { column-count: 2; } }
         @media (max-width: 600px) { .letters { column-count: 1; } }
 
         .entry {
@@ -578,7 +579,9 @@
 
         // "last updated" follows the newest ask romcomma entry (hidden until there is one)
         (function () {
-            if (!entries.length) return;
+            // before the first entry, keep the line's space (blank) so the links
+            // sit exactly where they do on the other pages
+            if (!entries.length) { document.getElementById('last-online').textContent = '\u00a0'; return; }
             const newest = entries.reduce((a, b) => new Date(a.timestamp) > new Date(b.timestamp) ? a : b);
             const postDate = new Date(newest.timestamp);
             const diffDays = Math.floor((new Date() - postDate) / (1000 * 60 * 60 * 24));
