@@ -273,6 +273,30 @@
 
         /* page names at the top in bold */
         #headerLinks a { font-weight: normal; }
+
+        /* the "ask romcomma" link blushes and gently swells, both in the same breath */
+        .ask-link {
+            display: inline-block;
+            transform-origin: 50% 60%;
+            animation: askFlush 10s infinite;
+        }
+        @keyframes askFlush {
+            0%   { color: #ffffff; transform: scale(1); animation-timing-function: ease-in-out; }
+            20%  { color: #ffffff; transform: scale(1); animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
+            25%  { color: #f8e1e5; transform: scale(1.008); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+            38%  { color: #fefafb; transform: scale(1.002); animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
+            43%  { color: #f2c8d0; transform: scale(1.014); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+            53%  { color: #fbeef1; transform: scale(1.006); animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
+            58%  { color: #ecadb9; transform: scale(1.022); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+            66%  { color: #f4d2d9; transform: scale(1.012); animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
+            74%  { color: #e0899a; transform: scale(1.035); animation-timing-function: ease-in-out; }
+            76%  { color: #e598a7; transform: scale(1.03); animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
+            78%  { color: #e0899a; transform: scale(1.035); animation-timing-function: ease-in-out; }
+            80%  { color: #e496a5; transform: scale(1.031); animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
+            82%  { color: #e18e9e; transform: scale(1.033); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+            100% { color: #ffffff; transform: scale(1); }
+        }
+        @media (prefers-reduced-motion: reduce) { .ask-link { animation: none; } }
     </style>
 </head>
 <body>
@@ -286,7 +310,7 @@
         <div id="last-online"></div>
         <div id="headerLinks" style="display: flex; gap: 15px; margin-top: 10px;">
             <a href="index.html" class="back-link">blog</a>
-            <a href="ask-romcomma.html" class="back-link">ask romcomma</a>
+            <a href="ask-romcomma.html" class="back-link ask-link">ask romcomma</a>
             <a class="email-link" id="emailLink">contact</a>
         </div>
     </header>
