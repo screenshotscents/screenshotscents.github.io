@@ -133,7 +133,13 @@
             color: #ffffff;   /* the prompt stays white; it doesn't flush */
         }
         .keep-together { white-space: nowrap; }
-        .intro a { color: inherit; font-weight: normal; text-decoration: none; }
+        .intro a {
+            color: #ffffff;
+            font-weight: normal;
+            text-decoration: none;
+            animation: textFlush 13s infinite;
+            animation-delay: -5s;   /* its own rhythm, out of step with the button */
+        }
 
         /* the ask box: one plain box and one gray button, like an old search page */
         .ask-box {
@@ -172,6 +178,23 @@
             border: 2px outset #eeeeee;
             border-radius: 0;
             cursor: pointer;
+            animation: buttonFlush 10s infinite;   /* the button blushes */
+        }
+        @keyframes buttonFlush {
+            0%   { background-color: #dddddd; animation-timing-function: ease-in-out; }
+            20%  { background-color: #dddddd; animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
+            25%  { background-color: #e3cbd0; animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+            38%  { background-color: #dcd6d7; animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
+            43%  { background-color: #e5bcc4; animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+            53%  { background-color: #ddd0d2; animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
+            58%  { background-color: #e6abb6; animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+            66%  { background-color: #e2c3c9; animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
+            74%  { background-color: #e48d9e; animation-timing-function: ease-in-out; }
+            76%  { background-color: #e59aa8; animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
+            78%  { background-color: #e48d9e; animation-timing-function: ease-in-out; }
+            80%  { background-color: #e598a6; animation-timing-function: cubic-bezier(0.15, 0.85, 0.3, 1); }
+            82%  { background-color: #e491a1; animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+            100% { background-color: #dddddd; }
         }
         .ask-box button:active { border-style: inset; }
         .ask-box input#askQuestion::placeholder {
@@ -253,7 +276,7 @@
             82%  { color: #e18e9e; animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
             100% { color: #ffffff; }
         }
-        @media (prefers-reduced-motion: reduce) { body { animation: none; } }
+        @media (prefers-reduced-motion: reduce) { body, .intro a, .ask-box button { animation: none; } }
 
         .letter p + p, .reply p + p { margin-top: 0.7em; }
         .signed {
@@ -333,7 +356,6 @@
     </header>
 
     <main>
-        <div class="masthead">ask romcomma</div>
 
         <div class="intro">
             if you're stuck with something tender, embarrassing, or just plain horny, drop romcomma a line. ask anonymously below, or write to <span class="keep-together"><a id="askEmail" href="#">ask [at] screenshotscents.com</a>.</span> romcomma reads every letter and answers a few each week.
@@ -454,7 +476,6 @@
             container.appendChild(article);
         });
 
-        breathe(document.querySelector('.masthead'), 0);
         breathe(document.querySelector('.intro'), 2);
         document.querySelectorAll('.letter, .reply').forEach((el, n) => breathe(el, n + 3));
 
@@ -582,7 +603,7 @@
                 askForm.reset();
                 askQuestion.classList.add('cooling');
                 heat = 0; pulse = 0; paintBox();
-                showStatus('love==the message');
+                showStatus('have a sexy day');
             } catch (err) {
                 showStatus('that didn\'t go through, try again?');
             } finally {
