@@ -427,7 +427,9 @@
             document.getElementById('last-online').textContent =
                 `last updated ${timeAgo}, under ${moonNames[getMoonPhase(postDate)] || 'the moon'}`;
         }
-        getLastOnline();
+        // the "last updated ... moon" line is turned off on this page.
+        // its space is kept (blank) so the header lines up with the other pages.
+        document.getElementById('last-online').textContent = '\u00a0';
 
         const cursor = document.getElementById('custom-cursor');
         let cursorTimeout;
