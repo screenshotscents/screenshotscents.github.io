@@ -29,11 +29,56 @@
             line-height: 1.0;
         }
 
-        /* header (same links as the rest of the site) */
-        header { margin-bottom: 50px; }
-        .site-name { font-size: 1.1em; color: inherit; text-decoration: none; letter-spacing: 0.04em; }
+        /* header: same as index.html and mixtapes.html (stays white, doesn't flush) */
+        header {
+            text-align: left;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            color: #ffffff;
+        }
+        .logo-image {
+            height: 120px;
+            display: block;
+            margin-bottom: 20px;
+            animation: screenshotFlash 11s ease-in-out infinite;
+        }
+        @keyframes screenshotFlash {
+            0%, 93% { opacity: 1; }
+            94% { opacity: 0.05; }
+            95% { opacity: 0.3; }
+            96% { opacity: 0.7; }
+            97% { opacity: 1; }
+            100% { opacity: 1; }
+        }
+        #datetime { font-size: 1.1em; margin-bottom: 10px; }
+        #current-time { font-size: 1.1em; color: #ccc; }
+        #last-online {
+            font-size: 0.9em;
+            color: #999;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        #last-online:empty { display: none; }
         #headerLinks { display: flex; gap: 15px; margin-top: 10px; }
-        #headerLinks a { color: inherit; text-decoration: none; font-size: 1.1em; font-weight: normal; }
+        #headerLinks a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: normal;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+        #headerLinks a.hidden { display: none; }
+        .email-reveal {
+            font-size: 1.1em;
+            color: #ffffff;
+            white-space: nowrap;
+            display: inline;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-in forwards;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         /* dog nose cursor (same as index.html) */
         @media (hover: hover) and (pointer: fine) {
@@ -77,7 +122,7 @@
 
         /* the intro box, with the question box inside it */
         .intro {
-            border: 1px solid var(--ink);
+            border: 1px solid currentColor;   /* the box's line flushes along with the text */
             padding: 16px 18px 14px;
             margin: 22px 0 34px;
             font-family: var(--serif);
@@ -257,11 +302,13 @@
     <a href="#" class="about-link" id="aboutLink">about</a>
 
     <header>
-        <a class="site-name" href="/">screenshot scents</a>
+        <a href="/"><img src="screenshot_scents_text.png" alt="Screenshot Scents" class="logo-image"></a>
+        <div><span id="datetime"></span> <span id="current-time"></span> <span id="moonSymbol"></span></div>
+        <div id="last-online"></div>
         <div id="headerLinks">
             <a href="index.html">blog</a>
             <a href="mixtapes.html">mixtapes</a>
-            <a href="#">contact</a>
+            <a id="emailLink">contact</a>
         </div>
     </header>
 
@@ -493,6 +540,72 @@
                 askSending = false;
                 askSend.textContent = 'ask romcomma';
             }
+        });
+        // header: date, time, moon, last updated (same as index.html)
+        function updateDateTime() {
+            const now = new Date();
+            document.getElementById('datetime').textContent = now.toLocaleDateString('en-US', {
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+            });
+            document.getElementById('current-time').textContent = now.toLocaleTimeString('en-US', {
+                hour: '2-digit', minute: '2-digit', second: '2-digit'
+            });
+        }
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+
+        function getMoonPhase(date) {
+            const knownNewMoon = new Date(2000, 0, 6, 18, 14);
+            const lunarCycle = 29.53058867;
+            const diff = (date - knownNewMoon) / (1000 * 60 * 60 * 24);
+            const phase = ((diff % lunarCycle) + lunarCycle) % lunarCycle;
+            if (phase < 1.84566) return '●';
+            if (phase < 5.53699) return '☽';
+            if (phase < 9.22831) return '◐';
+            if (phase < 12.91963) return '◑';
+            if (phase < 16.61096) return '○';
+            if (phase < 20.30228) return '◐';
+            if (phase < 23.99361) return '◑';
+            if (phase < 27.68493) return '☾';
+            return '●';
+        }
+        function updateMoonSymbol() {
+            document.getElementById('moonSymbol').textContent = getMoonPhase(new Date());
+        }
+        updateMoonSymbol();
+        setInterval(updateMoonSymbol, 60000);
+
+        // "last updated" follows the newest ask romcomma entry (hidden until there is one)
+        (function () {
+            if (!entries.length) return;
+            const newest = entries.reduce((a, b) => new Date(a.timestamp) > new Date(b.timestamp) ? a : b);
+            const postDate = new Date(newest.timestamp);
+            const diffDays = Math.floor((new Date() - postDate) / (1000 * 60 * 60 * 24));
+            const timeAgo = diffDays === 0 ? 'today' : diffDays === 1 ? '1 day ago' : `${diffDays} days ago`;
+            const moonNames = {
+                '●': 'a new moon', '☽': 'a waxing crescent', '◐': 'a first quarter moon',
+                '◑': 'a waxing gibbous', '○': 'a full moon', '☾': 'a waning crescent'
+            };
+            document.getElementById('last-online').textContent =
+                `last updated ${timeAgo}, under ${moonNames[getMoonPhase(postDate)] || 'the moon'}`;
+        })();
+
+        // contact (same as the other pages)
+        const emailLink = document.getElementById('emailLink');
+        let emailClicked = false;
+        emailLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (emailClicked) return;
+            emailClicked = true;
+            emailLink.classList.add('hidden');
+            const emailText = document.createElement('span');
+            emailText.className = 'email-reveal';
+            emailText.textContent = 'sniff [at] screenshotscents.com';
+            emailLink.insertAdjacentElement('afterend', emailText);
+            setTimeout(() => {
+                emailText.classList.add('misting');
+                setTimeout(() => { emailText.remove(); emailClicked = false; emailLink.classList.remove('hidden'); }, 4000);
+            }, 1500);
         });
     </script>
 </body>
