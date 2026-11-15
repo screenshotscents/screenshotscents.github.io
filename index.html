@@ -224,8 +224,15 @@
             animation: screenshotFlash 11s ease-in-out infinite;
         }
         
-        #datetime { font-size: 1.1em; margin-bottom: 10px; }
-        #current-time { font-size: 1.1em; color: #ccc; }
+        /* the date, time and moon line.
+           CLOCK SIZE: change 0.95em below to make it bigger or smaller everywhere.
+           on narrow phones it also shrinks just enough to stay on one line. */
+        .clock-line {
+            font-size: min(0.95em, calc((100vw - 40px) / 26));
+            white-space: nowrap;
+        }
+        #datetime { font-size: 1em; }
+        #current-time { font-size: 1em; color: #ccc; }
         
         .entries { margin-top: 40px; }
         
@@ -471,7 +478,7 @@
         <div class="main-content">
             <header>
                 <a href="/"><img src="screenshot_scents_text.png" alt="Screenshot Scents" class="logo-image"></a>
-                <div><span id="datetime"></span> <span id="current-time"></span> <span id="moonSymbol"></span></div>
+                <div class="clock-line"><span id="datetime"></span> <span id="current-time"></span> <span id="moonSymbol"></span></div>
                 <div id="last-online"></div>
                 <div id="headerLinks" style="display: flex; gap: 15px; margin-top: 10px;">
                     <a href="mixtapes.html" class="email-link" style="margin-top: 0;">mixtapes</a>
