@@ -54,8 +54,15 @@
             97% { opacity: 1; }
             100% { opacity: 1; }
         }
-        #datetime { font-size: 1.1em; margin-bottom: 10px; }
-        #current-time { font-size: 1.1em; color: #ccc; }
+        /* the date, time and moon line.
+           CLOCK SIZE: change 0.95em below to make it bigger or smaller everywhere.
+           on narrow phones it also shrinks just enough to stay on one line. */
+        .clock-line {
+            font-size: min(0.95em, calc((100vw - 40px) / 26));
+            white-space: nowrap;
+        }
+        #datetime { font-size: 1em; }
+        #current-time { font-size: 1em; color: #ccc; }
         #last-online {
             font-size: 0.9em;
             color: #999;
@@ -375,7 +382,7 @@
 
     <header>
         <a href="/"><img src="screenshot_scents_text.png" alt="Screenshot Scents" class="logo-image"></a>
-        <div><span id="datetime"></span> <span id="current-time"></span> <span id="moonSymbol"></span></div>
+        <div class="clock-line"><span id="datetime"></span> <span id="current-time"></span> <span id="moonSymbol"></span></div>
         <div id="last-online"></div>
         <div id="headerLinks">
             <a href="index.html">blog</a>
