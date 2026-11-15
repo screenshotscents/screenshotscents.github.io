@@ -183,8 +183,7 @@
             writing-mode: vertical-rl;
             text-align: start;
             white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            overflow: visible;   /* long titles may run a little past the photo instead of being cut off */
         }
 
         .grid-item:hover .grid-item-title {
@@ -297,6 +296,20 @@
             100% { color: #ffffff; transform: scale(1); }
         }
         @media (prefers-reduced-motion: reduce) { .ask-link { animation: none; } }
+
+        /* header links on small screens: each link stays whole, and when "contact"
+           reveals the email, it drops to its own line instead of squeezing the
+           other links or running off the edge of the screen */
+        #headerLinks { flex-wrap: wrap; row-gap: 6px; }
+        #headerLinks > * { flex-shrink: 0; white-space: nowrap; }
+        /* on phones the "last online" line can wrap to two lines on the homepage;
+           every page reserves the same two-line space so the links never jump */
+        @media (max-width: 600px) {
+            #last-online { min-height: 2em; }
+        }
+        /* stop phones (especially iPhone Safari) from auto-enlarging text
+           when something on the page changes width */
+        html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
     </style>
 </head>
 <body>
