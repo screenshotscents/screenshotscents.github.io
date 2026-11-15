@@ -419,7 +419,7 @@
         /* header links on small screens: each link stays whole, and when "contact"
            reveals the email, it drops to its own line instead of squeezing the
            other links or running off the edge of the screen */
-        #headerLinks { flex-wrap: wrap; row-gap: 6px; }
+        #headerLinks { flex-wrap: wrap; row-gap: 6px; min-height: 1.1em; }  /* the row never changes height */
         #headerLinks > * { flex-shrink: 0; white-space: nowrap; }
         /* on phones the "last online" line can wrap to two lines on the homepage;
            every page reserves the same two-line space so the links never jump */
@@ -429,6 +429,20 @@
         /* stop phones (especially iPhone Safari) from auto-enlarging text
            when something on the page changes width */
         html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+        /* on phones, tapping "contact" briefly swaps the whole menu for the email
+           (instead of pushing it onto a second line), then the links come back */
+        @media (max-width: 600px) {
+            #headerLinks.revealing > a { display: none; }
+        }
+        /* on very narrow phones, shrink the revealed email just enough to fit on one line */
+        @media (max-width: 600px) {
+            #headerLinks .email-reveal { font-size: min(1.1em, calc((100vw - 42px) / 18.6)); }
+        }
+        /* the smallest phones: tighten the menu a touch so it stays on one line */
+        @media (max-width: 359px) {
+            #headerLinks { column-gap: 10px !important; }
+            #headerLinks > a { font-size: 1em !important; }
+        }
     </style>
 </head>
 <body>
@@ -713,13 +727,14 @@
             if (emailClicked) return;
             emailClicked = true;
             emailLink.classList.add('hidden');
+            document.getElementById('headerLinks').classList.add('revealing');
             const emailText = document.createElement('span');
             emailText.className = 'email-reveal';
             emailText.textContent = 'sniff [at] screenshotscents.com';
             document.getElementById('headerLinks').appendChild(emailText);
             setTimeout(() => {
                 emailText.classList.add('misting');
-                setTimeout(() => { emailText.remove(); emailClicked = false; emailLink.classList.remove('hidden'); }, 4000);
+                setTimeout(() => { emailText.remove(); emailClicked = false; emailLink.classList.remove('hidden'); document.getElementById('headerLinks').classList.remove('revealing'); }, 4000);
             }, 1500);
         });
 
