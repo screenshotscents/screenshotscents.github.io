@@ -4,6 +4,7 @@
     <link rel="icon" type="image/png" href="favicon-32x32.png">
     <link href="https://fonts.googleapis.com/css2?family=Xanh+Mono:ital@0;1&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
+    <meta name="description" content="ask romcomma: smoke breaks, sex and the senses">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ask romcomma - Screenshot Scents</title>
     <style>
@@ -338,6 +339,20 @@
             -webkit-text-stroke: 0.03em currentColor;
             paint-order: stroke fill;
         }
+
+        /* header links on small screens: each link stays whole, and when "contact"
+           reveals the email, it drops to its own line instead of squeezing the
+           other links or running off the edge of the screen */
+        #headerLinks { flex-wrap: wrap; row-gap: 6px; }
+        #headerLinks > * { flex-shrink: 0; white-space: nowrap; }
+        /* on phones the "last online" line can wrap to two lines on the homepage;
+           every page reserves the same two-line space so the links never jump */
+        @media (max-width: 600px) {
+            #last-online { min-height: 2em; }
+        }
+        /* stop phones (especially iPhone Safari) from auto-enlarging text
+           when something on the page changes width */
+        html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
     </style>
 </head>
 <body>
