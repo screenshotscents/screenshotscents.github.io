@@ -5,20 +5,35 @@
     <link rel="icon" type="image/png" href="favicon-32x32.png">
     <link href="https://fonts.googleapis.com/css2?family=Xanh+Mono:ital@0;1&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
-    <meta name="description" content="eau de blog">
+    <meta name="description" content="blog ⋆ mixtapes ⋆ ask romcomma ⋆ contact">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mixtapes - Screenshot Scents</title>
+    <title>Screenshot Scents</title>
     <style>
         /* always leave room for the scrollbar, so short and long pages line up exactly */
         html { overflow-y: scroll; }
 
+
+        #last-online {
+            font-size: 0.9em;
+            color: #999;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        
+        .post-photo-wrapper {
+            position: relative;
+            display: block;
+            width: 100%;
+            line-height: 0;
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        *:not(.back-link):not(.email-link):not(.about-link) {
+        *:not(.about-link):not(.email-link) {
             cursor: none;
         }
 
@@ -43,7 +58,148 @@
         @media (hover: hover) and (pointer: fine) {
             #custom-cursor { display: block; }
         }
-
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .tester-strip {
+            width: 280px;
+            position: fixed;
+            right: 20px;
+            top: 100px;
+            background: black;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            transform: scaleX(-1);
+        }
+        
+        .input-strip-container {
+            position: relative;
+            width: 100%;
+            height: 70px;
+            margin-bottom: 30px;
+            cursor: text;
+        }
+        
+        .input-strip-svg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .tester-input {
+            position: absolute;
+            top: 65%;
+            transform: translateY(-50%) scaleX(-1);
+            left: 0;
+            width: 100%;
+            height: auto;
+            background: transparent;
+            border: none;
+            font-family: 'Xanh Mono', 'Courier New', monospace;
+            font-weight: normal;
+            font-size: 1.0em;
+            text-align: center;
+            padding: 10px 30px 10px 50px;
+            z-index: 1;
+            clip-path: polygon(0 10%, 85% 10%, 100% 50%, 85% 90%, 0 90%);
+            resize: none;
+            overflow: hidden;
+            word-wrap: break-word;
+            line-height: 1.3;
+            color: white;
+        }
+        
+        .tester-input::placeholder {
+            color: #666;
+            text-align: center;
+            animation: blurPulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes blurPulse {
+            0%, 100% { filter: blur(0px); opacity: 1; }
+            50% { filter: blur(1.5px); opacity: 0.7; }
+        }
+        
+        .tester-input:focus { outline: none; }
+        
+        .card-stack {
+            position: relative;
+            width: 100%;
+            height: 70px;
+            flex-shrink: 0;
+        }
+        
+        .strip-card {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 70px;
+            transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: pointer;
+        }
+        
+        .strip-card:nth-child(1) { z-index: 100; transform: translateY(0) translateX(0) rotate(0deg); }
+        .strip-card:nth-child(2) { z-index: 99; transform: translateY(3px) translateX(-2px) rotate(-0.5deg); }
+        .strip-card:nth-child(3) { z-index: 98; transform: translateY(6px) translateX(1px) rotate(0.3deg); }
+        .strip-card:nth-child(4) { z-index: 97; transform: translateY(9px) translateX(-1px) rotate(-0.2deg); }
+        .strip-card:nth-child(5) { z-index: 96; transform: translateY(12px) translateX(2px) rotate(0.4deg); }
+        .strip-card:nth-child(n+6) { z-index: 95; transform: translateY(15px) translateX(-1px) rotate(-0.1deg); }
+        
+        .strip-card.moving-back {
+            animation: slideToBack 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+        
+        @keyframes slideToBack {
+            0% { transform: translateY(0) translateX(0) rotate(0deg); z-index: 200; }
+            30% { transform: translateY(-15px) translateX(25px) rotate(3deg); }
+            60% { transform: translateY(0) translateX(35px) rotate(5deg); }
+            100% { transform: translateY(15px) translateX(-1px) rotate(-0.1deg); z-index: 1; }
+        }
+        
+        .strip-svg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+        }
+        
+        .submission-text {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Xanh Mono', 'Courier New', monospace;
+            font-weight: normal;
+            font-size: 1em;
+            line-height: 1.2;
+            padding: 5px 50px;
+            z-index: 1;
+            clip-path: polygon(0 10%, 85% 10%, 100% 50%, 85% 90%, 0 90%);
+            overflow: hidden;
+            transition: opacity 0.3s ease;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+            text-align: center;
+            transform: scaleX(-1);
+            color: white;
+        }
+        
+        .strip-card:nth-child(1) .submission-text { opacity: 1; }
+        .strip-card:nth-child(2) .submission-text { opacity: 0.7; }
+        .strip-card:nth-child(3) .submission-text { opacity: 0.5; }
+        .strip-card:nth-child(4) .submission-text { opacity: 0.3; }
+        .strip-card:nth-child(n+5) .submission-text { opacity: 0.15; }
+        
+        .main-content { flex: 1; }
+        
         body {
             background: black;
             color: white;
@@ -54,29 +210,20 @@
             margin: 0 auto;
             line-height: 1.0;
         }
-
+        
         header {
             text-align: left;
             margin-bottom: 50px;
             padding-bottom: 30px;
         }
-
+        
         .logo-image {
             height: 120px;
             display: block;
             margin-bottom: 20px;
             animation: screenshotFlash 11s ease-in-out infinite;
         }
-
-        @keyframes screenshotFlash {
-            0%, 93% { opacity: 1; }
-            94% { opacity: 0.05; }
-            95% { opacity: 0.3; }
-            96% { opacity: 0.7; }
-            97% { opacity: 1; }
-            100% { opacity: 1; }
-        }
-
+        
         /* the date, time and moon line.
            CLOCK SIZE: change 0.95em below to make it bigger or smaller everywhere.
            on narrow phones it also shrinks just enough to stay on one line. */
@@ -86,143 +233,46 @@
         }
         #datetime { font-size: 1em; }
         #current-time { font-size: 1em; color: #ccc; }
-
-        #last-online {
+        
+        .entries { margin-top: 40px; }
+        
+        .entry {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            animation: entryFadeIn 0.4s ease-out both;
+        }
+        
+        .entry:last-child { border-bottom: none; }
+        
+        @keyframes entryFadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .entry-date {
             font-size: 0.9em;
             color: #999;
-            margin-top: 10px;
-            font-style: italic;
+            margin-bottom: 10px;
         }
 
-        .back-link, .email-link {
-            font-size: 1.1em;
-            font-family: 'Xanh Mono', 'Courier New', monospace;
+        /* the first line of each post (its title) in bold */
+        .post-title {
             font-weight: normal;
-            color: white;
-            text-decoration: none;
-            cursor: pointer;
-            transition: color 0.3s ease;
-            pointer-events: auto;
-            -webkit-tap-highlight-color: transparent;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            user-select: none;
         }
-
-        .back-link:hover, .email-link:hover { color: white; }
-        .email-link.hidden { display: none; }
-
-        .email-reveal {
-            font-family: 'Xanh Mono', 'Courier New', monospace;
-            font-weight: normal;
-            font-size: 1.1em;
-            color: white;
-            white-space: nowrap;
-            display: inline;
-            opacity: 0;
-            animation: fadeIn 0.8s ease-in forwards;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .misting { animation: mistOut 4s ease-out forwards; }
-
-        @keyframes mistOut {
-            0% { opacity: 1; filter: blur(0px); }
-            50% { opacity: 0.5; filter: blur(1px); }
-            100% { opacity: 0; filter: blur(3px); }
-        }
-
-        .grid {
-            columns: 3;
-            column-gap: 20px;
-            margin-top: 40px;
-            opacity: 0;
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-
-        @media (max-width: 700px) {
-            .grid { columns: 2; }
-        }
-
-        @media (max-width: 420px) {
-            .grid { columns: 1; }
-        }
-
-        .grid-item {
-            break-inside: avoid;
-            margin-bottom: 20px;
-            display: grid;
-            grid-template-rows: auto auto;
-        }
-
-        .grid-item-title {
-            font-size: 1.1em;
-            font-style: normal;
-            font-family: 'Xanh Mono', 'Courier New', monospace;
-            font-weight: normal;
-            margin-top: 8px;
-            margin-bottom: 0;
-            color: white;
-            text-align: center;
-            display: block;
-            opacity: 0;
-            filter: blur(3px);
-            transition: opacity 0.8s ease-out, filter 0.8s ease-out;
-        }
-
-        /* photo + rotated title container */
-        .photo-wrap {
-            position: relative;
-            /* reserve a strip on the right so the title sits outside the image
-               without spilling into the next column */
-            padding-right: 1.6em;
-        }
-
-        /* title runs vertically beside the image, starting at its top edge */
-        .photo-wrap .grid-item-title {
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            margin: 0;
-            padding: 0;
-            writing-mode: vertical-rl;
-            text-align: start;
-            white-space: nowrap;
-            overflow: visible;   /* long titles may run a little past the photo instead of being cut off */
-        }
-
-        .grid-item:hover .grid-item-title {
-            opacity: 1;
-            filter: blur(0px);
-            transition: opacity 0.3s ease-in, filter 0.3s ease-in;
-        }
-
-        @media (hover: none) {
-            .grid-item.in-view .grid-item-title {
-                opacity: 1;
-                filter: blur(0px);
-                transition: opacity 0.3s ease-in, filter 0.3s ease-in;
-            }
-        }
-
-        .grid-item-content {
-            font-size: 0.9em;
-            font-family: 'Xanh Mono', 'Courier New', monospace;
-            font-weight: normal;
+        
+        .entry-content {
+            font-size: 1.2em;
+            line-height: 1.0;
+            letter-spacing: 0.02em;
             white-space: pre-wrap;
-            line-height: 1.4;
-            color: white;
         }
-
-        .grid-item-photo,
-        .grid-item-photo-only {
+        
+        .post-photo {
             width: 100%;
+            max-width: 100%;
             height: auto;
+            margin: 20px 0;
             display: block;
-            aspect-ratio: 3 / 4;
-            object-fit: cover;
         }
 
         .word {
@@ -237,10 +287,16 @@
             50% { opacity: 0.8; transform: scale(0.94); }
         }
 
-        .moon-symbol-fixed {
-            font-size: 1.5em;
-            color: white;
+        @keyframes screenshotFlash {
+            0%, 93% { opacity: 1; }
+            94% { opacity: 0.05; }
+            95% { opacity: 0.3; }
+            96% { opacity: 0.7; }
+            97% { opacity: 1; }
+            100% { opacity: 1; }
         }
+
+        #load-sentinel { height: 1px; margin-top: 40px; }
 
         .about-link {
             position: fixed;
@@ -255,10 +311,43 @@
             z-index: 1000;
             pointer-events: auto;
         }
-
+        
         .about-link:hover { color: white; }
         .about-link.hidden { display: none; }
 
+        .email-link {
+            font-size: 1.1em;
+            font-family: 'Xanh Mono', 'Courier New', monospace;
+            font-weight: normal;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            display: block;
+            margin-top: 10px;
+            pointer-events: auto;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        
+        .email-link:hover { color: white; }
+        .email-link.hidden { display: none; }
+
+        .email-reveal {
+            font-family: 'Xanh Mono', 'Courier New', monospace;
+            font-weight: normal;
+            font-size: 1.1em;
+            color: white;
+            white-space: nowrap;
+            display: inline;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-in forwards;
+        }
+        
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
         .about-text {
             position: fixed;
             bottom: 20px; right: 20px;
@@ -270,12 +359,42 @@
             text-align: right;
             white-space: nowrap;
         }
+        
+        .misting { animation: mistOut 4s ease-out forwards; }
+        
+        @keyframes mistOut {
+            0% { opacity: 1; filter: blur(0px); }
+            50% { opacity: 0.5; filter: blur(1px); }
+            100% { opacity: 0; filter: blur(3px); }
+        }
 
-        #load-sentinel { height: 1px; margin-top: 40px; }
+        .moon-symbol-fixed {
+            font-size: 1.5em;
+            color: white;
+        }
+        
+        @media (max-width: 1300px) {
+            .tester-strip {
+                opacity: 0;
+                pointer-events: none;
+                transform: scale(0.95) scaleX(-1);
+                transition: opacity 0.3s ease, transform 0.3s ease;
+            }
+        }
+        
+        @media (min-width: 1301px) {
+            .tester-strip {
+                opacity: 1;
+                pointer-events: auto;
+                transform: scale(1) scaleX(-1);
+                transition: opacity 0.3s ease, transform 0.3s ease;
+            }
+        }
 
         @media (max-width: 768px) {
             .moon-symbol-fixed { top: 40px; }
         }
+        
 
         /* page names at the top in bold */
         #headerLinks a { font-weight: normal; }
@@ -335,109 +454,44 @@
 </head>
 <body>
     <div id="custom-cursor"></div>
-
     <a href="#" class="about-link" id="aboutLink">about</a>
-
-    <header>
-        <a href="/"><img src="screenshot_scents_text.png" alt="Screenshot Scents" class="logo-image"></a>
-        <div class="clock-line"><span id="datetime"></span> <span id="current-time"></span> <span id="moonSymbol"></span></div>
-        <div id="last-online"></div>
-        <div id="headerLinks" style="display: flex; gap: 15px; margin-top: 10px;">
-            <a href="index.html" class="back-link">blog</a>
-            <a href="ask-romcomma.html" class="back-link ask-link">ask romcomma</a>
-            <a class="email-link" id="emailLink">contact</a>
+    
+    <aside class="tester-strip" data-nosnippet>
+        <div class="input-strip-container">
+            <svg class="input-strip-svg" viewBox="0 0 240 70" preserveAspectRatio="none">
+                <path d="M 0,7 L 200,7 L 240,35 L 200,63 L 0,63 Z" 
+                      fill="black" stroke="white" stroke-width="0.3"/>
+            </svg>
+            <textarea 
+                class="tester-input" 
+                id="testerInput"
+                placeholder="capture a moment"
+                maxlength="30"
+                rows="2"
+                autocomplete="off"
+            ></textarea>
         </div>
-    </header>
-
-    <div class="grid" id="grid"></div>
-    <div id="load-sentinel"></div>
+        <div class="card-stack" id="cardStack"></div>
+    </aside>
+    
+    <div class="container">
+        <div class="main-content">
+            <header>
+                <a href="/"><img src="screenshot_scents_text.png" alt="Screenshot Scents" class="logo-image"></a>
+                <div class="clock-line"><span id="datetime"></span> <span id="current-time"></span> <span id="moonSymbol"></span></div>
+                <div id="last-online"></div>
+                <div id="headerLinks" style="display: flex; gap: 15px; margin-top: 10px;">
+                    <a href="mixtapes.html" class="email-link" style="margin-top: 0;">mixtapes</a>
+                    <a href="ask-romcomma.html" class="email-link ask-link" style="margin-top: 0;">ask romcomma</a>
+                    <a class="email-link" id="emailLink" style="margin-top: 0;">contact</a>
+                </div>
+            </header>
+            <div class="entries" id="entries"></div>
+            <div id="load-sentinel"></div>
+        </div>
+    </div>
 
     <script>
-        const posts = [
-            {
-                timestamp: '2026-04-20T00:00:00',
-                title: 'ebilen - Screenshot Scents 001',
-                content: '',
-                photo: 'SS001.jpeg',
-                link: 'https://screenshotscents.bandcamp.com/album/ebilen-screenshot-scents-001'
-            }
-            // add more posts here
-        ];
-
-        posts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-
-        const BATCH_SIZE = 12;
-        let renderedCount = 0;
-        let isRendering = false;
-
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(e => e.target.classList.toggle('in-view', e.isIntersecting));
-        }, { rootMargin: '-35% 0px -35% 0px' });
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        function wrapWords(content, postIndex) {
-            const escaped = escapeHtml(content);
-            return escaped.split('\n').map(line =>
-                line.split(' ').map((word, i) => {
-                    const delay = ((i * 0.1) + (postIndex * 0.3)) % 2;
-                    return `<span class="word" style="animation-delay:${delay.toFixed(2)}s">${word}</span>`;
-                }).join(' ')
-            ).join('\n');
-        }
-
-        function renderBatch() {
-            if (isRendering || renderedCount >= posts.length) return;
-            isRendering = true;
-        
-            const container = document.getElementById('grid');
-            const fragment = document.createDocumentFragment();
-            const end = Math.min(renderedCount + BATCH_SIZE, posts.length);
-        
-            for (let i = renderedCount; i < end; i++) {
-                const post = posts[i];
-                const div = document.createElement('div');
-                div.className = 'grid-item';
-        
-                let photoHtml = '';
-                if (post.photo) {
-                    const img = `<img src="${post.photo}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">`;
-                    const wrapped = `<div style="width:100%;padding-top:133%;position:relative;"><div style="position:absolute;top:0;left:0;right:0;bottom:0;">${img}</div></div>`;
-                    photoHtml = post.link ? `<a href="${post.link}" target="_blank">${wrapped}</a>` : wrapped;
-                }
-        
-                const titleHtml = post.title
-                    ? `<div class="grid-item-title">${post.link ? `<a href="${post.link}" target="_blank" style="color:white;text-decoration:none;display:block;">${escapeHtml(post.title)}</a>` : escapeHtml(post.title)}</div>`
-                    : '';
-        
-                const contentHtml = post.content
-                    ? `<div class="grid-item-content">${wrapWords(post.content, i)}</div>`
-                    : '';
-        
-                // with a photo, the title sits rotated on the photo's right edge;
-                // without one, it falls back to sitting below as before
-                div.innerHTML = post.photo
-                    ? `${contentHtml}<div class="photo-wrap">${photoHtml}${titleHtml}</div>`
-                    : `${contentHtml}${titleHtml}`;
-                fragment.appendChild(div);
-                revealObserver.observe(div);
-            }
-        
-            container.appendChild(fragment);
-            renderedCount = end;
-            isRendering = false;
-        }
-
-        const sentinel = document.getElementById('load-sentinel');
-        const loadObserver = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) renderBatch();
-        }, { rootMargin: '200px' });
-        loadObserver.observe(sentinel);
-        renderBatch();
 
         function updateDateTime() {
             const now = new Date();
@@ -473,22 +527,148 @@
         updateMoonSymbol();
         setInterval(updateMoonSymbol, 60000);
 
+        const posts = [
+            { timestamp: '2026-11-14T19:30:00', content: '', photo: 'lauren bacall halftone.gif' },
+            { timestamp: '2026-11-12T21:08:00', content: 'to short-circuit\n\nbumper-to-bumper rush hour traffic on the hottest day of summer\nthe dash read a hundred thirty deg f\nwhile zoomer customer berating siri to check daisos inventory\nshe mustve wanted something very specific\nim just here for the ac\nthe smell of lincoln logs\ndont push yr luck\nhorny tooth pain\nthis too lost to a month called october\napprox three hundred planograms', photo: '' },
+            { timestamp: '2026-11-12T21:06:00', content: 'do the hard reset worm\n\nscrolling on fone listening to cosmic cycler on phone speakers\ndriving at night on an la freeway listening to cosmic cycler on car speakers\nin high-waisted jeans a nola graphic tee and black square closed-toe pumps\nomw to a bar called cinema bar to meet the cinephile\nnitrogen is to a cannabis plant as ___ is to its guardian\nhardest drug is life misspelled lige on notes app\ntelling all to an ocean of e-kinks about the lifelong goal\nto laugh til i die\nthe return of the marlboro reds\nthe cigarette brand for the effortlessly fearless\npowder altoids have graduated into a harder altoid rendered arctic\n\nderm about to remove a bulb out of my buttcheek\nshows me his daughters axolotl costume on his phone\nright before the excision\nbc i had told him i was dressing up as an axolotl this year\nleft out the sexy part\nremoving dermatofibroma and getting what they call a russian manicure all in one day\nis this cosmetic surgery\nfuckin mens names i cant even pronounce cry emoji laugh cry emoji\none study shows that it takes six women to get a piece of plastic up another womans uterus\nendless summer is heaven or hell\nif work doesnt turn u into a seven deadly sins portrait artist\n\npictures of you by the cure\na case of bangerism by the bangin\ndelirium is tripping on what happens behind the in-n-out counter\nwheres that doc\nso in the oc theyll name a community coco palms\nbut then the neighborhood has no sidewalks bc hashtag nimby\n\nheres the dill pickles said the southwest flight attendant\nlearning how to have fun from those who know how to have fun\nturned to them and said life is awesome\nhavent laughed this much in a while', photo: '' },
+            { timestamp: '2026-11-12T21:04:00', content: 'the squanderers\n\nrule number three\nbe careful\nlife is about safety\nfirst aid kit dilemma is the probability of injury in the absence of a first aid kit just think about it\nthe state lifeguards sigil is manifold and thorny\ngroup leaders d and j are yang and yin\nmeet me at the overlap between decision-making and executing\ngotta keep doing the thing to see what sticks and what doesnt\ncant rest for one minute\nred hair brown hair black hair beach hair\nriver heals toes\nmoving water vs rock\nto leave the river unscathed is\nto not flick the wasp that accidentally landed on your thigh mid-tubing down the river\nearth is a water planet\nundercurrents can kill\nits all soup right i think maybe right\npicture californias high desert mountains in your head\nnow imagine it to be submerged underwater\nif only the great flood were tears of laughter\nreal fountain of youth\nbrooke prefers the kind of book\nthe kind that can start at any given page\nthe soup kind', photo: '' },
+            { timestamp: '2026-11-12T21:02:00', content: 'battle of the low bars\n\nperfect toothpicks\nit was a summer of accidents\ni could only go as fast as the car in front of me\npuppy pancreatitis mgmt and nonlinear friendships\nparallel parking on a downhill slope\npressing the gas for the love of god\ndelayed realization that the car was actually in r\nnot d\n\nlucky me found a spiral notebook in the trunk earlier that day\ntoo prepared to be true\nwhipped out an emergency sharpie and scribbled away\ni apologize for making a dent in your front license plate\ncouldve been worse\nleft my name and number on wide-ruled paper\nslid it under the windshield wipers and waited til the meter ran out\ncaught the driver in time to apologize irl\nshe rolls down the window\nsays its nothing\ntells me to take a deep breath\nits nothing\nthe note is good karma she says\ni anxiously express my remorse once more\nshe waves the paper note i wrote her in one hand\nremarks that this gives her hope about humanity\nsaid ciao and blew me a kiss\nher glossy lips\na diamond-studded heart-shaped ring on her index finger\na pair of gold-rimmed aviators\nfuck a ford', photo: '' },
+            { timestamp: '2026-06-14T21:40:00', content: 'boidealistick\n\nsuper strawberry save a cowboy fringes and saddles open parenthesis un close parenthesis guilty pleasures travel-friendly manduka yoga mat empty perfume bottles vegan butter cowboy by mondo mondo two notebooks a tiny one for raw data medium-sized one for processing health food store perfume amber-scented detergent marrakech intense by aesop a black mini skirt uh oh vasque hiking boots keychains dont lose me paper incense phony negroni yellow american spirits water towelettes black halter tank nude-colored dress owning the curves tan leather slouch bag inspired by the one mom used to wear not the most practical oh well thai tea leaves fucked up gas prices fuckin oil crisis man dill weed seeds thai basil seeds more weed seeds makeup for a skater necklace for a comrade earrings for sister lentils butterfly pea flowers pole class package', photo: '' },
+            { timestamp: '2026-06-14T21:42:00', content: 'latest findings 4\n\nwhen thrifting shop for the thing that looks like ive worn for years its all about relationships google is still a valid verb quick thinking is knowing exactly where the last bit of about-to-expire box of baking soda stationed in its rightful place staving off miscellaneous odors of its host fridge then dumping all of whats left in the box into a thirteen-gallon abyss hell why not throw in the last fourth cup of cupboard wawa coffee grounds going stale alas the powders were in vain for what could possibly reach the bottomless pits of a rotting peach and its cousin nectarine how come the flickering lights are most alive walk at my own pace run at my own pace hooking up with a man is better than fighting with one a line of saltine crackers is roughly five hundred calories the original wasian is a femme drill sergeant whose dream in life is to retire in a sparkling white jeep and date a boomer with a substack she clocks me as a city girl when someone says ordinary they almost always mean extraordinary not that theyre all that similar dill weed easier to raise than weed reset recap management is the duty of a lifetime nothing like getting back in bed and getting shut eye after a post-ritual morning pee until i wake up in sweats to an evaporating image of a shriveled seedling rancid is reeking to be unforgotten words and their scent trails grand central terminal is plugging louisville tourism writing may require hallucinating some compartmentalize emotions into their sleep that one junk drawer of tears and screaming no escaping category management weather luck is real manhandle the boy cat comfort is shared youtube subscriptions an available work philosophy is getting from point a to point b serendipity in a delayed flight driving in suburban pennsylvania is such a treat pennsylvanian drivers are not tfw the sports stats software engineer forecasts that ai companies will disappear i love merch party like its batu in the house the trips are getting smoother its all hormonal the girls are tougher prozac and wellbutrin as confounding factors a solid weekday is wfh yoga and chinese food for dinner with the girls first spring in a while maybe first ever', photo: '' },
+            { timestamp: '2026-06-14T21:41:00', content: 'severnth estuary\n\nphiladelphia is one of those places i come to appreciate after the fact\nas always places are\ntubi experienced through its inhabitants\non rare and courageous occasion\nplanned a dinner with a co-worker in her rugged home city\nfirst time in a while meeting a work person outside a work context\nlast time was seven years ago\nwe ended up housemates\ndab for dab\ncoordinating dinner was a cakewalk\nwe were co-workers after all\ndaphni sent me options\ni picked a spot\nshe made the reservation\ngreat see you then\nfifteen minutes by septa from sisters to suburban station\ngot in early so went for a walk around the block\nspent most of it confronting the awkwardness of an unfamiliar downtown\naccepted it but remained curious\nafter a few aimless laps i notify her of my arrival\nshe texts me where to meet her\nyes love directions\nmaking plans and following through euphoria\neasy breezy alchemical\n\nright off the bat quick cross-fit check on the corner of jfk and some numbered st\ngassed ourselves up about our consistently same but different styles\nbomber jacket a black long sleeve shirt underneath wide leg pants a small crossbody bag last but not least the docs\nthe docs\nmaybe this is what is meant by sweet relief\nambient deja vu or ny pareidolia\nwe claim a bench at a washington sq park lookalike\nsundown beaming off skyscraper windows and daphnis platinum white teeth\nthe birds are chirping the kids are smoking rays of early evening sunlight piercing through pennsylvania-native trees\nwe mutually agree to table work talk for dinner in favor of our love lives or lack thereof\nsafe-for-work subject matter ukno\na thirty-three-year-old divorcee from pa coal country tenured in the bevalc biz care of her super social eq posted up in a riverfront two-bedroom on parkway with a goldendoodle named birdie\nthere must be some expedited wisdom there\nspill it the prozacs all ears\nshe squeezes in a dl on the local company-sponsored phillies radio event shes about to take me to our pre for dinner i guess\nand by dl i mean the download on her history with a former mlb pitcher turned sports radio host who will be there she tells me\nim down\ncould be entertaining\n\nfirst things first\nmotion to d im headed to the to bar restroom the designated social anxiety sanctuary zone\nwashed my hands refreshed the blush popped a beta blocker exhale\nit was an unassuming sports bar\nsmelled like wings\ngirl chill\n\nkept an eye out for d as baseball has-been clumsily flirts with her\nthinking back to a few mins ago when she divulged that he has a daughter her age\nbut she seems to be enjoying his company\nafter all she was the one who wanted to go\nd eventually introduces us\nhe clearly knows im her plus one tonight\nhes a little too aspartame nice for my taste\nasked where im from and asks why everyone ends up in santa monica\nand by everyone he meant a girl he once dated\nwe both quickly understood this convo was nothing but a dead end\nat least he had a sense\n\ncrabwalked over to the safe space zone\na company-partnered sports radio station raffle table\nsaid a feeble hi to a middle-aged man and a younger woman probably my age both decked out in station-branded shirts and lanyards\ntalked radio for a bit enough to share that i used to dj pirate bc this was my one and only conversational offering\nlearned that the younger woman also works in metal radio\nand learned from the older radio station employee that philly is\nthe place for sports and music\nhe now my designated philly mascot\n\nat this point ive finished a sugar-free red bull and dont know what to do with my body\nso as painful as it was i kept my eyes strained and locked on the nearest monitor broadcasting the phillies game to help filter out the sea of pudgy waspy sports fanbois\nmethinks nbc sports anchor wants to chat\nhes not the worst but no thanks\nby sports anchor i mean athlete groupie\nhe and his sister-in-law with a nose piercing successfully rope me into their barstool chat\nwhat the fuck is happening\nstraight up first day at a new school vibes\nshes kind of giving millennial pasadena hipster tho so lets see\nlearned she loves to travel has a chinese sister-in-law who lives in london\nand given that we would most likely never cross paths again in this lifetime\nshe felt comfortable spoiling the ending to the mystery crime thriller novel shes been working on\nthe female cop assigned to a ten-year murder case is actually the killer', photo: '' },
+            { timestamp: '2026-05-17T15:32:00', content: 'eidesis\n\nh o w - t o s\nwalk without a destination\nnothing too specific\njust follow yrself\ndoesnt hurt to have a few stops in mind\ntrim toenails regularly\nbecause even the comfiest pair of sneakers has its limits\ncaught mother with stroller telling her husband that the sidewalk ends anyway\nlisten to yr fellow pedestrians\nearphones optional\ninternal metronome absolutely\ncall a cab home if necessary\nshare walkstory with a cab driver if welcomed\nde-odorize and freshen up at a cosmetics store\ndont think about how to get back\nu will\nlove hate packaged beverages\ndrink water\nneed to dress the part\nskip the jacket\nwear shorts\nnothing too obvious\njust something that obviously feels good always\nwalk off the thoughts\nride out the melancholy\nfeel the sun\nchase the shade\nlighter the better\nbut do carry the essentials\nnever thought this mini backpack would get so much use\nalmost donated it\neverything has a purpose\none lunch one break max\nobserve pain tolerance\npush it to the limit\n\nn o t i c e\nthe lds church lawn is browning\na double-decker tea party-themed tour bus in beverly hills\nremember this vet took us for lesbos\nthen remember this one put u in debt\nlinear or schizophrenic\njust sidewalk the timeline\nmotorcyclists ctrl b i and u route sixty-six\nevery five paragraphs\nan all-you-can-eat sushi place advertises a roll called mexican samurai\nyesterday was orchids\ntoday apparently hibiscus hypnosis\ncrossed santa monica blvd just once\ncrosswalk haptics\nto speak in honk\nthose who are scraping by\nthose who are living in hell\nsmelled it with my own eyes\nnot much nature round here\nunexposed to the elements\nlas effortfully effortless\nbiker shorts and sunnies and sport-style sneakers\na superficiality comes to light\nmy own foremost\nthe stroller vs the walker\n\nq u e s t i o n s\nhave any of the mayoral candidates or whoever tf walked the lot of los angeles\nif i were or were not a she her oriental\nhow does one get fish\nis it possible to friendzone friends\nif i can walk from sawtelle to silver lake\nin five hours including an hour-long lunch break is la that big\nhes fine but if he werent\nis it time to try a new place\nis this all just part of nature\nhow tf do marathoners do it\nand why\nwhen will i see something i wish to recognize\n\nk o d a k  m o m e n t s\nyes linoleum city finally in sight\nthai bbq implies normandie\nnetflix building flags thai town\ngriffith all right\nscientology building cool\nhollywood sign\nyeah yeah yeah\nmeadows confess\nknow yourself at every age\nfragment memory\nas i chow down a double chocolate peanut butter chip gomacro bar\ndammit shouldve gone with the other chocolate peanut butter one\n\nk e y  t a k e a w a y s\nparts of it felt like roller-blading on smooth pavement\nparts of it sucked hard\neastward in la equals warmer\nfuck why is weho so big\nla business names be like interior illusions\npower in recognition of the walker in me\nthe walker in u\na newfound gratitude for these legs\namazed by the know-how of these feet\nand bless these arms\nwhich propel u and me forward\nsidewalk etiquette is real\nunfortunately a thirteen-mile walk does not bring emotional clarity\nwalking is about possibility\nin many ways my first spring in a while\nthe season that revealed\nits all hormornal\ncoupled with\neveryone is different\nthe chemistry of couple goals\nwanting to share this with someone else\ntired of doing this shit alone\nsometimes walking is\nmastering the cut and swerve\nsanta monica blvd is a river\nwhich of these my knight in shining carmor\nthe way bees circumvent these swollen toes\nemptied neon yellow hokas alongside a\nyellow bic lighter\nfor a pack of yellow american spirits\ncant think about the american airlines flight soon coming\nbefore it does\nlet me screenshot this meditation', photo: '' },            
+            { timestamp: '2026-05-05T17:51:00', content: 'strip for a full moon\n\nbesties friends are within eyeview\ntwo effortlessly dressed down lads\npull up and\npull off a classic cut-and-chat\nsomewhere in between\ncrush offhandedly asks if i went for a swim the other day\nin reference to a fomo-maxxing beach pic i sent\na view he was not a part of\nsadly\nthe spray-on sunscreen\nthe words the warmth\nwho knows when it will all expire\ni say yeah\ni took a dip\nsaid it with a shy smile and shit\nthen ever so slightly gloated about having gone to the beach\nagain today\noh yeah\nhe responds\n\nyay its our turn\nbouncer asks how many of us\ncrush slickly says four\ninside we instantaneously dissolved\ninto a sea of pleasure-seeking equals\npacked like sardines fr\nfrom bar to stage\none common audience\ncoming up against that one\nmortal need to be entertained teased aroused lured\ntantalized is the word im looking for\nsuccumbing to the\nmortifying truth\nthat i was always paying for it\nheres a riddle for u\nwhat drove me to a free insiders-only speakeasy\nwhat drove me to the strip club\nwhat drove me to observe our own private four twenty\ntbh to be driving around a town called los angeles amidst an oil crisis faintly sounds\na fools errand\nto be driving a car at all\nin this economy\ngrrrl read between the gas prices\nif this isnt\ntotal mortification\n\nfor not having known the night would deposit us at jumbos\nfwiw was feeling mildly lucky tn\nin my purple welcome to vegas tank\nfound at the most exhaustive souvenir store on fremont street\nhashtag channel purple\nbestie withdrew some cash\nhanded me a stack\nand then off we went tossing dollar bills\nlike we were freaking flower girls or some shit\nthe lads especially\nmeanwhile they dont know im\nsecretly enjoying a memory\nof him origami-ing a dollar bill\nasking my high ass why the pyramid\nwhy the eye\ni responded\nwhose eye\nwhose eye they echoed back\nhashtag throwback friday\nlad two gf and co come trickling towards us\nmerging with the greater but segmented group\nbestie notices that the stage pole is on static mode\ncrush asks if the pole is at all lubricated\nabsolutely not\nits skin and pain\n\nwe dont talk about it enough\nhow the post-bridge leg of every dance number is so felt\nacross the room\nwhen the foliage begins to settle\nthe moment she decides to go out with a bang\nballing out with some of her best kept secrets\nwhile the rest of us\nand maybe she too\nbuzzing with anticipation\nto see this track through\ntil the final orgasmic rite\nthat is\nthe matter of how she rakes it in\nhow she rake in that good green\nits called style bitches\n\nend of another set\none more to go\ni mime smoking a cigarette to bestie\nas im already snaking my way out of there\nfresh air is always nice\nbut then oh yeah\nour hunger eventually hijacks the smoke break\nso we put out the seventy-five-percent-smoked cig\ndecide to pop back in once more\nsay bye\nand maybe then\nset out for the nearest taco stand\n\nthe speakers are now blasting war pigs\nthe finale\nbestie turns around smiling\nlast one\nyeah actually lets\nwhats another few more minutes\nmight as well sustain the thrill of being in the same room as crush anyway\nand let black sabbath drown out the rest\n\nwe find the group inside\nall of whom have managed to finesse front-row seats at the table\nlining the left end of the stage\ntwo more vacants seats by lad two\nwaiting for us to claim em\nsat our asses down\nput my hair back\nand then there she goes\nthe red hot smokin all-around\nrocking out in all her hysteric glory and glamour\nremark to bestie\nwhy does sitting here make me feel like an american idol judge\nwell its a yes for me and bestie\nthat slo-mo vfx on her descent down the pole tho\nand upside-down too\nholding her body weight\nplus a hefty pair of pleasers\nsolely with the grip of the baby-skin insides of her flawless\ncellulite-free thighs\nhow does she not have a single bruise\n\none by one we tossed whatever petals we had left\nreminded me of the days of hearting on instagram live\nreminded me of my first time at jumbos for my former housemates bday a while back\nand now look at me\na seat at the table\nwhat can go down\nin the span of a whatever smoke break\n\nevery now and then id steal a quick scan of my fellow flower girls\nlowkey serving cunt\nthen it came to me\nso this is what a lib arts educ buys u\nbitch just stfu and own it\nlike how my nextdoor neighbors custom nevada license plate says to\nbecause like actually\ni really dont mind this three-sixty view\nand what if i told u ive been tuned into another peep show all along\nwhile she bewitches the fuck out of u\nim transfixed by the mirrors surrounding us\ndo you notice them\ndo you notice me\njust reading and re-reading the stretched out text\non the waistband of ur boxers\nsurprised\nwhat is a city of angels to a sin city\nfits on there\ni might have an answer\nbut u first\ncome and show me', photo: '' },
+            { timestamp: '2026-05-04T00:06:00', content: 'latest findings 3\n\nstaying in the moment is everything mind and body operate on different agendas and often exhibit conflict of interest social anxiety be global supporters of the underground make the world go round having a crush is fun until it really isnt vegan cheese isnt nutritious according to a seventies psychology book titled the future of time the schizophrenics conception of time is devoid of the present and instead extends the past and enlarges the future made me sad love is not one but three cakes in a month am i outgrowing la pole is mind control tfw mind and body must cooperate and trust each other body language as communication bad josh kismet set on soundcloud stereotyp beth ortons touch me with your love female gorillas call the shots decision-makers make the world go round for better or for worse age really is just a number to listen to a ccl mix is to acquaint oneself with the supernatural walking is walking and running is running weed is an aphrodisiac still the craziest d r u g out there a possible correlation between crisis and divination service workers of kentucky have shown me nothing but kindness and sincerity dry sauna sweat is more legit than steam room sweat eidesis wisdom is goals a long walk without a destination is about possibility non-alc wine', photo: '' },
+            { timestamp: '2026-04-30T08:48:00', content: 'hack the system\n\nas i am older\nresourcefulness is making peace with\nmaxxing out my daily travel refreshments quota\non extra strength tylenol\nand two packs of spearmint five gum\npurchased at the hudson newsstand\nclosest to my boarding gate\nmust habitualize asking for a receipt\nfor a propietary bang\nfor a proprietary buck\ncan go a long way\nif you print\nand will\n\nits nearly four thirty am\nand the kfcs of kentucky are far from opening\nim at an sdf airport convenience store\nauditioning keychains\ndeliberating the most good-looking ones\nthe timeless kind\nwithout a single recipient in mind\nlies\npersonal dime\non bizniz time\nif that doesnt\nshow u the lengths\nim proving to go\n\nas i get older\nhes cute feels\nless cute\nto say aloud\nmaybe delivered with\nan ambiguously suggestive inflection\nmore gravity at work\nfor a choice\nwith a voice\nspeaks in the tongue\nof capital c onsequence', photo: '' },
+            { timestamp: '2026-04-22T11:29:00', content: 'heart-shaped square footage\n\nin my book\nwings of desire now\nan epithet for a\nrocket that does not launch\naccording to schedule\nor that it ever did\ncant make this shit up\ncant force shit either\nmind says know\nheart says follow\ncant believe god forgot to show the part\nwhen angels get horny too\nashamed\nand so god said fuhgeddaboudit it\ngo to kentucky\nchecked in at the hotel front desk\nwhere i was given two key cards\nto a room\nnumbered four twenty\ncan i get a hell yeah\nupon entering\ntexted the pacific time girls\ncorp america be like\nwell fly you out across the country\nso you can expense a microwavable protein bowl dinner\npast midnight\nafter having lost an entire day\npending in airports and airplanes\nidek like\ni cant complain\nbut may i\n\nfalling asleep\ni watched a small beetle\nthat had earlier proven its ability to fly\ninsistently crawling\nthe top rim of the hotel floor lamp shade\nrepeatedly orbitting its sun\nwas it stupidity persistence\nor energy\ni just chose to leave the light on\npraying it wasnt a stink bug\nthis\nmy latest lullaby', photo: '' },
+            { timestamp: '2026-04-20T00:00:00', content: '', photo: 'ss001 blog post.gif', link: 'https://screenshotscents.bandcamp.com/album/ebilen-screenshot-scents-001' },
+            { timestamp: '2026-04-19T09:20:00', content: 'holiday inn visible\n\nbonus day\ntax day\nwin some lose some\nin fact\ni learned on my cab ride home from l a x that\nthe i r s is headquartered in\nmfkn looville\nwhere my day co-incidentally\nbegan well into the night\nthree thirty a m\na morning that stretched westward\ntwo planes\nthree airports\nshortest layover attempted\ndallas\nsuccess\nwhere i was inducted into the\ngratuitous world of\npackaged beverages\nseven years ago\nlucky number\nhow it was still morning\nwhen i got back home\nback to real life\nexactly one year on the job\nmanager told me i didnt have to work\nnice\nwasnt planning on it anyway\nhow the morning sun wades\nthrough balcony blinds\n\non fateful days\nhow come\nwishful thinking feels\na sin\nand waiting for a miracle\nlike hell', photo: '' },
+            { timestamp: '2026-04-09T04:11:00', content: 'tfw he texts back\nthe tao of organizing 1\n\nstatistical wisdom is\nunderstanding\nrandom is practically impossible\nfor everything starts with a seed\neven random number generators\nbegin inside the hull\nno such thing as\npure random\nstats teacher getting\ntechnical with it\none time she swore\nthere was a dead animal\nstuck in the vents of her classroom ceiling\nher nose\nher hunch\ncorrect oh\nhow some memories\ndo tattoo\n\nhint colon the start part\nis the breakthrough\nput the instincts in autopilot\nwhy not sort\non the most immediate disarray\nthe one within arms reach\na pile of virgin notebooks\nfirst by size\nthen maybe by shape\ngroove with the permutation riddle\nundo redo ctrl s\nreaction time game\nblank pages\ncharged with anticipation\nfor that one juicy occasion state\nthe damnation of sentimental value\nshit its already ten fifty eight\nunknow the justification\n\nstep two is revolutionary\nzoom out\nsquint scan\nand identify\nthe next dense thing\nsprawling\nspilling\nover the entryway side table\na charming greeting card\nof sorts\nto those who dare enter\nunderstand the avoidance\ngive it a parting hug\nunknow the justification\n\nstep three\nnormalize little by little\nverbalize its not that bad\nwhere floor and desk\nwere always going to be one\nand the same\nunknow the justification', photo: '' },
+            { timestamp: '2026-04-08T00:35:00', content: 'dj orchid tracklist\n\ncolumn thrust forward\nin the softest magenta hoodie\nlike an awning to oversee\nand protect\nher cradle of heaven\nfrom her own dewy thirst\nlips coming in brackets\ntimely attractors\nguaranteed bliss\nin symmetry\npollenia radiating\necstasy yellow\nwise pink petals\nequally wise\npink sepals\nif reason is sex\nwisdom is purple', photo: '' },
+            { timestamp: '2026-03-31T13:19:00', content: 'girls play here\n\ndramamine for spin mode\nor spin the other way\ncandy feeder\nthat one lighter\na straggling pair of kitchen scissors misplaced\na finger hole partially melted\nkept for the charm\nolive oil clam pasta\nlinguini olive oil onion tinned clams lemon parsley\ngarlic girl\na raw clove of garlic\nslouchy shoulder bag or\nconcise mini canvas tote\nlong hair\nshort hair giving\nstar hair\nbeading california toast bfast all day everyday\nsour candy care package\nas a result of divorced fathers\nwith daughters who then\ndivorced themselves\nmother clones\nsisterhood\nyour highness dish\nexecutive ass\nindiff greetings\nwe heart the y\nneedlepoint-coded girl statistics\nbruise by pole\nto claim good memory\nestimative sentimentality is a postcard\ntension hypersensitivity novel sodas the rainbow diet\narouse analyze laugh\nso clearly pummeling through the grief\nchoose your armor\ndisplay it in a museum then\nadmire alongside a self-made man\npot stirred best alone naked\nlove women\ngood friends good teachers\nhashtag laughter\nmugwort incense\nblast off\ndoes ur therapist think ur cool\nsunlit yoga mats\nrock or anchor\nunconscious therapy\nsub seven\ndom orientalism\nshoulder topography check\npareidolia tip\nastrology and the ssris\nself-knowledge power buttons\nsaturday mornings are for drawing circles\nwith the hips\nsweaty blush\nblinking stop red at the sign searchers\na band of agnostics\nthe vulgarity test\na ghost named apolitical\nsituational soundtracks\nan overworn see-through slip dress\neffortless claw clip\nsporty mary jane sneakers\ngrabbing each others hands and wrists\nin front of an aggressively lit gas station\na hollywood tower of terror looming somewhere above us\nwait its so good to see you dude\ncry emoji in spirit\nteethy irl smiles on the precipice of giggling hashtagcoquine\nintermittently grabbing each other by the wrist\ngiving it a shake\ncommon learned asian mom storytelling expressions\nour conversational affection\nquickly reminding us\nno time had passed\nlove that bitch down\nto embellish or to downplay\nno more treacherous takebacks\nthe unspoken governance of ancestral diplomacy\nsaying bag lady in canadian\nanthropologycore\ndefective streetlights quantized to\ndowner indie music measureless\nhuman condition humor\nmy anchor a\nnatural detergent sponsorship\ntwo-phone body\ntwo-computer mind\npaige freaking turnt\npattern recognition by\naccident or by angel\nas seen on a car sticker\nstuck in traffic\nnow tattooed into my skipping stone phone\nsirens of numerology\nbeautiful cognition\nthe narcissists chain reaction\nis it one or the other love\nplaces and things\neveryone so different\nenergy recognize nrg\nthe never-ending project\nto manage menty bs butter\non toast\nmontana\nmindset\nmiracle-gro no more\nits all about the timing\nstrong not skinny\nin the heat of the happy frog\nhunt\ner gatherers tried and true\nand yet the timing is never right\nno hallmark holidays left in this bihh', photo: '' },
+            { timestamp: '2026-03-18T15:09:00', content: '', photo: 'clockwatchers.gif', link: 'https://tubitv.com/movies/667228/clockwatchers' },
+            { timestamp: '2026-03-18T13:22:00', content: 'latest findings 2\n\nmiami vice on tubi the erotic thriller zone yellow apple new fav apple opal apple not everyone craves fruit miswak shame still the name of the game honesty does not mean saying hurtful things so then how is it that the truth sometimes hurts the most no more coffee for me actually i am scientific method-pilled irritable writing is still worth reading if and only if i am learning primordial soup no leaves no life revenge is alive the word suture betrayal is horror taking a sip of water in lieu of applauding no humor not living beauty of joseon matte sun stick definition of dating is painfully subjective identify confront resolve realize not an outcome but the income generated from a change within earth is a blue planet but it is a green world new fav quote the siren of edwige fenech clockwatchers parker poseys mystique nurses are on average more likeable than doctors the catharsis in improving communication skills gsp short for german shorthaired pointer making mac n cheese is not easy to make one thing at a time', photo: '' },
+            { timestamp: '2026-03-15T11:48:00', content: '', photo: 'snfk mirror shot.gif', link: 'https://tubitv.com/movies/557490/strip-nude-for-your-killer' },
+            { timestamp: '2026-03-12T17:58:00', content: 'the los angeles bias\nfirst and last in las vegas day 2\n\nok this will have to be my last vegas entry\nwant to move on\nmaybe i will break down fremont st\nwhen i can\n\ndid i mention\nthere was another ballroom next to the main ballroom\nalbeit smaller\nand way more familiar\nthe type of stuff youd see on trade show tv\nthink dog shows\nbut make it beer\n\nngl some of the booths had me awestruck\nfeats a boozehound would never know\nfor example\na branded but consummate sand castle\nprobably the most legit sand castle ive witnessed to date\nthe kind-eyed local artist leisurely guarded his creation\nhis house of cards\ni snuck in a youre fabulous in passing\nhe was sincerely appreciative\nsaid thank you hun\nlowkey giving richard gere\n\nanother booth involved standing in line to get a snap with\nthe winner of a reality tv show\nthe talk of the town\nlast calendar year\nhad no idea what she was about\nbut could tell you exactly who she was\nin a room stuffed with baby blue polos and blouses\nshe was all dolled up and\nplayed the meet-n-greet part quite satisfactorily\narms eyes mouth wide open\nno skimping on the lip gloss\nshe had done this before\nsmile flash next\nto whomever finessed that contract\none how much\ntwo which of the two parties actually has more to gain\n\nmeanwhile lispy big oil baby stood in line for thirty minutes\nto get a custom branded baseball card\nof himself\nsmug\nhe showed it to the team\ni nearly scoffed\nyou want us to be your fucking babysitter\nor what', link: '' },
+            { timestamp: '2026-03-12T17:34:00', content: 'prada connection\nfirst and last in las vegas day 3\n\nok so last one maybe\ni left out the part about there being one more ceremony\njust before the final final one\ntime is a jumble in las vegas\nanyway\ndiscovered the subdivision awards ceremony\nis where the tea is at\nat least for everyone else\nmy fellow class of kindergarteners\ntook row two because it\nmeant business\nwork crush thankfully took the empty seat next to me\nthe room immediately looked and felt\nlike a judge judy audience\nthe forum banquet hall hues\nthe boomer-designed ppt slides\nwhich totally warrants an analysis of its own btw\nanyway re judge judy\nthe tone of the boss to my boss apostrophe boss\naka the woman in charge of the companys portfolio sales\nacross natl convenience store chains\nyouve most likely stepped foot in\ntaking over the pedestal\nfrom time to time\nsquawking about headwinds and tailwinds\nin an undeniable southern drawl\ndrilling it in that she was a company asset\nand undeniably so\ncant tell what being on her good side looks like\nvs bad side\nwhoever wakes the sleeping tiger\nmake sure to get it on tape\nand good luck\nhow it works\nleague sports style\nthe veeps of whatever select nominees on an impact basis\nbut how impact was being defined\nseemed to be a touchy political subject\ntrue lol\nanyway they nominate one salesperson\naka yr average gun-owning citizen\nand one category manager\naka the average swing state citizen let me laugh\nfrom each cpg channel club grocery convenience\none operations manager aka cutest woman\none tools person aka future girlboss of america\nthats how the consumer packaged goods cpg industry goes\nas an assessment point for myself\nthe whole summit couldve been a ripe opportunity\nto practice my respect for and relationship with women\nbut i digress\ncoulda woulda shoulda\nthe veeps began to announce nominees one by one\nhesitant applause at times\nwhispering and turning heads\nall so felt in\nthe periphery of my vision\nsuddenly i felt myself choke on my own saliva\ninevitably\na coughing fit followed which\nthankfully\nwas short-lived\ni know youre passionate but are you okay\nsaid work crush\ni say im good now\nno one on my immediate team was nominated\nmeanwhile the veeps are wrapping it up thank fuck\nwork crush looking a little demoralized\nand then at the corner of my eye\ni saw something that just wouldnt come out right if i were to divulge here\nwork crush texts wife that there was a twopeat\nwompwomp\non our way out to what felt like the tenth company happy hour of the day\nthe only non-alc option being mini bottled water\ni swear these meetings are just day drinking freebies\nsomething compels me to stop in my tracks and turn around\nquickly asked him\nwould you ever move to marketing\nhe said whats that\ntbf it was pretty loud\ni said do you want to work in marketing\nhe said do i want to work in marketing\nhe paused for a sec\nthen brows furrowing\nhead eventually micro-nodding\nyes yeah i would move to marketing in a heartbeat\nand just like that we went our own ways\nlost among the gossip folks\nno byes or safe travels\nthe last time id see him in las vegas\nmade me think\nwhats stopping him', link: '' },
+            { timestamp: '2026-03-12T15:15:00', content: '', photo: 'days of heaven.gif', link: 'https://pluto.tv/us/on-demand/movies/5ea07dbfc733d6001a1aa53b?utm_medium=textsearch&utm_source=google' },
+            { timestamp: '2026-03-12T02:47:00', content: 'recurrent face crush\nfirst and last in las vegas day 1\n\npee wash hands and get out of there\nwas the opening ceremony intermission motive\nas i wave one of my hands\nat the auto soap dispenser a couple of times\ni hear someone ask\ns right\ni glance up at the brightly lit mirror\nand clock the operations analyst\nwith whom ive been regularly corresponding\nfor a really annoying task actually we analysts\nhave unfortunately been tasked with\n\nnever got the chance to say hi in person though\nbecause she works out of chicago\nthough im pretty sure\nshe was at the in-person onboarding meeting i was at\nshortly after joining the company\nshe was also at the last companywide meeting in austin\nand maybe even the one before that in huntington\noops\n\nand for the record i sincerely appreciate and respect her\nfor getting shit done\nalso salute her for saying hi first\ni just dont have much to talk about truth be told\nso i take her lead\n\nsearching for the next thing to say\nshe scans my arms\nsays she loves my tattoos\nas she points to the arabesque cuff wrapping around my bicep\ni say thank you\nthat it was recently done by a friend\nthat i forget about my tattoos nowadays\n\nfrankly her friendliness was a little overdone\nbut after drying my hands off i make an effort\nto continue the conversation\nand accompany her on the short walk back\nto the ballroom\nshe still making conversation about the tattoo\nwhether it was a stick-and-poke\nhow long it took\nher manager suddenly joining the stop-and-chat\ninterjecting that stick-and-poke hurts way less because x y z\nnot knowing what to say\ni turn towards the analyst\ntell her i should probably get back to my team\nbut that id see her around\nthen turn to her manager\nto let her know how fabulous her highlights looked\nfr tho', photo: '' },
+            { timestamp: '2026-03-12T01:46:00', content: 'versace breakfast\nfirst and last in las vegas day 3\n\nwoke up early and excited\nthe final hours of the networking summit now finally in sight\nmy next appointment not until eleven am\ntime to tripmaxx\n\nstepped out of the shower\na sudden pressure to dress the part\nblack sleeveless top tucked into\nhigh-waisted black denim trousers\ngold silver j-axis watch\nstacked with a gold bangle i just cant seem to lose\ntan cardigan wrapped around my shoulders\nglasses a must\nthe black asics are on\n\nthrowback to when cronut was a thing\nand so too was dominique ansel bakery at the grove\nwell anyway\nturns out caesars palace had one\nseemed like an optimal occasion for amexmaxxing\n\ncrossed las vegas blvd\nshowing myself right into the casino\ncutting through many a vampiric card game\nstrutted according to the arrows pointing towards the bakery\nsometimes against the molasseslike current\nof the construction managerial class\nwho were on their way to their day two\n\nordered an iced latte and a smoked salmon croissant\nslightly regretted missing out on the cronut opportunity\nbut the thought of biting into one at eight am was enough to\nsend me straight back to the hotel room\n\nfound my way over to caesars pool\nwalked straight past the towel stand\nits attendants ready to ask for a caesars key card\nmy over-the-shoulder cardigan cape my shield\nquickly claimed a pool chair\npopped a lactaid\nand enjoyed my sandwich\nthen it was time to get back on the strip\nnext stop new york\nnew york\nfinal destination\nancient egypt', photo: '' },
+            { timestamp: '2026-03-11T14:20:00', content: 'polka dot sizing\nfirst and last in las vegas day 3\n\ntop six employees to pump most profit into a fiscal year\nchug twelve oz of company portfolio each\nout of their trophies\nup on stage\none ballroom\ntwo thousand employees\nsix categories\nsix golden loafers\ntwo megascreens for brutal close-ups\n\nreally lost whatever faith i had left in me\nwhen the sort of unexpected happened\nnerdy english lit guy with cute glasses won best salesman\nhis manager intercepting him with a tackle hug\non his walk up to the stage\nthe ballroom roaring with applause\n\nbitches love an underdog\nand to judge a book by its cover', photo: '' },
+            { timestamp: '2026-03-11T14:18:00', content: '', photo: 'strange vice.gif', link: 'https://tubitv.com/movies/562551/the-strange-vice-of-mrs-wardh' },
+            { timestamp: '2026-03-11T13:30:00', content: 'columbus ohio\nfirst and last in las vegas day 2\n\ntfw your work crush has the big beer big oil dinner party make a stop in front of the bellagio for the water fountain show on the way back from a late af dinner\nbecause u accidentally shared with ur work crush that this was ur first time in vegas as an adult\nhe led us down the sidewalk til we were front and center\ninsisting i take the best seat in the house\nwhile everyone else would stay back\nbecause apparently they had already been inducted\nnow forced to watch parabolic water missiles quantized to a digital titanic celine dion\nin the middle of the freaking desert welp\ntrying to not die of embarrassment\ni just stood there\ndistracted by my envy\nenvious of the insignificance of filthy vegas moat spray\nso as to avoid thanking him afterwards i said\nwow now i am officially an adult\nto the chuckling father of two college-aged students\nlearned earlier that day he also fathers two german shorthaired pointers\nreferring to them as gsps\nhad to google that one back in the hotel room', photo: '' },
+            { timestamp: '2026-03-11T12:47:00', content: 'apt wiggle\nfirst and last in las vegas day 2\n\nday two of the big beer frat cotillion marked the beginning of\nconstruction industry trade show day one\nlanyards awkwardly dangling from the\nred necks of crane-servicing men\nwho notably observed elevator etiquette\neventually flooding hotel lobbies along the strip\nin understated caps and flannels\ncompany graphic tees\ndurable but worn out leather boots\nand them blue denim jeans\none hand in pocket\nthe other wresting a twenty four oz can of domestic beer\nlike a baguette bag\nat nine am\nobligatory american flag on each of their sleeves\nnot the red white and blue kind\nthe all black one\nthe multicolor reflections of touchscreen slot machines animating off the mens sullen faces\nuncleaned nostrils inhaling the fumes of tarred casino carpets\neyes glossing with temptation and only temptation\none hand in pocket\na fist of national debt', photo: '' },
+            { timestamp: '2026-03-11T10:29:00', content: 'bacchanal 1\nfirst and last in las vegas day 1\n\nstuck it out til eight frickin thirty pm\nwith my state collaborator co-workers\nwhose bodies not even a bespoke suit could even flatter\nonly to find out\nnot a drop of work would be discussed\nat the steakhouse giving sepia\nbut of course\nhow could i forget\nthis was vegas after all\nwhere corporate dinner is just code for\na seat at the bacchanal\nthrow in some big oil men\nit really be about heaven or las vegas\n\nordering was like watching a receipt printing from hell\nwaiter forebodingly warning\nthe hoglike salesmen\nsteaks were usually ordered and served family style\nbut no\ngrunting the men insisted on making difficult a little more difficult\nthat they wanted their steaks cooked differently\njoking at the other for a preference of well done\nmeanwhile my manager predictably fishing my order out of me\nnot in the out of curiosity kind of way\nbut to confidence test her nutritional knowledge against mine\ni ordered after her in protest\nsalmon for me pls\nfeel my wrath all\nremember a few trips ago\nwhen she announced to a table of fifty or so employees\nthat her favorite food was carbs\nbut in the self-deprecating kind of way\nyeah fuck your wine\n\ndinner was served\nhot plates for all\nminus two salesmen\nwho were clearly too cracked out on steak individualism\nthe waiter didnt even get a chance to take their orders down\nthe men were now squealing\ntoo stuffed drunk and dumb to even recall\nmy god\nresulting in the excess order of\ntwo whole additional steaks\nshortly before last call\neach piece enough to feed a family of four\nand then some\n\ni wanted to disappear a long time ago\nkept my head down\nchiseling my salmon filet with fork number two\nsuddenly nostalgic about the days of\nwatching gastric bypass tv\nthink it was a tlc show\n\nrest of dinner was a game of timing\nfinding the right opportunity to\napologize to the wait staff\non behalf of the passel\nsizzling with disgust\nat myself mostly for being there in the first place\nwhile lispy big oil baby wanted to know what our favorite candy\nvs favorite easter candy was\nreally fucking hated that someone said\nsour patch kids', photo: '' },
+            { timestamp: '2026-03-07T14:50:00', content: 'opening ceremony\nfirst and last in las vegas day 1\n\nthe paralysis of taking that one escalator down\ninto a sea of navy blue sport jackets\nyapping consonants and vowels no one should ever have to utter\nworse in unison\n\nthe ballroom lobbys shit acoustics chugging me down with every inch of descent\nbellowing with the junky self-importance of two thousand drunkards\nlearning that companywide meetings ultimately benefit forty-plus adults who wish to play out their college fraternity fantasies\nstranding the rest of us on a teetering boat\nplease\na conversation cannot get any lower than how was your flight what time did you get in\nwhat do you fly\nmy fallback statement being\nno this is my first networking summit and actually my first time in vegas as an adult\nbeing too sober is a thing maybe\n\nblue and yellow lanyards to tell suppliers apart from distributors respectively\nand then i dimly remember entering a wide af ballroom screaming acdc and royal blue swiveling lights\ntwo wide screens at each end of the megachurch stage hollywood bowl style\nmusic shortly fades\nexec shorti with his hands in his pockets and shit\nbegins his speech wishing his audience a happy new fiscal year\ni literally cant\nwith his dopey midwestern accent\nthen proceeds to recycle company-branded templatized slides from the last companywide meeting\noh yeah because this time were opening up the baby blue collar circlejerk to external partners\nto whom we also need to appeal\nexcept in actuality these guys are doing the brunt work of keeping the bevalc dream alive\nwhile i helicopter manage them from my cushy home office with the click of a button\nfrom los angeles\nde ja vud so hard i couldnt even get myself to applaud\nde ja vud so hard i blacked out the rest of it\ncant think too hard about my beta blocker dependence\nbecause by any means necessary\nright\n\nday one was really tough because when it was over it wasnt\nall because some dumbass thought to schedule a team dinner at eight thirty team pm later that evening\nand that dumbass would happen to be my fidget toy work crush', photo: '' },
+            { timestamp: '2026-03-06T21:57:00', content: 'water bottle goth\nfirst and last in las vegas day 3\n\nfortunately the hottest woman in the organization happens to be on my team\nvery high social eq sleeve tattoo lean af husky voice thick-skinned image-driven well-manicured well-brushed nicely tanned\nwhitest teeth in the game\nnever not testing the limits of business casual dress code\nblack sheeping away from the bougie family business by making a career in bevalc\nthirty three\na divorcee\nloves and lives with her big dog\nsometimes i forget shes not from la\nsometimes i tell her this\nstanding next to her\nsometimes i feel like her publicist\n\na two-hour long awards ceremony ballroom dinner awaits employees drunkenly pending in the ballroom lobby\nto close out this god forsaken circus\nwas told dress code was really formal so really formal it is\nblack richard tyler blazer black see-through parachute pants bandaid beige open toe naturalizer heeled sandals and a pair of old focals\nmuch to my surprise my hot co-workers interpretation of really formal was an all black fit\nin stark contrast to her pink cream brown burgundy color business casual scheme all week\nblack headband black sleeveless crop top black silk maxi dress black kitten heel sandals\ntonight felt like i was dressed to play her attorney\ni usually stay close to her at these things after all\n\nmildly entertaining to watch men and women alike approach and interact with her\nmen thirsty for a hug usually disguised as a\nhey good to see you again\nboring her with some of the most painfully banal conversation starters\nwomen ready to compliment her\nslash self-hate over some cosmetic feature of hers\nwhich she most likely had cosmetically enhanced\n\nex-marine guy who used to be on the team comes up to us after dinner\nsays he went for the s look tonight\nall black he clarifies\nspeedily scanned him up and down\nhe was lowkey giving bouncer', photo: '' },
+            { timestamp: '2026-03-06T18:54:00', content: 'downtime dog\nfirst and last in las vegas day 1\n\nfirst biz trip of the fiscal year\nbiz trip another name for reporting all points of transactions made between start and finish\nfwiw critical tip for work travel is bodying the separation of personal and company credit card\npersonal vs company phone\nmax one out best u can make sure to min the other\nconsequential shit\n\nbooked an earlier flight to vegas so i could experience it outside a biz context aka offset the experience of sitting in a dark windowless convention room alongside two thousand kool-aid drinkers for the next few days\nwhats fair enough\ngot in around eleven am sprawled out my belongings on queen bed number two by eleven thirty four thinking\ndamn this room could accommodate three more people\nwoulda coulda shoulda\n\nfirst event of the networking summit is a mandatory happy hour but wasnt until four thirty\nlay on my stomach computing how to optimize the downtime\npossibility one casinos and hotels on the strip are twenty four hours can go at anytime walkable from the hotel\nlimitation one this is the biggest chunk of downtime ill get this trip\nlimitation two i do have to be back and dressed in business casual and shit by four thirty\npossibility two what is the farthest distance i can go beyond the perimeters of the strip and still make it back in time\nlimitation three this is not a company expense so i dont want to spend too much out of pocket in vegas of all places\nlimitation four cant get clocked by someone in the lobby gotta act quick\n\ndecided to head towards the antique mall in the arts district after deliberating between that and chinatown\ni wasnt here to eat\ndidnt even know vegas had an arts district didnt expect much\nglad i didnt\ncap on\nwallet and phones in tow\nrushed to a hotel exit that led directly to a high-traffic part of the strip and dove right into the stream\nmade the closest walgreens my pickup location\nsuccess\n\nlyft driver meekly pointed out a popular taco place on the strip otw\nqualifying that la food is second to none\nthrowback to when sc claimed that mid la food was better than mid ny food the other night\nwould be lying if i didnt say i didnt feel any shame getting dropped off by a buffalo exchange\narts district nation be like our shops and restaurants soo indie theyre irremediably fugly\nexcept this time cops wore cowboy hats and rode horses on sidewalks\npicked up my pace and walked faster to gain safe distance from them\nbut not too fast so as to not get trampled\n\nantique mall in sight yay\nits slightly windy low seventies but dry af\ncritical item to pack for vegas is a medical grade lip balm\nreapply for the nth time before crossing the street\nwhoosh past old ladies beating them to antique mall entrance\nleave depressing first hour impressions at the front door\nfirst to catch my eye is a berg motion case\ncant get distracted\nreject that spiral\ndo a general walkthrough of the maze\ninventory layout and displays not much different from the ones in socal\nmake mental bookmarks of favorite stands according to vibes and energy\nthey never tell you how much of consignment shopping is just detecting cursed matter\ndont touch dont look at for too long keep it moving\n\nafter an hour of revisiting playing lost and found and giving up\nwalked out of there with a deadstock treasure island locket keychain with a new friend in mind\nand not one but\nthree new faded needlepoint packets from the nineties\ntwo are still lifes of pottery\nthe third reads\nmother is another name for love\nthen i had the best pad woon sen to date\nand my first ever thai tea lemonade\nright around the corner\ni was their only customer', photo: '' },
+            { timestamp: '2026-03-06T16:00:00', content: 'cosmopolitan steak\nfirst and last in las vegas day 1\n\ngreat my first interaction about to be with some hick ford driver picking me up from the disco ball airport\neyes wide open praying hard and fast i make it out of here in one piece\nred and gold square tip acrylic nails hanging on for dear life\nreading glasses sitting on her head\nhot pink velour zip hoodie if i remember correctly\ncar blasting ac smelling faintly of cigarettes\nher gaunt face sunken eyes dry wrinkly skin showed it\nas soon as i buckle in she asks where im coming from i say la\nask for lv recs for a first-timer\nbellagio gardens ferris wheel at night fremont street arts district good food in chinatown\nbefore i could even open my notes app she begins to reel through her thoughts on recent news\nfirst about locals driving like bozos\nthat she can only tolerate ubering four hours a day max\nthen came an icebreaker\nthe subject of iran and her scattered critique of the us\ni thought okay bold brave for an uber ride but okay yeah\ncould sense she was waiting to unload\nmade me feel like i was her passenger of the month or something\nmaybe the tricolor vintage windbreaker was a giveaway or the glasses\nlearned she moved from sf to vegas thirty years ago somewhere in between topics\nthen cautiously brings up the matter of not being anti-semitic vs recognizing a genocide in gaza\nshe reveals she reads conspiracy theories on substack as if it were a guilty pleasure and\nthat she will be protesting for palestine on her late sons birthday in a few weeks\nlost him to fentanyl years ago i said sorry twice she thanked me twice\nwrapped up the convo on the note of dems sucking too\nhotel dropoff came abruptly\nas i grabbed my luggage from the trunk sort of panicked hurriedly hushedly confided in her\ni do not dare exchange opinions with other employees at the company\nthat i was thankful for her\nshe hugged me assuring me that the people will win\nwished her a good day\nwalked through the glass doors already fantasizing about escaping the company circus\nand hanging out with her instead chainsmoking in some locals-only lv bar\nfirst time hugging an uber driver\nfirst time in las vegas\nas an adult', photo: '' },
+            { timestamp: '2026-03-01T15:38:00', content: '', photo: 'hard country scene_3_halftone.gif', link: 'https://tubitv.com/movies/465041/hard-country' },
+            { timestamp: '2026-02-27T10:09:00', content: 'pastel tantrum\n\ntaste is steeping wawa coffee grounds your sister gifted you for xmas in a french press\nappetite is getting up to even think of doing this in the first place\ncraving is knowing precisely who to ask for even more precise directions\nhunger is tagging a thousand night market plastic stools with p65 warnings\nscoffing at the tech execs whose only pride and joy\nhotel room invoices\nten thou a night\nper head\nall to be charging someone elses phone on\na plagued nightstand', photo: '' },
+            { timestamp: '2026-02-26T01:36:00', content: 'nu high new lo\n\ncleared world one of new super mario bros\non a refurbished nintendo ds from ebay\neven fought bowser with my legs crossed on the toilet not once\nbut twice\nnew household rule now in effect\nvideo games forbidden outside the restroom', photo: '' },
+            { timestamp: '2026-02-25T10:15:00', content: 'meditations from a dry sauna 1\n\nthe gorgeous are in town this week strictly re-upped on skincare products face wash sunscreen lip balm toothbrush mental economics is parsing want from need vice versa prefer to not make eye contact in gym locker room this is our tacit agreement another to take care of the bare body eyes opened to a red digital six thirty four nothing like getting into hundred percent cotton activewear second day of period but feeling lighter looking lighter walked myself through the alley and to the gym love morning air ok prozac this right angle path this right here totally random zap to an unordinary morning walk in ny keychain in hand clangin and dangling the skyline ny by whiff and clack the shame of walking past a garbage truck and its driver weighing down on me can a germaphobe survive in the city dream book is marxs thoughts on germaphobes or have some econometrician run a regression on germaphobia and disposable income learned last year a former professor fell from a height above a creek and drowned article title starts with sad news god forbid the hudson valleys game of hide and seek dry sauna experience would be incomplete without the smell of wood pine cedar idk just know i fuckin love that smell ten minutes max in the sauna poster giving risk-averse dont dare go barefoot in there cant be so sure skip the fruit and vegetable wash just dilute some vinegar in water notice some more trusting than others must be nice dont dare let bare skin touch those slatted benches learned from kk that someones post scrub spa soak resulted in a fungal infection reminder to go easy with the exfoliating shower towel love their neon nature i suck at meditating dharma bum ray had a revelation in north carolina to be empty and awake tara says mara this mara that to make this frustration known to self foremost accept that ill never get to know the face of the only other person lying down five feet away from me the tacit agreement to let the creaking heater do the talking privately taking notice of siddhartha mentions among friends faint muffled squeaks of someone putting the treadmill to work upstairs the heaping hot air too voluminous anyway meditation fail time to go home time to try again later time to watch a doc made by a vegas mafia autist wave at automatic turnstile sensors just like how the bespoke label says to text sister wow morning sauna feels great', photo: '' },
+            { timestamp: '2026-02-23T17:04:00', content: '', photo: 'american gigolo.gif', link: 'https://letterboxd.com/film/american-gigolo/' },
+            { timestamp: '2026-02-23T15:18:00', content: 'tacoma masc\n\nhot couple officially moved out of the complex yesterday\n  which is scarier\ncaught a glimpse of their last haul saturday night\n  lost and aware\na few luggages and surfboards in tow\n  lost and unaware\nwill miss the palatial wafts of whatever fragrance game theyre committed to', photo: '' },
+            { timestamp: '2026-02-22T12:02:00', content: 'climate february\n\nback at bae st\nunderdressed for winter beach sunset\na bikini hoodie shorts smh\noverdressed on my grocery run earlier in the day\ntshirt over thermal full length high-waisted jeans\ntemperature cocky\ncaught up with djm for the first time in three months\npicked back up on where we last left off\ncartwheeling through the usual\nfamily travel moms dog boys girls heartbreak movies friends performance alternative beverages new york roommates sports betting evening plans plants\nafter running the gamut\nwe agreed to weather the wind chills\nstick it out with our books til sundown\nforty more mins\nmight as well turn blanket into a wrap skirt\nsat back down\nbetter but not that much better\nread with shrill focus hoping that the sun would began to set\nin the meantime\nwe chuckled at the flock of seagulls mogging a couples picnic\ngf screaming bf laughing\nand just like that the sun had gone\nthank god\nla is colder than ny\nbookended it with a ceremonial smoke\nexpressing how we couldnt wait to\nbe back in our respective cars\nand blast our heaters', photo: '' },
+            { timestamp: '2026-02-19T21:18:00', content: '', photo: 'cranes are flying.gif', link: 'https://www.youtube.com/watch?v=2rINnJat-5k' },
+            { timestamp: '2026-02-19T21:00:00', content: 'robecore\n\nclutch bag no handles large enough to fit a used copy of the i ching in acceptable condition black gel nails looking trim af one statement ring and a perfume to go by the dense kind', photo: '' },
+            { timestamp: '2026-02-17T15:59:00', content: 'total recoil\n\nremember when we were let\nin that one time\nbald man g gently warned all present\nat the adults table\nto never pick off dried noodles\nstuck to hard surfaces\nwith bare fingers\nbald man g once did\nconsequently ended up with\na shard of dried spaghetti\nright under his fingernail\nhad to go to the er\nstuck with me forever\nclose call today\ndont do it', photo: '' },
+            { timestamp: '2026-02-16T13:24:00', content: 'latest findings 1\n\ndescribing skin as congested  one serving at a time  black foam roller camouflaging in closet darkness  combination oily skin  double clicking on communication  hidden valley of elysian park  a lost birthday relic  what constitutes a birthday relic  another meat alternative  allergic to flags  blackberries  that they taste like nothing  letterboxd insights incorporated  waking breakfasts  brown leather bomber jacket macrotrend  maybe having a little hppd  beach house on bandcamp  admitting costs nothing  priority clarifies the commitment  remembering why i stay single  not much respect for not much respect for a deadline  commitment issue a priority dilemma  reading in fetal position on  the slope of a sand dune in the sun  a matterhorn in california  you cant fall off the mountain  is that true lol  the abyss by james cameron  a muscle connecting jaw and shoulder  steam room in the womens locker room  gym shower water pressure  we love beans  love knuckle rings', photo: '' },
+            { timestamp: '2026-02-13T12:08:39', content: 'bourgeois in texan\n\nteam meeting is short for a recurring nightmare in which a roided out suit in sales commands down on all fours first to usually submit are the baby blue collars rest of meeting spent feigning interest in watching ingrown men get pathetically pegged one by one red with shame or from hypertension or that they just cant resist a good devilfuck cant they cant tell cant stop watching because the cam is to stay on or else its bye to the b b b b b enefits when one joins a cult who to blame first', photo: '' },
+            { timestamp: '2026-02-10T17:38:00', content: 'bae street\n\nthe difference between\na lifeguards uniform\na thrifted red one piece swimsuit\nthe confession of wanting to delete the years\nthe proclamation of wanting beach day to last forever\na blind date after an eye exam\nhope at the end of a hangover\ngesturally italian\naudibly portuguese\nwise words for the week\nyou never know', photo: '' },
+            { timestamp: '2026-02-09T12:31:00', content: '', photo: 'klute.gif', link: 'https://tubitv.com/movies/100012210/klute' },
+            { timestamp: '2026-02-06T16:43:00', content: 'snotty tapes\n\nlatest low was pretty much a tapout wouldnt wish it on my worst enemy and what if i already had admitted to therapist number two that staunchly holding onto the pharmaceutical livestock argument is avoidant and irresponsible an implacable part of it still seeking validation of thought fumbling through questions with fragile handle with care in all caps written all over them notification center pushing the low battery mode lifeline medication manager number two asks if i had any questions i asked can you give me a second i need to charge my computer its dying', photo: '' },
+            { timestamp: '2026-02-06T02:06:00', content: 'the midwest calls it acrosst\n\nthe sudden gain\nin gaining distance\nfrom what had been\nleading up to\nit the gut saying things\nare never going to be the same\nbecause the mind had already\nfelt things\nwere never going\nto be the same\n\na faith that youd understand\na hope youd relate\njust given\nthe timing\n\nor is this all part of the\nthings leading up\nto it', photo: '' },
+            { timestamp: '2026-02-06T01:31:00', content: 'bimbo loaves\n\nlatest one week\nlatest thirteen weeks\nlatest twenty six weeks\nlatest fifty two weeks\n\nslice it down the middle\nmake it do a backbend\nleapfrog kinetics\n\nthen compare against bad apples\nmake fibonacci cuts\nobligatory sprinkling of the salt\nto learn a habit\n\nwhen time hits the shelves\npackaged and tagged\nwhat is\nin the wrapping\nto analysts\non their weekly\ngrocery runs', photo: '' },
+            { timestamp: '2026-02-05T01:00:00', content: 'emo blunt\n\nthe trifecta of\npsychiatric memes\nthree things therapy\nand all things nothing\nfuck\nwhat was the search for again', photo: '' },
+            { timestamp: '2026-02-05T00:34:56', content: 'tuscan kale\n\nself-care is for the weak\nprideful obsession\nspoiled into rotten belief\nself care\ngrass fed\nlinguistic ground beef', photo: '' },
+            { timestamp: '2026-02-04T23:11:11', content: 'karmic shuffle\n\nlarge change medium change small\nchange\nchange is change\nlast big one\ncircumstantially\ninduced\npraying for an inner\nmore\nwill-induced\none\nthis time\nmaybe the next', photo: '' },
+            { timestamp: '2026-02-04T23:06:00', content: 'aura\n\nups worker said i was strong\nnearly sixty pounds she said\nfrankly\ni didnt know what to say\n\nsix hours later\nthe shame of not having replied\nthat she was\nundoubtedly\nloads and loads\nstronger\n\nthe shame of knowing\nwhat was in\nthose boxes', photo: '' },
+            { timestamp: '2025-12-25T20:52:00', content: 'frito lay gay\n\ngood tensions produce that\none cathartic aisle\nthough many a shopper\nbagging the same beeping self-checkout\nfor every shelf\ntwo sides', photo: '' },
+            { timestamp: '2025-06-06T13:35:00', content: 'twisted tease\n\npeaking on a layover\ntreading in a sea of arnold palmers\n\nfresh pair of heeled cowboy boots\nhooked to the bar stool leg rest\nlike a toggle clasp\ngenius invention btw\n\nclick drag snap to shelf\nalt l alt l alt l\nctrl s\nwait\nthis could also go over there\n\nhow choice is made\nhard to say\nwhen it was neither yours to make\nnor mine\ncharlotte comma\nnorth carolina', photo: '' },
+            { timestamp: '2024-08-27T22:43:00', content: 'missed connections\n\nwhere then\ndo\nthe recently deleted\nactually go\nin months time', photo: '' },
+            { timestamp: '2022-04-29T04:29:00', content: 'qwerty prayer\n\nthe weather widget reports sixtysix degrees on average here in la lately i dont bother with the highs and lows when the insides of my nose start to burn i look up santa ana winds the results are there but elusive every time what do i expect what am i even hoping for searching for signs is such a corny habit if sand could only paper but also if winds could eraser flow like water is the not enough information given circle filled in santa monica blvd is route sixtysix benediction i should know better proclamations made oceanside get washed out hard and fast blessing or curse ive seen it happen this what having faith looks like question mark crossing my fingers sometimes i find myself weaving them together today i bought more neon green hair dye direct application rocks i love the way it glows in flash photo what is wicked and what is radical i ask together but to be treated as discrete', photo: '' }
+        ];
+
+        posts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+        const BATCH_SIZE = 8;
+        let renderedCount = 0;
+        let isRendering = false;
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function wrapWords(content, postIndex) {
+            const escaped = escapeHtml(content);
+            return escaped.split('\n').map((line, lineIndex) =>
+                line.split(' ').map((word, i) => {
+                    const delay = ((i * 0.1) + (postIndex * 0.3)) % 2;
+                    const cls = lineIndex === 0 ? 'word post-title' : 'word';
+                    return `<span class="${cls}" style="animation-delay:${delay.toFixed(2)}s">${word}</span>`;
+                }).join(' ')
+            ).join('\n');
+        }
+
+        function renderBatch() {
+            if (isRendering || renderedCount >= posts.length) return;
+            isRendering = true;
+
+            const container = document.getElementById('entries');
+            const fragment = document.createDocumentFragment();
+            const end = Math.min(renderedCount + BATCH_SIZE, posts.length);
+
+            for (let i = renderedCount; i < end; i++) {
+                const post = posts[i];
+                const div = document.createElement('div');
+                div.className = 'entry';
+
+                const dateString = new Date(post.timestamp).toLocaleDateString('en-US', {
+                    weekday: 'long', year: 'numeric', month: 'long',
+                    day: 'numeric', hour: '2-digit', minute: '2-digit'
+                });
+
+                let photoHtml = '';
+                if (post.photo) {
+                    const img = `<img src="${post.photo}" alt="Blog photo" class="post-photo" loading="lazy" decoding="async">`;
+                    photoHtml = `<div class="post-photo-wrapper">${post.link ? `<a href="${post.link}" target="_blank">${img}</a>` : img}</div>`;
+                }
+
+                div.innerHTML = `
+                    <div class="entry-date">${dateString}</div>
+                    <div class="entry-content">${post.content ? wrapWords(post.content, i) : ''}</div>
+                    ${photoHtml}
+                `;
+                fragment.appendChild(div);
+            }
+
+            container.appendChild(fragment);
+            renderedCount = end;
+            isRendering = false;
+        }
+
+        const sentinel = document.getElementById('load-sentinel');
+        const loadObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) renderBatch();
+        }, { rootMargin: '200px' });
+
+        loadObserver.observe(sentinel);
+        renderBatch();
+
         function getLastOnline() {
             const mostRecent = posts.reduce((a, b) =>
                 new Date(a.timestamp) > new Date(b.timestamp) ? a : b);
             const postDate = new Date(mostRecent.timestamp);
             const diffDays = Math.floor((new Date() - postDate) / (1000 * 60 * 60 * 24));
             const timeAgo = diffDays === 0 ? 'today' : diffDays === 1 ? '1 day ago' : `${diffDays} days ago`;
-            const moonNames = {
-                '●': 'a new moon', '☽': 'a waxing crescent', '◐': 'a first quarter moon',
-                '◑': 'a waxing gibbous', '○': 'a full moon', '☾': 'a waning crescent'
-            };
+            const moonNames = { '●': 'a new moon', '☽': 'a waxing crescent', '◐': 'a first quarter moon', '◑': 'a waxing gibbous', '○': 'a full moon', '☾': 'a waning crescent' };
             document.getElementById('last-online').textContent =
-                `last updated ${timeAgo}, under ${moonNames[getMoonPhase(postDate)] || 'the moon'}`;
+                `last online ${timeAgo}, under ${moonNames[getMoonPhase(postDate)] || 'the moon'}`;
         }
-        // the "last updated ... moon" line is turned off on this page.
-        // its space is kept (blank) so the header lines up with the other pages.
-        document.getElementById('last-online').textContent = '\u00a0';
+        getLastOnline();
 
         const cursor = document.getElementById('custom-cursor');
         let cursorTimeout;
@@ -558,12 +738,79 @@
             const emailText = document.createElement('span');
             emailText.className = 'email-reveal';
             emailText.textContent = 'sniff [at] screenshotscents.com';
-            emailLink.insertAdjacentElement('afterend', emailText);
+            document.getElementById('headerLinks').appendChild(emailText);
             setTimeout(() => {
                 emailText.classList.add('misting');
                 setTimeout(() => { emailText.remove(); emailClicked = false; emailLink.classList.remove('hidden'); document.getElementById('headerLinks').classList.remove('revealing'); }, 4000);
             }, 1500);
         });
+
+        const input = document.getElementById('testerInput');
+        const cardStack = document.getElementById('cardStack');
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxQ4l46fvEUFX_CcfhXJ6QRQomfJ1DcomWv73K9DwNUjyvpHVQqdsNCCuFQYLf0PKCRtg/exec';
+        let submissions = [];
+        let isLoading = false;
+
+        async function loadSubmissions() {
+            try {
+                const data = await (await fetch(SCRIPT_URL)).json();
+                submissions = data.submissions || [];
+                renderCards();
+            } catch (e) { console.error(e); }
+        }
+
+        async function saveSubmission(text) {
+            if (isLoading) return;
+            isLoading = true;
+            try {
+                const data = await (await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ submission: text }) })).json();
+                if (data.success) { submissions = data.submissions || []; renderCards(); }
+            } catch (e) { console.error(e); }
+            finally { isLoading = false; }
+        }
+
+        function stripPunctuation(t) { return t.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()'"?]/g, ''); }
+
+        function createCard(text) {
+            const card = document.createElement('div');
+            card.className = 'strip-card';
+            card.innerHTML = `<svg class="strip-svg" viewBox="0 0 240 70" preserveAspectRatio="none"><path d="M 0,7 L 200,7 L 240,35 L 200,63 L 0,63 Z" fill="black" stroke="white" stroke-width="0.3"/></svg><div class="submission-text"></div>`;
+            card.querySelector('.submission-text').textContent = text;
+            return card;
+        }
+
+        function renderCards() {
+            cardStack.innerHTML = '';
+            submissions.slice(0, 10).forEach(t => cardStack.appendChild(createCard(t)));
+        }
+
+        cardStack.addEventListener('click', () => {
+            if (submissions.length > 1) {
+                const top = cardStack.querySelector('.strip-card:first-child');
+                if (top && !top.classList.contains('moving-back')) {
+                    top.classList.add('moving-back');
+                    setTimeout(() => { submissions.push(submissions.shift()); renderCards(); }, 800);
+                }
+            }
+        });
+
+        if (input) {
+            input.addEventListener('keypress', async (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const text = stripPunctuation(input.value.trim());
+                    if (text && !isLoading) {
+                        input.value = '';
+                        input.placeholder = 'saving...';
+                        await saveSubmission(text);
+                        input.placeholder = 'capture a moment';
+                    }
+                }
+            });
+        }
+
+        loadSubmissions();
+
     </script>
 </body>
 </html>
