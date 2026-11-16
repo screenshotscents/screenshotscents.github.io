@@ -331,6 +331,14 @@
             #headerLinks { column-gap: 10px !important; }
             #headerLinks > a { font-size: 1em !important; }
         }
+    
+        /* FONT WEIGHT: makes zen antique a little lighter.
+           the first part renders the letters thinner on macs/iphones.
+           the second shaves a hair off every letter's edge: raise 0.25px
+           (try 0.4px) for thinner, lower it or delete the line for bolder. */
+        html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        body { -webkit-text-stroke: 0.25px #000000; }
+        input, button, textarea { -webkit-text-stroke: 0; }
     </style>
 </head>
 <body>
