@@ -382,6 +382,18 @@
         html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
         body { -webkit-text-stroke: 0.25px #000000; }
         input, button, textarea { -webkit-text-stroke: 0; }
+
+        /* the klute gif above the intro: same width as the ask box, centered.
+           invert flips it to white dots on black so it melts into the page;
+           delete the filter line if your gif is already white on black.
+           SIZE: change 480px to make it bigger or smaller */
+        .ask-visual {
+            display: block;
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto 10px;
+            filter: invert(1);
+        }
     </style>
 </head>
 <body>
@@ -400,6 +412,8 @@
     </header>
 
     <main>
+
+        <img src="klute.gif" alt="" class="ask-visual">
 
         <div class="intro">
             if you're stuck with something tender, embarrassing, or just plain horny, drop romcomma a line. ask anonymously below, or write to <span class="keep-together"><a id="askEmail" href="#">ask [at] screenshotscents.com</a>.</span> romcomma reads every letter and answers a few each week.
