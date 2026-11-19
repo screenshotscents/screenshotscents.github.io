@@ -133,25 +133,24 @@
             100% { opacity: 0; filter: blur(3px); }
         }
 
+        /* MIXTAPE GRID: 2 per row = bigger photos.
+           column-gap is the space between posts side by side,
+           margin-bottom on .grid-item is the space between rows. */
         .grid {
-            columns: 3;
-            column-gap: 20px;
+            columns: 2;
+            column-gap: 56px;
             margin-top: 40px;
             opacity: 0;
             animation: fadeIn 0.8s ease-out forwards;
         }
 
-        @media (max-width: 700px) {
-            .grid { columns: 2; }
-        }
-
-        @media (max-width: 420px) {
+        @media (max-width: 520px) {
             .grid { columns: 1; }
         }
 
         .grid-item {
             break-inside: avoid;
-            margin-bottom: 20px;
+            margin-bottom: 48px;
             display: grid;
             grid-template-rows: auto auto;
         }
