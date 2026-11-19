@@ -137,7 +137,9 @@
             font-family: var(--serif);
             font-size: 1.1em;
             line-height: 1.35;
-            text-align: center;
+            text-align: justify;       /* JUSTIFIED: even edges on both sides */
+            text-align-last: center;   /* the short last line stays centered */
+            hyphens: auto;
             color: #ffffff;   /* the prompt stays white; it doesn't flush */
         }
         .keep-together { white-space: nowrap; }
