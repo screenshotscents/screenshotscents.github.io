@@ -221,7 +221,7 @@
             width: 100%;
             height: auto;
             display: block;
-            aspect-ratio: 3 / 4;
+            aspect-ratio: 1 / 1;
             object-fit: cover;
         }
 
@@ -367,7 +367,7 @@
                 title: 'DJ Naked In My Room - 002',
                 content: '',
                 photo: 'SS002 thumbnail.jpeg',
-                link: ''   // paste the SS002 bandcamp link between the quotes
+                link: 'https://screenshotscents.bandcamp.com/album/dj-naked-in-my-room-screenshot-scents-002'
             },
             {
                 timestamp: '2026-04-20T00:00:00',
@@ -421,7 +421,7 @@
                 let photoHtml = '';
                 if (post.photo) {
                     const img = `<img src="${post.photo}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">`;
-                    const wrapped = `<div style="width:100%;padding-top:133%;position:relative;"><div style="position:absolute;top:0;left:0;right:0;bottom:0;">${img}</div></div>`;
+                    const wrapped = `<div style="width:100%;padding-top:100%;position:relative;"><div style="position:absolute;top:0;left:0;right:0;bottom:0;">${img}</div></div>`;
                     photoHtml = post.link ? `<a href="${post.link}" target="_blank">${wrapped}</a>` : wrapped;
                 }
         
